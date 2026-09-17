@@ -8,7 +8,7 @@ Everything here was built for an employer or clients, so it is described as patt
 |---|---|
 | [`paid-media/`](paid-media/) | Cross-channel spend pacing · Campaign change log |
 | [`analytics-tracking/`](analytics-tracking/) | LLM-assisted GTM tagging |
-| [`reporting-dashboards/`](reporting-dashboards/) | Regional paid-media dashboard · Weekly dashboard with watchdog |
+| [`reporting-dashboards/`](reporting-dashboards/) | Regional paid-media dashboard (**with a working Apps Script template**) · Weekly dashboard with watchdog |
 | [`crm-abm/`](crm-abm/) | LinkedIn ABM → CRM |
 | [`seo-aeo/`](seo-aeo/) | Technical SEO audit package · AI-answer visibility tracking |
 | [`ops-patterns/`](ops-patterns/) | Operating discipline |
