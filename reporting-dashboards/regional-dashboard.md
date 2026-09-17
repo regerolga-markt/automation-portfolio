@@ -8,3 +8,5 @@ Moved off Make.com when the operations budget became the constraint.
   - a channel summary with WoW/MoM;
   - a spend → leads → MQL/SQL funnel, with stages from a CRM report.
 - **Custom menu** recomputes derived metrics and removes excluded rows.
+
+**Code:** a clean, tested template of this pattern, written from scratch, is in [`regional-dashboard-template/`](regional-dashboard-template/).
