@@ -1,0 +1,77 @@
+{
+  "flow": [
+    {
+      "id": 1,
+      "mapper": {},
+      "module": "gateway:CustomWebHook",
+      "version": 1,
+      "metadata": {
+        "restore": {
+          "parameters": {
+            "hook": {
+              "data": {
+                "editable": "true"
+              },
+              "label": "Changelog — inbound"
+            }
+          }
+        },
+        "designer": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "hook": 0,
+        "maxResults": 1
+      }
+    },
+    {
+      "id": 2,
+      "mapper": {
+        "mode": "fromAll",
+        "values": {
+          "0": "{{1.date}}",
+          "1": "{{1.platform}}",
+          "2": "{{1.account}}",
+          "3": "{{1.campaign}}",
+          "4": "{{1.action}}",
+          "5": "{{1.detail}}",
+          "6": "{{1.reason}}",
+          "7": "{{1.expected_effect}}",
+          "8": "{{1.source}}"
+        },
+        "sheetId": "Untitled",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "includesHeaders": true,
+        "insertDataOption": "INSERT_ROWS",
+        "useColumnHeaders": false,
+        "valueInputOption": "USER_ENTERED",
+        "insertUnformatted": false
+      },
+      "module": "google-sheets:addRow",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 300,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    }
+  ],
+  "name": "Changelog — webhook → Google Sheet",
+  "metadata": {
+    "instant": true,
+    "version": 1
+  },
+  "scheduling": {
+    "type": "immediately"
+  },
+  "interface": {
+    "input": [],
+    "output": []
+  }
+}

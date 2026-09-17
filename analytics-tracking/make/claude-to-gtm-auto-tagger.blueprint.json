@@ -1,0 +1,300 @@
+{
+  "flow": [
+    {
+      "id": 1,
+      "mapper": {},
+      "module": "gateway:CustomWebHook",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "hook": 0,
+        "maxResults": 1
+      }
+    },
+    {
+      "id": 2,
+      "mapper": {
+        "url": "https://api.anthropic.com/v1/messages",
+        "method": "post",
+        "headers": [
+          {
+            "name": "x-api-key",
+            "value": "<ANTHROPIC_API_KEY>"
+          },
+          {
+            "name": "anthropic-version",
+            "value": "2023-06-01"
+          }
+        ],
+        "contentType": "json",
+        "inputMethod": "jsonString",
+        "parseResponse": true,
+        "jsonStringBodyContent": "{\"model\":\"claude-sonnet-4-20250514\",\"max_tokens\":4096,\"system\":\"You are a Google Tag Manager API expert. Convert the user tracking requirement into GTM API v2 JSON. Return ONLY a JSON object with keys triggers, variables, tags. Triggers: each needs name and type (PAGEVIEW, CLICK, CUSTOM_EVENT, FORM_SUBMISSION, SCROLL_DEPTH) plus filter or autoEventFilter or customEventFilter arrays with GTM parameter format. CLICK triggers: autoEventFilter on Click Element. PAGEVIEW triggers: filter on Page URL. CUSTOM_EVENT: customEventFilter with event name. Variables: type v for dataLayer (parameter key name = dlvName), jsm for custom JavaScript. Tags: type gaawe for GA4 Event (parameters tagId and eventName), html for Custom HTML (parameter html). Use GTM built-in variable names wrapped in double curly braces in filter parameter values. Do NOT include firingTriggerId in tags. Return only the JSON object, nothing else.\",\"messages\":[{\"role\":\"user\",\"content\":\"{{1.description}}\"}]}"
+      },
+      "module": "http:MakeRequest",
+      "version": 4,
+      "metadata": {
+        "designer": {
+          "x": 300,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "authenticationType": "noAuth"
+      }
+    },
+    {
+      "id": 3,
+      "mapper": {
+        "string": "{{2.data.content[1].text}}"
+      },
+      "module": "json:ParseJSON",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 600,
+          "y": 0
+        }
+      },
+      "parameters": {}
+    },
+    {
+      "id": 4,
+      "mapper": {
+        "array": "{{3.triggers}}"
+      },
+      "module": "builtin:BasicFeeder",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 900,
+          "y": -200
+        }
+      },
+      "parameters": {}
+    },
+    {
+      "id": 5,
+      "mapper": {
+        "url": "https://www.googleapis.com/tagmanager/v2/accounts/{{1.account_id}}/containers/{{1.container_id}}/workspaces/{{1.workspace_id}}/triggers",
+        "method": "post",
+        "headers": [
+          {
+            "name": "Authorization",
+            "value": "Bearer {{1.access_token}}"
+          }
+        ],
+        "contentType": "json",
+        "inputMethod": "jsonString",
+        "parseResponse": true,
+        "jsonStringBodyContent": "{{toJSON(4.value)}}"
+      },
+      "module": "http:MakeRequest",
+      "version": 4,
+      "metadata": {
+        "designer": {
+          "x": 1200,
+          "y": -200
+        }
+      },
+      "parameters": {
+        "authenticationType": "noAuth"
+      }
+    },
+    {
+      "id": 6,
+      "mapper": {
+        "array": "{{5.data}}"
+      },
+      "module": "builtin:BasicAggregator",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 1500,
+          "y": -200
+        }
+      },
+      "parameters": {
+        "sourcemodule": 4,
+        "rowsPerBundle": 1
+      }
+    },
+    {
+      "id": 7,
+      "mapper": {
+        "array": "{{3.variables}}"
+      },
+      "module": "builtin:BasicFeeder",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 900,
+          "y": 0
+        }
+      },
+      "parameters": {}
+    },
+    {
+      "id": 8,
+      "mapper": {
+        "url": "https://www.googleapis.com/tagmanager/v2/accounts/{{1.account_id}}/containers/{{1.container_id}}/workspaces/{{1.workspace_id}}/variables",
+        "method": "post",
+        "headers": [
+          {
+            "name": "Authorization",
+            "value": "Bearer {{1.access_token}}"
+          }
+        ],
+        "contentType": "json",
+        "inputMethod": "jsonString",
+        "parseResponse": true,
+        "jsonStringBodyContent": "{{toJSON(7.value)}}"
+      },
+      "module": "http:MakeRequest",
+      "version": 4,
+      "metadata": {
+        "designer": {
+          "x": 1200,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "authenticationType": "noAuth"
+      }
+    },
+    {
+      "id": 9,
+      "mapper": {
+        "array": "{{8.data}}"
+      },
+      "module": "builtin:BasicAggregator",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 1500,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "sourcemodule": 7,
+        "rowsPerBundle": 1
+      }
+    },
+    {
+      "id": 10,
+      "mapper": {
+        "array": "{{3.tags}}"
+      },
+      "module": "builtin:BasicFeeder",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 900,
+          "y": 200
+        }
+      },
+      "parameters": {}
+    },
+    {
+      "id": 11,
+      "mapper": {
+        "url": "https://www.googleapis.com/tagmanager/v2/accounts/{{1.account_id}}/containers/{{1.container_id}}/workspaces/{{1.workspace_id}}/tags",
+        "method": "post",
+        "headers": [
+          {
+            "name": "Authorization",
+            "value": "Bearer {{1.access_token}}"
+          }
+        ],
+        "contentType": "json",
+        "inputMethod": "jsonString",
+        "parseResponse": true,
+        "jsonStringBodyContent": "{{toJSON(10.value)}}"
+      },
+      "module": "http:MakeRequest",
+      "version": 4,
+      "metadata": {
+        "designer": {
+          "x": 1200,
+          "y": 200
+        }
+      },
+      "parameters": {
+        "authenticationType": "noAuth"
+      }
+    },
+    {
+      "id": 12,
+      "mapper": {
+        "array": "{{11.data}}"
+      },
+      "module": "builtin:BasicAggregator",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 1500,
+          "y": 200
+        }
+      },
+      "parameters": {
+        "sourcemodule": 10,
+        "rowsPerBundle": 1
+      }
+    },
+    {
+      "id": 13,
+      "mapper": {
+        "body": "{\"success\":true,\"triggers_created\":{{length(6.array)}},\"variables_created\":{{length(9.array)}},\"tags_created\":{{length(12.array)}},\"triggers\":{{toJSON(6.array)}},\"variables\":{{toJSON(9.array)}},\"tags\":{{toJSON(12.array)}}}",
+        "status": "200",
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ]
+      },
+      "module": "gateway:WebhookRespond",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 1800,
+          "y": 0
+        }
+      },
+      "parameters": {}
+    }
+  ],
+  "name": "Claude → GTM Auto-Tagger",
+  "metadata": {
+    "zone": "eu1.make.com",
+    "instant": true,
+    "version": 1,
+    "designer": {
+      "orphans": []
+    },
+    "scenario": {
+      "dlq": false,
+      "slots": null,
+      "dataloss": false,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "roundtrips": 1,
+      "sequential": true,
+      "confidential": false,
+      "freshVariables": false,
+      "autoCommitTriggerLast": true
+    }
+  },
+  "scheduling": {
+    "type": "immediately"
+  },
+  "interface": {
+    "input": [],
+    "output": []
+  }
+}

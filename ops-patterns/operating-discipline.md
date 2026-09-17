@@ -5,3 +5,7 @@
 - **Cost model before schedule.** Run frequency comes from the operations formula, not from habit.
 - **Right tool for the load.** Move from Make.com to Apps Script when operations become the constraint.
 - **Secret scan** on everything that leaves the private repository ([`tools/scan_secrets.py`](../tools/scan_secrets.py)).
+
+## Files
+
+- Claude skill that checks drafts for AI-sounding text: [`skills/human-text-check`](skills/human-text-check/SKILL.md)

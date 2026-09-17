@@ -1,0 +1,529 @@
+{
+  "flow": [
+    {
+      "id": 1,
+      "mapper": {
+        "qs": [],
+        "url": "spreadsheets/<SPREADSHEET_ID>/values/config!B23:B24",
+        "method": "GET",
+        "headers": []
+      },
+      "module": "google-sheets:makeAPICall",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 2,
+      "module": "builtin:BasicRouter",
+      "routes": [
+        {
+          "flow": [
+            {
+              "id": 3,
+              "mapper": {
+                "qs": [
+                  {
+                    "name": "api_key",
+                    "value": "{{1.body.values[2][1]}}"
+                  },
+                  {
+                    "name": "accounts",
+                    "value": "<GA4_PROPERTY_ID>"
+                  },
+                  {
+                    "name": "date_from",
+                    "value": "{{formatDate(addDays(now; -70); \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "date_to",
+                    "value": "{{formatDate(now; \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "fields",
+                    "value": "date,event_name,event_count"
+                  },
+                  {
+                    "name": "filter",
+                    "value": "[[\"event_name\", \"in\", \"[\\\"free_signup\\\", \\\"trial_start\\\", \\\"subscription_done\\\"]\"]]"
+                  }
+                ],
+                "url": "https://connectors.windsor.ai/googleanalytics4",
+                "gzip": true,
+                "method": "get",
+                "headers": [
+                  {
+                    "name": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "useMtls": false,
+                "serializeUrl": false,
+                "shareCookies": false,
+                "parseResponse": false,
+                "followRedirect": true,
+                "useQuerystring": false,
+                "followAllRedirects": false,
+                "rejectUnauthorized": true
+              },
+              "module": "http:ActionSendData",
+              "version": 3,
+              "metadata": {
+                "designer": {
+                  "x": 600,
+                  "y": 0
+                }
+              },
+              "parameters": {
+                "handleErrors": false,
+                "useNewZLibDeCompress": true
+              }
+            },
+            {
+              "id": 4,
+              "mapper": {
+                "from": "drive",
+                "mode": "select",
+                "values": {
+                  "0": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}",
+                  "1": "ga4_events",
+                  "2": "{{3.statusCode}}",
+                  "3": "70-day window = 10 ISO weeks; the page slices to config.history_weeks (9) so the partial left edge is dropped. Param is filter, not filters.",
+                  "4": "{{toString(3.data)}}"
+                },
+                "sheetId": "raw",
+                "spreadsheetId": "<SPREADSHEET_ID>",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "useColumnHeaders": false,
+                "valueInputOption": "RAW",
+                "insertUnformatted": false
+              },
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": 0
+                }
+              },
+              "parameters": {
+                "__IMTCONN__": 0
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 5,
+              "mapper": {
+                "qs": [
+                  {
+                    "name": "api_key",
+                    "value": "{{1.body.values[2][1]}}"
+                  },
+                  {
+                    "name": "accounts",
+                    "value": "<GA4_PROPERTY_ID>"
+                  },
+                  {
+                    "name": "date_from",
+                    "value": "{{formatDate(addDays(now; -70); \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "date_to",
+                    "value": "{{formatDate(now; \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "fields",
+                    "value": "event_name,session_default_channel_group,event_count"
+                  },
+                  {
+                    "name": "filter",
+                    "value": "[[\"event_name\", \"in\", \"[\\\"free_signup\\\", \\\"trial_start\\\", \\\"subscription_done\\\"]\"]]"
+                  }
+                ],
+                "url": "https://connectors.windsor.ai/googleanalytics4",
+                "gzip": true,
+                "method": "get",
+                "headers": [
+                  {
+                    "name": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "useMtls": false,
+                "serializeUrl": false,
+                "shareCookies": false,
+                "parseResponse": false,
+                "followRedirect": true,
+                "useQuerystring": false,
+                "followAllRedirects": false,
+                "rejectUnauthorized": true
+              },
+              "module": "http:ActionSendData",
+              "version": 3,
+              "metadata": {
+                "designer": {
+                  "x": 600,
+                  "y": 150
+                }
+              },
+              "parameters": {
+                "handleErrors": false,
+                "useNewZLibDeCompress": true
+              }
+            },
+            {
+              "id": 6,
+              "mapper": {
+                "from": "drive",
+                "mode": "select",
+                "values": {
+                  "0": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}",
+                  "1": "ga4_channel",
+                  "2": "{{5.statusCode}}",
+                  "3": "signups and trials are attributable; subscriptions land mostly in Direct and must not be split by channel",
+                  "4": "{{toString(5.data)}}"
+                },
+                "sheetId": "raw",
+                "spreadsheetId": "<SPREADSHEET_ID>",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "useColumnHeaders": false,
+                "valueInputOption": "RAW",
+                "insertUnformatted": false
+              },
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": 150
+                }
+              },
+              "parameters": {
+                "__IMTCONN__": 0
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 9,
+              "mapper": {
+                "qs": [
+                  {
+                    "name": "api_key",
+                    "value": "{{1.body.values[2][1]}}"
+                  },
+                  {
+                    "name": "accounts",
+                    "value": "<GA4_PROPERTY_ID>"
+                  },
+                  {
+                    "name": "date_from",
+                    "value": "{{formatDate(addDays(now; -70); \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "date_to",
+                    "value": "{{formatDate(now; \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "fields",
+                    "value": "session_default_channel_group,sessions"
+                  }
+                ],
+                "url": "https://connectors.windsor.ai/googleanalytics4",
+                "gzip": true,
+                "method": "get",
+                "headers": [
+                  {
+                    "name": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "useMtls": false,
+                "serializeUrl": false,
+                "shareCookies": false,
+                "parseResponse": false,
+                "followRedirect": true,
+                "useQuerystring": false,
+                "followAllRedirects": false,
+                "rejectUnauthorized": true
+              },
+              "module": "http:ActionSendData",
+              "version": 3,
+              "metadata": {
+                "designer": {
+                  "x": 600,
+                  "y": 450
+                }
+              },
+              "parameters": {
+                "handleErrors": false,
+                "useNewZLibDeCompress": true
+              }
+            },
+            {
+              "id": 10,
+              "mapper": {
+                "from": "drive",
+                "mode": "select",
+                "values": {
+                  "0": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}",
+                  "1": "ga4_sessions",
+                  "2": "{{9.statusCode}}",
+                  "3": "sessions per channel over the same window as ga4_channel, for the traffic -> registration rate. No event_name dimension on purpose: with it the session count is repeated on every event row and sums to nonsense.",
+                  "4": "{{toString(9.data)}}"
+                },
+                "sheetId": "raw",
+                "spreadsheetId": "<SPREADSHEET_ID>",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "useColumnHeaders": false,
+                "valueInputOption": "RAW",
+                "insertUnformatted": false
+              },
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": 450
+                }
+              },
+              "parameters": {
+                "__IMTCONN__": 0
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 7,
+              "mapper": {
+                "qs": [
+                  {
+                    "name": "api_key",
+                    "value": "{{1.body.values[2][1]}}"
+                  },
+                  {
+                    "name": "accounts",
+                    "value": "<GA4_PROPERTY_ID>"
+                  },
+                  {
+                    "name": "date_from",
+                    "value": "{{formatDate(addDays(now; -70); \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "date_to",
+                    "value": "{{formatDate(now; \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "fields",
+                    "value": "date,session_source_medium,event_name,event_count"
+                  },
+                  {
+                    "name": "filter",
+                    "value": "[[\"session_source_medium\", \"contains\", \"openai\"], \"and\", [\"event_name\", \"in\", \"[\\\"free_signup\\\", \\\"trial_start\\\", \\\"subscription_done\\\"]\"]]"
+                  }
+                ],
+                "url": "https://connectors.windsor.ai/googleanalytics4",
+                "gzip": true,
+                "method": "get",
+                "headers": [
+                  {
+                    "name": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "useMtls": false,
+                "serializeUrl": false,
+                "shareCookies": false,
+                "parseResponse": false,
+                "followRedirect": true,
+                "useQuerystring": false,
+                "followAllRedirects": false,
+                "rejectUnauthorized": true
+              },
+              "module": "http:ActionSendData",
+              "version": 3,
+              "metadata": {
+                "designer": {
+                  "x": 600,
+                  "y": 300
+                }
+              },
+              "parameters": {
+                "handleErrors": false,
+                "useNewZLibDeCompress": true
+              }
+            },
+            {
+              "id": 8,
+              "mapper": {
+                "from": "drive",
+                "mode": "select",
+                "values": {
+                  "0": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}",
+                  "1": "ga4_source",
+                  "2": "{{7.statusCode}}",
+                  "3": "openai / cpc is the ads traffic. chatgpt.com / ai-assistant is organic referral and is a different source entirely.",
+                  "4": "{{toString(7.data)}}"
+                },
+                "sheetId": "raw",
+                "spreadsheetId": "<SPREADSHEET_ID>",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "useColumnHeaders": false,
+                "valueInputOption": "RAW",
+                "insertUnformatted": false
+              },
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": 300
+                }
+              },
+              "parameters": {
+                "__IMTCONN__": 0
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 11,
+              "mapper": {
+                "qs": [
+                  {
+                    "name": "api_key",
+                    "value": "{{1.body.values[2][1]}}"
+                  },
+                  {
+                    "name": "accounts",
+                    "value": "<GA4_PROPERTY_ID>"
+                  },
+                  {
+                    "name": "date_from",
+                    "value": "{{formatDate(addDays(now; -70); \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "date_to",
+                    "value": "{{formatDate(now; \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "fields",
+                    "value": "date,session_source_medium,sessions"
+                  },
+                  {
+                    "name": "filter",
+                    "value": "[[\"session_source_medium\", \"contains\", \"openai\"]]"
+                  }
+                ],
+                "url": "https://connectors.windsor.ai/googleanalytics4",
+                "gzip": true,
+                "method": "get",
+                "headers": [
+                  {
+                    "name": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "useMtls": false,
+                "serializeUrl": false,
+                "shareCookies": false,
+                "parseResponse": false,
+                "followRedirect": true,
+                "useQuerystring": false,
+                "followAllRedirects": false,
+                "rejectUnauthorized": true
+              },
+              "module": "http:ActionSendData",
+              "version": 3,
+              "metadata": {
+                "designer": {
+                  "x": 600,
+                  "y": 600
+                }
+              },
+              "parameters": {
+                "handleErrors": false,
+                "useNewZLibDeCompress": true
+              }
+            },
+            {
+              "id": 12,
+              "mapper": {
+                "from": "drive",
+                "mode": "select",
+                "values": {
+                  "0": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}",
+                  "1": "ga4_source_sessions",
+                  "2": "{{11.statusCode}}",
+                  "3": "daily sessions on the paid ChatGPT source, for the traffic -> registration rate in the ChatGPT Ads block",
+                  "4": "{{toString(11.data)}}"
+                },
+                "sheetId": "raw",
+                "spreadsheetId": "<SPREADSHEET_ID>",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "useColumnHeaders": false,
+                "valueInputOption": "RAW",
+                "insertUnformatted": false
+              },
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": 600
+                }
+              },
+              "parameters": {
+                "__IMTCONN__": 0
+              }
+            }
+          ]
+        }
+      ],
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 300,
+          "y": 0
+        }
+      }
+    }
+  ],
+  "name": "Dashboard — weekly ingest GA4 (Mon 09:05 Berlin)",
+  "metadata": {
+    "instant": false,
+    "version": 1
+  },
+  "scheduling": {
+    "days": [
+      1
+    ],
+    "time": "09:05",
+    "type": "weekly"
+  },
+  "interface": {
+    "input": [],
+    "output": []
+  }
+}

@@ -1,0 +1,770 @@
+{
+  "flow": [
+    {
+      "id": 1,
+      "mapper": {
+        "scope": "execution",
+        "variables": [
+          {
+            "name": "fx_usd_eur",
+            "value": "0.92"
+          }
+        ]
+      },
+      "module": "util:SetVariables",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      "parameters": {}
+    },
+    {
+      "id": 2,
+      "mapper": {
+        "qs": [
+          {
+            "name": "api_key",
+            "value": "{{WINDSOR_API_KEY}}"
+          },
+          {
+            "name": "accounts",
+            "value": "<GOOGLE_ADS_ACCOUNT_IDS>"
+          },
+          {
+            "name": "date_from",
+            "value": "{{formatDate(setDate(now;1);\"YYYY-MM-DD\")}}"
+          },
+          {
+            "name": "date_to",
+            "value": "{{formatDate(addDays(now;-1);\"YYYY-MM-DD\")}}"
+          },
+          {
+            "name": "fields",
+            "value": "campaign,spend,currency,conversions,account_name"
+          }
+        ],
+        "url": "https://connectors.windsor.ai/google_ads",
+        "data": "",
+        "gzip": true,
+        "method": "get",
+        "headers": [],
+        "useMtls": false,
+        "bodyType": "raw",
+        "contentType": "application/json",
+        "serializeUrl": false,
+        "shareCookies": false,
+        "parseResponse": true,
+        "followRedirect": true,
+        "useQuerystring": false,
+        "followAllRedirects": false,
+        "rejectUnauthorized": true
+      },
+      "module": "http:ActionSendData",
+      "version": 3,
+      "metadata": {
+        "designer": {
+          "x": 300,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "handleErrors": false
+      }
+    },
+    {
+      "id": 3,
+      "mapper": {
+        "array": "{{2.data.data}}"
+      },
+      "module": "builtin:BasicFeeder",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 600,
+          "y": 0
+        }
+      },
+      "parameters": {}
+    },
+    {
+      "id": 4,
+      "mapper": {
+        "lead": "{{3.conversions}}",
+        "region": "{{if(contains(lower(3.account_name);\"brand\");if(contains(lower(3.campaign);\"_latam_\");\"LATAM\";if(contains(lower(3.campaign);\"_es_\");\"LATAM\";if(contains(lower(3.campaign);\"_us_\");\"US\";if(contains(lower(3.campaign);\"_eu_\");\"EU\";if(contains(lower(3.campaign);\"_en_\");\"EU\";\"SPLIT\")))));\"OTHER\")}}",
+        "spend_eur": "{{if(3.currency = \"USD\"; 3.spend * 1.fx_usd_eur; 3.spend)}}"
+      },
+      "module": "builtin:BasicAggregator",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 900,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "feeder": 3,
+        "groupBy": "",
+        "arrayName": "array"
+      }
+    },
+    {
+      "id": 5,
+      "mapper": {
+        "qs": [
+          {
+            "name": "api_key",
+            "value": "{{WINDSOR_API_KEY}}"
+          },
+          {
+            "name": "date_from",
+            "value": "{{formatDate(setDate(now;1);\"YYYY-MM-DD\")}}"
+          },
+          {
+            "name": "date_to",
+            "value": "{{formatDate(addDays(now;-1);\"YYYY-MM-DD\")}}"
+          },
+          {
+            "name": "fields",
+            "value": "campaign,spend,currency,actions_lead,account_name"
+          }
+        ],
+        "url": "https://connectors.windsor.ai/facebook",
+        "data": "",
+        "gzip": true,
+        "method": "get",
+        "headers": [],
+        "useMtls": false,
+        "bodyType": "raw",
+        "contentType": "application/json",
+        "serializeUrl": false,
+        "shareCookies": false,
+        "parseResponse": true,
+        "followRedirect": true,
+        "useQuerystring": false,
+        "followAllRedirects": false,
+        "rejectUnauthorized": true
+      },
+      "module": "http:ActionSendData",
+      "version": 3,
+      "metadata": {
+        "designer": {
+          "x": 1200,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "handleErrors": false
+      }
+    },
+    {
+      "id": 6,
+      "mapper": {
+        "array": "{{5.data.data}}"
+      },
+      "module": "builtin:BasicFeeder",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 1500,
+          "y": 0
+        }
+      },
+      "parameters": {}
+    },
+    {
+      "id": 7,
+      "mapper": {
+        "lead": "{{6.actions_lead}}",
+        "region": "{{if(contains(lower(6.account_name);\"brand\");if(contains(lower(6.campaign);\"_latam_\");\"LATAM\";if(contains(lower(6.campaign);\"_es_\");\"LATAM\";if(contains(lower(6.campaign);\"_us_\");\"US\";if(contains(lower(6.campaign);\"_eu_\");\"EU\";if(contains(lower(6.campaign);\"_en_\");\"EU\";\"SPLIT\")))));\"OTHER\")}}",
+        "spend_eur": "{{if(6.currency = \"USD\"; 6.spend * 1.fx_usd_eur; 6.spend)}}"
+      },
+      "module": "builtin:BasicAggregator",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 1800,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "feeder": 6,
+        "groupBy": "",
+        "arrayName": "array"
+      }
+    },
+    {
+      "id": 8,
+      "mapper": {
+        "qs": [
+          {
+            "name": "api_key",
+            "value": "{{WINDSOR_API_KEY}}"
+          },
+          {
+            "name": "date_from",
+            "value": "{{formatDate(setDate(now;1);\"YYYY-MM-DD\")}}"
+          },
+          {
+            "name": "date_to",
+            "value": "{{formatDate(addDays(now;-1);\"YYYY-MM-DD\")}}"
+          },
+          {
+            "name": "fields",
+            "value": "campaign,spend,currency,conversions,account_name"
+          }
+        ],
+        "url": "https://connectors.windsor.ai/linkedin",
+        "data": "",
+        "gzip": true,
+        "method": "get",
+        "headers": [],
+        "useMtls": false,
+        "bodyType": "raw",
+        "contentType": "application/json",
+        "serializeUrl": false,
+        "shareCookies": false,
+        "parseResponse": true,
+        "followRedirect": true,
+        "useQuerystring": false,
+        "followAllRedirects": false,
+        "rejectUnauthorized": true
+      },
+      "module": "http:ActionSendData",
+      "version": 3,
+      "metadata": {
+        "designer": {
+          "x": 2100,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "handleErrors": false
+      }
+    },
+    {
+      "id": 9,
+      "mapper": {
+        "array": "{{8.data.data}}"
+      },
+      "module": "builtin:BasicFeeder",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 2400,
+          "y": 0
+        }
+      },
+      "parameters": {}
+    },
+    {
+      "id": 10,
+      "mapper": {
+        "lead": "{{9.conversions}}",
+        "region": "{{if(contains(lower(9.account_name);\"brand\");if(contains(lower(9.campaign);\"_latam_\");\"LATAM\";if(contains(lower(9.campaign);\"_es_\");\"LATAM\";if(contains(lower(9.campaign);\"_us_\");\"US\";if(contains(lower(9.campaign);\"_eu_\");\"EU\";if(contains(lower(9.campaign);\"_en_\");\"EU\";\"SPLIT\")))));\"OTHER\")}}",
+        "spend_eur": "{{if(9.currency = \"USD\"; 9.spend * 1.fx_usd_eur; 9.spend)}}"
+      },
+      "module": "builtin:BasicAggregator",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 2700,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "feeder": 9,
+        "groupBy": "",
+        "arrayName": "array"
+      }
+    },
+    {
+      "id": 11,
+      "mapper": {
+        "qs": [
+          {
+            "name": "api_key",
+            "value": "{{WINDSOR_API_KEY}}"
+          },
+          {
+            "name": "date_from",
+            "value": "{{formatDate(setDate(now;1);\"YYYY-MM-DD\")}}"
+          },
+          {
+            "name": "date_to",
+            "value": "{{formatDate(addDays(now;-1);\"YYYY-MM-DD\")}}"
+          },
+          {
+            "name": "fields",
+            "value": "campaign,spend,currency,conversion_custom,conversion_sign_ups,account_name"
+          }
+        ],
+        "url": "https://connectors.windsor.ai/twitter",
+        "data": "",
+        "gzip": true,
+        "method": "get",
+        "headers": [],
+        "useMtls": false,
+        "bodyType": "raw",
+        "contentType": "application/json",
+        "serializeUrl": false,
+        "shareCookies": false,
+        "parseResponse": true,
+        "followRedirect": true,
+        "useQuerystring": false,
+        "followAllRedirects": false,
+        "rejectUnauthorized": true
+      },
+      "module": "http:ActionSendData",
+      "version": 3,
+      "metadata": {
+        "designer": {
+          "x": 3000,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "handleErrors": false
+      }
+    },
+    {
+      "id": 12,
+      "mapper": {
+        "array": "{{11.data.data}}"
+      },
+      "module": "builtin:BasicFeeder",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 3300,
+          "y": 0
+        }
+      },
+      "parameters": {}
+    },
+    {
+      "id": 13,
+      "mapper": {
+        "lead": "{{12.conversion_custom + 12.conversion_sign_ups}}",
+        "region": "{{if(contains(lower(12.account_name);\"brand\");if(contains(lower(12.campaign);\"_latam_\");\"LATAM\";if(contains(lower(12.campaign);\"_es_\");\"LATAM\";if(contains(lower(12.campaign);\"_us_\");\"US\";if(contains(lower(12.campaign);\"_eu_\");\"EU\";if(contains(lower(12.campaign);\"_en_\");\"EU\";\"SPLIT\")))));\"OTHER\")}}",
+        "spend_eur": "{{if(12.currency = \"USD\"; 12.spend * 1.fx_usd_eur; 12.spend)}}"
+      },
+      "module": "builtin:BasicAggregator",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 3600,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "feeder": 12,
+        "groupBy": "",
+        "arrayName": "array"
+      }
+    },
+    {
+      "id": 14,
+      "mapper": {
+        "scope": "execution",
+        "variables": [
+          {
+            "name": "spend_latam_google",
+            "value": "{{round(sum(map(4.array;\"spend_eur\";\"region\";\"LATAM\"));2)}}"
+          },
+          {
+            "name": "spend_latam_meta",
+            "value": "{{round(sum(map(7.array;\"spend_eur\";\"region\";\"LATAM\"));2)}}"
+          },
+          {
+            "name": "spend_latam_twitter",
+            "value": "{{round(sum(map(13.array;\"spend_eur\";\"region\";\"LATAM\"));2)}}"
+          },
+          {
+            "name": "spend_latam_linkedin",
+            "value": "{{round(sum(map(10.array;\"spend_eur\";\"region\";\"LATAM\"));2)}}"
+          },
+          {
+            "name": "spend_us_google",
+            "value": "{{round(sum(map(4.array;\"spend_eur\";\"region\";\"US\"))+sum(map(4.array;\"spend_eur\";\"region\";\"SPLIT\"))*0.5;2)}}"
+          },
+          {
+            "name": "spend_us_meta",
+            "value": "{{round(sum(map(7.array;\"spend_eur\";\"region\";\"US\"))+sum(map(7.array;\"spend_eur\";\"region\";\"SPLIT\"))*0.5;2)}}"
+          },
+          {
+            "name": "spend_us_twitter",
+            "value": "{{round(sum(map(13.array;\"spend_eur\";\"region\";\"US\"))+sum(map(13.array;\"spend_eur\";\"region\";\"SPLIT\"))*0.5;2)}}"
+          },
+          {
+            "name": "spend_us_linkedin",
+            "value": "{{round(sum(map(10.array;\"spend_eur\";\"region\";\"US\"))+sum(map(10.array;\"spend_eur\";\"region\";\"SPLIT\"))*0.5;2)}}"
+          },
+          {
+            "name": "spend_eu_google",
+            "value": "{{round(sum(map(4.array;\"spend_eur\";\"region\";\"EU\"))+sum(map(4.array;\"spend_eur\";\"region\";\"SPLIT\"))*0.5;2)}}"
+          },
+          {
+            "name": "spend_eu_meta",
+            "value": "{{round(sum(map(7.array;\"spend_eur\";\"region\";\"EU\"))+sum(map(7.array;\"spend_eur\";\"region\";\"SPLIT\"))*0.5;2)}}"
+          },
+          {
+            "name": "spend_eu_twitter",
+            "value": "{{round(sum(map(13.array;\"spend_eur\";\"region\";\"EU\"))+sum(map(13.array;\"spend_eur\";\"region\";\"SPLIT\"))*0.5;2)}}"
+          },
+          {
+            "name": "spend_eu_linkedin",
+            "value": "{{round(sum(map(10.array;\"spend_eur\";\"region\";\"EU\"))+sum(map(10.array;\"spend_eur\";\"region\";\"SPLIT\"))*0.5;2)}}"
+          },
+          {
+            "name": "mrow",
+            "value": "{{60 + 11 * (parseNumber(formatDate(now; \"M\")) - 6)}}"
+          }
+        ]
+      },
+      "module": "util:SetVariables",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 3900,
+          "y": 0
+        }
+      },
+      "parameters": {}
+    },
+    {
+      "id": 15,
+      "mapper": {
+        "cell": "{{\"B\" + 14.mrow}}",
+        "from": "drive",
+        "mode": "select",
+        "value": "{{14.spend_us_google}}",
+        "sheetId": "Pacing",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "module": "google-sheets:updateCell",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 4200,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 16,
+      "mapper": {
+        "cell": "{{\"D\" + 14.mrow}}",
+        "from": "drive",
+        "mode": "select",
+        "value": "{{14.spend_eu_google}}",
+        "sheetId": "Pacing",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "module": "google-sheets:updateCell",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 4500,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 17,
+      "mapper": {
+        "cell": "{{\"F\" + 14.mrow}}",
+        "from": "drive",
+        "mode": "select",
+        "value": "{{14.spend_latam_google}}",
+        "sheetId": "Pacing",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "module": "google-sheets:updateCell",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 4800,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 18,
+      "mapper": {
+        "cell": "{{\"B\" + (14.mrow + 1)}}",
+        "from": "drive",
+        "mode": "select",
+        "value": "{{14.spend_us_meta}}",
+        "sheetId": "Pacing",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "module": "google-sheets:updateCell",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 5100,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 19,
+      "mapper": {
+        "cell": "{{\"D\" + (14.mrow + 1)}}",
+        "from": "drive",
+        "mode": "select",
+        "value": "{{14.spend_eu_meta}}",
+        "sheetId": "Pacing",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "module": "google-sheets:updateCell",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 5400,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 20,
+      "mapper": {
+        "cell": "{{\"F\" + (14.mrow + 1)}}",
+        "from": "drive",
+        "mode": "select",
+        "value": "{{14.spend_latam_meta}}",
+        "sheetId": "Pacing",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "module": "google-sheets:updateCell",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 5700,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 21,
+      "mapper": {
+        "cell": "{{\"B\" + (14.mrow + 2)}}",
+        "from": "drive",
+        "mode": "select",
+        "value": "{{14.spend_us_linkedin}}",
+        "sheetId": "Pacing",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "module": "google-sheets:updateCell",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 6000,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 22,
+      "mapper": {
+        "cell": "{{\"D\" + (14.mrow + 2)}}",
+        "from": "drive",
+        "mode": "select",
+        "value": "{{14.spend_eu_linkedin}}",
+        "sheetId": "Pacing",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "module": "google-sheets:updateCell",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 6300,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 23,
+      "mapper": {
+        "cell": "{{\"F\" + (14.mrow + 2)}}",
+        "from": "drive",
+        "mode": "select",
+        "value": "{{14.spend_latam_linkedin}}",
+        "sheetId": "Pacing",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "module": "google-sheets:updateCell",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 6600,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 24,
+      "mapper": {
+        "cell": "{{\"B\" + (14.mrow + 3)}}",
+        "from": "drive",
+        "mode": "select",
+        "value": "{{14.spend_us_twitter}}",
+        "sheetId": "Pacing",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "module": "google-sheets:updateCell",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 6900,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 25,
+      "mapper": {
+        "cell": "{{\"D\" + (14.mrow + 3)}}",
+        "from": "drive",
+        "mode": "select",
+        "value": "{{14.spend_eu_twitter}}",
+        "sheetId": "Pacing",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "module": "google-sheets:updateCell",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 7200,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 26,
+      "mapper": {
+        "cell": "{{\"F\" + (14.mrow + 3)}}",
+        "from": "drive",
+        "mode": "select",
+        "value": "{{14.spend_latam_twitter}}",
+        "sheetId": "Pacing",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "module": "google-sheets:updateCell",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 7500,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 27,
+      "mapper": {
+        "cell": "K1",
+        "from": "drive",
+        "mode": "select",
+        "value": "Last updated: {{formatDate(now;\"YYYY-MM-DD HH:mm\")}} · MTD 1–{{formatDate(addDays(now;-1);\"D MMM YYYY\")}} · block row {{14.mrow}}",
+        "sheetId": "Pacing",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "module": "google-sheets:updateCell",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 7800,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    }
+  ],
+  "name": "Pacing MTD — Windsor (spend only + funnel)",
+  "metadata": {
+    "instant": false,
+    "version": 1,
+    "designer": {
+      "orphans": []
+    },
+    "scenario": {
+      "maxErrors": 3,
+      "autoCommit": true,
+      "roundtrips": 1,
+      "sequential": false
+    }
+  },
+  "scheduling": {
+    "type": "indefinitely",
+    "interval": 86400,
+    "restrict": [
+      {
+        "days": [
+          1
+        ],
+        "time": [
+          "07:00",
+          "07:59"
+        ]
+      }
+    ]
+  },
+  "interface": {
+    "input": [],
+    "output": []
+  }
+}

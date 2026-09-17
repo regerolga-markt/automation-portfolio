@@ -1,0 +1,152 @@
+{
+  "flow": [
+    {
+      "id": 1,
+      "mapper": {
+        "limit": 200,
+        "businessId": "<META_BUSINESS_ID>",
+        "adAccountId": "act_<META_AD_ACCOUNT_ID>"
+      },
+      "module": "facebook-ads-cm:listCampaigns",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 2,
+      "mapper": {
+        "limit": 200,
+        "fields": [
+          "costInLocalCurrency",
+          "impressions",
+          "clicks",
+          "externalWebsiteConversions"
+        ],
+        "pivots": [
+          "CAMPAIGN"
+        ],
+        "endDate": "2026-05-28",
+        "accounts": [
+          "urn:li:sponsoredAccount:<LINKEDIN_ACCOUNT_ID_LATAM>"
+        ],
+        "startDate": "2026-01-01",
+        "timeGranularity": "ALL"
+      },
+      "module": "linkedin-ads-reports:generateAdStatisticsReport",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 300,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 3,
+      "mapper": {
+        "limit": 200,
+        "fields": [
+          "costInLocalCurrency",
+          "impressions",
+          "clicks",
+          "externalWebsiteConversions"
+        ],
+        "pivots": [
+          "CAMPAIGN"
+        ],
+        "endDate": "2026-05-28",
+        "accounts": [
+          "urn:li:sponsoredAccount:<LINKEDIN_ACCOUNT_ID_EN>"
+        ],
+        "startDate": "2026-01-01",
+        "timeGranularity": "ALL"
+      },
+      "module": "linkedin-ads-reports:generateAdStatisticsReport",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 600,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 4,
+      "mapper": {
+        "limit": 500,
+        "endDate": "2026-05-28",
+        "accountId": "<GOOGLE_ADS_ACCOUNT_ID_US>",
+        "startDate": "2026-01-01"
+      },
+      "module": "google-ads-reports:runCampaignReport",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 900,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 5,
+      "mapper": {
+        "limit": 500,
+        "endDate": "2026-05-28",
+        "accountId": "<GOOGLE_ADS_ACCOUNT_ID_LATAM>",
+        "startDate": "2026-01-01"
+      },
+      "module": "google-ads-reports:runCampaignReport",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 1200,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    }
+  ],
+  "name": "All Campaigns Snapshot — All Platforms",
+  "metadata": {
+    "instant": false,
+    "version": 1,
+    "designer": {
+      "orphans": []
+    },
+    "scenario": {
+      "dlq": false,
+      "dataloss": false,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "roundtrips": 1,
+      "sequential": false,
+      "confidential": false,
+      "autoCommitTriggerLast": true
+    }
+  },
+  "scheduling": {
+    "type": "on-demand"
+  },
+  "interface": {
+    "input": [],
+    "output": []
+  }
+}

@@ -1,0 +1,1095 @@
+{
+  "flow": [
+    {
+      "id": 1,
+      "mapper": {
+        "qs": [],
+        "url": "spreadsheets/<SPREADSHEET_ID>/values/config!B23:B24",
+        "method": "GET",
+        "headers": []
+      },
+      "module": "google-sheets:makeAPICall",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 2,
+      "module": "builtin:BasicRouter",
+      "routes": [
+        {
+          "flow": [
+            {
+              "id": 3,
+              "mapper": {
+                "qs": [],
+                "url": "https://api.ahrefs.com/v3/batch-analysis/batch-analysis",
+                "data": "{\"country\": \"us\", \"select\": [\"domain_rating\", \"refdomains\", \"backlinks\", \"org_keywords\", \"org_traffic\", \"org_cost\", \"paid_traffic\"], \"targets\": [{\"url\": \"client.com\", \"mode\": \"subdomains\", \"protocol\": \"both\"}, {\"url\": \"competitor_1.com\", \"mode\": \"subdomains\", \"protocol\": \"both\"}, {\"url\": \"competitor_2.com\", \"mode\": \"subdomains\", \"protocol\": \"both\"}, {\"url\": \"competitor_3.com\", \"mode\": \"subdomains\", \"protocol\": \"both\"}, {\"url\": \"competitor_4.com\", \"mode\": \"subdomains\", \"protocol\": \"both\"}, {\"url\": \"competitor_5.com\", \"mode\": \"subdomains\", \"protocol\": \"both\"}]}",
+                "gzip": true,
+                "method": "post",
+                "headers": [
+                  {
+                    "name": "Authorization",
+                    "value": "Bearer {{1.body.values[1][1]}}"
+                  },
+                  {
+                    "name": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "useMtls": false,
+                "bodyType": "raw",
+                "contentType": "application/json",
+                "serializeUrl": false,
+                "shareCookies": false,
+                "parseResponse": false,
+                "followRedirect": true,
+                "useQuerystring": false,
+                "followAllRedirects": false,
+                "rejectUnauthorized": true
+              },
+              "module": "http:ActionSendData",
+              "version": 3,
+              "metadata": {
+                "designer": {
+                  "x": 600,
+                  "y": 0
+                }
+              },
+              "parameters": {
+                "handleErrors": false,
+                "useNewZLibDeCompress": true
+              }
+            },
+            {
+              "id": 4,
+              "mapper": {
+                "from": "drive",
+                "mode": "select",
+                "values": {
+                  "0": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}",
+                  "1": "comp_batch",
+                  "2": "{{3.statusCode}}",
+                  "3": "Point-in-time only - batch-analysis has NO date parameter, so history cannot be backfilled. Now weekly, so week-over-week deltas accumulate from stored snapshots at zero extra API cost. Order must match config.target + config.competitors.",
+                  "4": "{{toString(3.data)}}"
+                },
+                "sheetId": "raw",
+                "spreadsheetId": "<SPREADSHEET_ID>",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "useColumnHeaders": false,
+                "valueInputOption": "RAW",
+                "insertUnformatted": false
+              },
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": 0
+                }
+              },
+              "parameters": {
+                "__IMTCONN__": 0
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 5,
+              "mapper": {
+                "qs": [
+                  {
+                    "name": "target",
+                    "value": "competitor_1.com"
+                  },
+                  {
+                    "name": "mode",
+                    "value": "subdomains"
+                  },
+                  {
+                    "name": "country",
+                    "value": "us"
+                  },
+                  {
+                    "name": "date",
+                    "value": "{{formatDate(now; \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "select",
+                    "value": "chatgpt,perplexity,gemini,google_ai_overviews,google_ai_mode"
+                  }
+                ],
+                "url": "https://api.ahrefs.com/v3/site-explorer/ai-responses-count",
+                "gzip": true,
+                "method": "get",
+                "headers": [
+                  {
+                    "name": "Authorization",
+                    "value": "Bearer {{1.body.values[1][1]}}"
+                  },
+                  {
+                    "name": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "useMtls": false,
+                "serializeUrl": false,
+                "shareCookies": false,
+                "parseResponse": false,
+                "followRedirect": true,
+                "useQuerystring": false,
+                "followAllRedirects": false,
+                "rejectUnauthorized": true
+              },
+              "module": "http:ActionSendData",
+              "version": 3,
+              "metadata": {
+                "designer": {
+                  "x": 600,
+                  "y": 150
+                }
+              },
+              "parameters": {
+                "handleErrors": false,
+                "useNewZLibDeCompress": true
+              }
+            },
+            {
+              "id": 6,
+              "mapper": {
+                "from": "drive",
+                "mode": "select",
+                "values": {
+                  "0": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}",
+                  "1": "comp_ai:competitor_1.com",
+                  "2": "{{5.statusCode}}",
+                  "3": "",
+                  "4": "{{toString(5.data)}}"
+                },
+                "sheetId": "raw",
+                "spreadsheetId": "<SPREADSHEET_ID>",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "useColumnHeaders": false,
+                "valueInputOption": "RAW",
+                "insertUnformatted": false
+              },
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": 150
+                }
+              },
+              "parameters": {
+                "__IMTCONN__": 0
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 15,
+              "mapper": {
+                "qs": [
+                  {
+                    "name": "target",
+                    "value": "competitor_1.com"
+                  },
+                  {
+                    "name": "mode",
+                    "value": "subdomains"
+                  },
+                  {
+                    "name": "country",
+                    "value": "us"
+                  },
+                  {
+                    "name": "date",
+                    "value": "{{formatDate(addDays(now; -7); \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "select",
+                    "value": "chatgpt,perplexity,gemini,google_ai_overviews,google_ai_mode"
+                  }
+                ],
+                "url": "https://api.ahrefs.com/v3/site-explorer/ai-responses-count",
+                "gzip": true,
+                "method": "get",
+                "headers": [
+                  {
+                    "name": "Authorization",
+                    "value": "Bearer {{1.body.values[1][1]}}"
+                  },
+                  {
+                    "name": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "useMtls": false,
+                "serializeUrl": false,
+                "shareCookies": false,
+                "parseResponse": false,
+                "followRedirect": true,
+                "useQuerystring": false,
+                "followAllRedirects": false,
+                "rejectUnauthorized": true
+              },
+              "module": "http:ActionSendData",
+              "version": 3,
+              "metadata": {
+                "designer": {
+                  "x": 600,
+                  "y": 900
+                }
+              },
+              "parameters": {
+                "handleErrors": false,
+                "useNewZLibDeCompress": true
+              }
+            },
+            {
+              "id": 16,
+              "mapper": {
+                "from": "drive",
+                "mode": "select",
+                "values": {
+                  "0": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}",
+                  "1": "comp_ai_prev:competitor_1.com",
+                  "2": "{{15.statusCode}}",
+                  "3": "same snapshot 7 days back",
+                  "4": "{{toString(15.data)}}"
+                },
+                "sheetId": "raw",
+                "spreadsheetId": "<SPREADSHEET_ID>",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "useColumnHeaders": false,
+                "valueInputOption": "RAW",
+                "insertUnformatted": false
+              },
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": 900
+                }
+              },
+              "parameters": {
+                "__IMTCONN__": 0
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 7,
+              "mapper": {
+                "qs": [
+                  {
+                    "name": "target",
+                    "value": "competitor_2.com"
+                  },
+                  {
+                    "name": "mode",
+                    "value": "subdomains"
+                  },
+                  {
+                    "name": "country",
+                    "value": "us"
+                  },
+                  {
+                    "name": "date",
+                    "value": "{{formatDate(now; \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "select",
+                    "value": "chatgpt,perplexity,gemini,google_ai_overviews,google_ai_mode"
+                  }
+                ],
+                "url": "https://api.ahrefs.com/v3/site-explorer/ai-responses-count",
+                "gzip": true,
+                "method": "get",
+                "headers": [
+                  {
+                    "name": "Authorization",
+                    "value": "Bearer {{1.body.values[1][1]}}"
+                  },
+                  {
+                    "name": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "useMtls": false,
+                "serializeUrl": false,
+                "shareCookies": false,
+                "parseResponse": false,
+                "followRedirect": true,
+                "useQuerystring": false,
+                "followAllRedirects": false,
+                "rejectUnauthorized": true
+              },
+              "module": "http:ActionSendData",
+              "version": 3,
+              "metadata": {
+                "designer": {
+                  "x": 600,
+                  "y": 300
+                }
+              },
+              "parameters": {
+                "handleErrors": false,
+                "useNewZLibDeCompress": true
+              }
+            },
+            {
+              "id": 8,
+              "mapper": {
+                "from": "drive",
+                "mode": "select",
+                "values": {
+                  "0": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}",
+                  "1": "comp_ai:competitor_2.com",
+                  "2": "{{7.statusCode}}",
+                  "3": "",
+                  "4": "{{toString(7.data)}}"
+                },
+                "sheetId": "raw",
+                "spreadsheetId": "<SPREADSHEET_ID>",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "useColumnHeaders": false,
+                "valueInputOption": "RAW",
+                "insertUnformatted": false
+              },
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": 300
+                }
+              },
+              "parameters": {
+                "__IMTCONN__": 0
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 17,
+              "mapper": {
+                "qs": [
+                  {
+                    "name": "target",
+                    "value": "competitor_2.com"
+                  },
+                  {
+                    "name": "mode",
+                    "value": "subdomains"
+                  },
+                  {
+                    "name": "country",
+                    "value": "us"
+                  },
+                  {
+                    "name": "date",
+                    "value": "{{formatDate(addDays(now; -7); \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "select",
+                    "value": "chatgpt,perplexity,gemini,google_ai_overviews,google_ai_mode"
+                  }
+                ],
+                "url": "https://api.ahrefs.com/v3/site-explorer/ai-responses-count",
+                "gzip": true,
+                "method": "get",
+                "headers": [
+                  {
+                    "name": "Authorization",
+                    "value": "Bearer {{1.body.values[1][1]}}"
+                  },
+                  {
+                    "name": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "useMtls": false,
+                "serializeUrl": false,
+                "shareCookies": false,
+                "parseResponse": false,
+                "followRedirect": true,
+                "useQuerystring": false,
+                "followAllRedirects": false,
+                "rejectUnauthorized": true
+              },
+              "module": "http:ActionSendData",
+              "version": 3,
+              "metadata": {
+                "designer": {
+                  "x": 600,
+                  "y": 1050
+                }
+              },
+              "parameters": {
+                "handleErrors": false,
+                "useNewZLibDeCompress": true
+              }
+            },
+            {
+              "id": 18,
+              "mapper": {
+                "from": "drive",
+                "mode": "select",
+                "values": {
+                  "0": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}",
+                  "1": "comp_ai_prev:competitor_2.com",
+                  "2": "{{17.statusCode}}",
+                  "3": "same snapshot 7 days back",
+                  "4": "{{toString(17.data)}}"
+                },
+                "sheetId": "raw",
+                "spreadsheetId": "<SPREADSHEET_ID>",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "useColumnHeaders": false,
+                "valueInputOption": "RAW",
+                "insertUnformatted": false
+              },
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": 1050
+                }
+              },
+              "parameters": {
+                "__IMTCONN__": 0
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 9,
+              "mapper": {
+                "qs": [
+                  {
+                    "name": "target",
+                    "value": "competitor_3.com"
+                  },
+                  {
+                    "name": "mode",
+                    "value": "subdomains"
+                  },
+                  {
+                    "name": "country",
+                    "value": "us"
+                  },
+                  {
+                    "name": "date",
+                    "value": "{{formatDate(now; \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "select",
+                    "value": "chatgpt,perplexity,gemini,google_ai_overviews,google_ai_mode"
+                  }
+                ],
+                "url": "https://api.ahrefs.com/v3/site-explorer/ai-responses-count",
+                "gzip": true,
+                "method": "get",
+                "headers": [
+                  {
+                    "name": "Authorization",
+                    "value": "Bearer {{1.body.values[1][1]}}"
+                  },
+                  {
+                    "name": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "useMtls": false,
+                "serializeUrl": false,
+                "shareCookies": false,
+                "parseResponse": false,
+                "followRedirect": true,
+                "useQuerystring": false,
+                "followAllRedirects": false,
+                "rejectUnauthorized": true
+              },
+              "module": "http:ActionSendData",
+              "version": 3,
+              "metadata": {
+                "designer": {
+                  "x": 600,
+                  "y": 450
+                }
+              },
+              "parameters": {
+                "handleErrors": false,
+                "useNewZLibDeCompress": true
+              }
+            },
+            {
+              "id": 10,
+              "mapper": {
+                "from": "drive",
+                "mode": "select",
+                "values": {
+                  "0": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}",
+                  "1": "comp_ai:competitor_3.com",
+                  "2": "{{9.statusCode}}",
+                  "3": "",
+                  "4": "{{toString(9.data)}}"
+                },
+                "sheetId": "raw",
+                "spreadsheetId": "<SPREADSHEET_ID>",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "useColumnHeaders": false,
+                "valueInputOption": "RAW",
+                "insertUnformatted": false
+              },
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": 450
+                }
+              },
+              "parameters": {
+                "__IMTCONN__": 0
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 19,
+              "mapper": {
+                "qs": [
+                  {
+                    "name": "target",
+                    "value": "competitor_3.com"
+                  },
+                  {
+                    "name": "mode",
+                    "value": "subdomains"
+                  },
+                  {
+                    "name": "country",
+                    "value": "us"
+                  },
+                  {
+                    "name": "date",
+                    "value": "{{formatDate(addDays(now; -7); \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "select",
+                    "value": "chatgpt,perplexity,gemini,google_ai_overviews,google_ai_mode"
+                  }
+                ],
+                "url": "https://api.ahrefs.com/v3/site-explorer/ai-responses-count",
+                "gzip": true,
+                "method": "get",
+                "headers": [
+                  {
+                    "name": "Authorization",
+                    "value": "Bearer {{1.body.values[1][1]}}"
+                  },
+                  {
+                    "name": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "useMtls": false,
+                "serializeUrl": false,
+                "shareCookies": false,
+                "parseResponse": false,
+                "followRedirect": true,
+                "useQuerystring": false,
+                "followAllRedirects": false,
+                "rejectUnauthorized": true
+              },
+              "module": "http:ActionSendData",
+              "version": 3,
+              "metadata": {
+                "designer": {
+                  "x": 600,
+                  "y": 1200
+                }
+              },
+              "parameters": {
+                "handleErrors": false,
+                "useNewZLibDeCompress": true
+              }
+            },
+            {
+              "id": 20,
+              "mapper": {
+                "from": "drive",
+                "mode": "select",
+                "values": {
+                  "0": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}",
+                  "1": "comp_ai_prev:competitor_3.com",
+                  "2": "{{19.statusCode}}",
+                  "3": "same snapshot 7 days back",
+                  "4": "{{toString(19.data)}}"
+                },
+                "sheetId": "raw",
+                "spreadsheetId": "<SPREADSHEET_ID>",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "useColumnHeaders": false,
+                "valueInputOption": "RAW",
+                "insertUnformatted": false
+              },
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": 1200
+                }
+              },
+              "parameters": {
+                "__IMTCONN__": 0
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 11,
+              "mapper": {
+                "qs": [
+                  {
+                    "name": "target",
+                    "value": "competitor_4.com"
+                  },
+                  {
+                    "name": "mode",
+                    "value": "subdomains"
+                  },
+                  {
+                    "name": "country",
+                    "value": "us"
+                  },
+                  {
+                    "name": "date",
+                    "value": "{{formatDate(now; \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "select",
+                    "value": "chatgpt,perplexity,gemini,google_ai_overviews,google_ai_mode"
+                  }
+                ],
+                "url": "https://api.ahrefs.com/v3/site-explorer/ai-responses-count",
+                "gzip": true,
+                "method": "get",
+                "headers": [
+                  {
+                    "name": "Authorization",
+                    "value": "Bearer {{1.body.values[1][1]}}"
+                  },
+                  {
+                    "name": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "useMtls": false,
+                "serializeUrl": false,
+                "shareCookies": false,
+                "parseResponse": false,
+                "followRedirect": true,
+                "useQuerystring": false,
+                "followAllRedirects": false,
+                "rejectUnauthorized": true
+              },
+              "module": "http:ActionSendData",
+              "version": 3,
+              "metadata": {
+                "designer": {
+                  "x": 600,
+                  "y": 600
+                }
+              },
+              "parameters": {
+                "handleErrors": false,
+                "useNewZLibDeCompress": true
+              }
+            },
+            {
+              "id": 12,
+              "mapper": {
+                "from": "drive",
+                "mode": "select",
+                "values": {
+                  "0": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}",
+                  "1": "comp_ai:competitor_4.com",
+                  "2": "{{11.statusCode}}",
+                  "3": "",
+                  "4": "{{toString(11.data)}}"
+                },
+                "sheetId": "raw",
+                "spreadsheetId": "<SPREADSHEET_ID>",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "useColumnHeaders": false,
+                "valueInputOption": "RAW",
+                "insertUnformatted": false
+              },
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": 600
+                }
+              },
+              "parameters": {
+                "__IMTCONN__": 0
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 21,
+              "mapper": {
+                "qs": [
+                  {
+                    "name": "target",
+                    "value": "competitor_4.com"
+                  },
+                  {
+                    "name": "mode",
+                    "value": "subdomains"
+                  },
+                  {
+                    "name": "country",
+                    "value": "us"
+                  },
+                  {
+                    "name": "date",
+                    "value": "{{formatDate(addDays(now; -7); \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "select",
+                    "value": "chatgpt,perplexity,gemini,google_ai_overviews,google_ai_mode"
+                  }
+                ],
+                "url": "https://api.ahrefs.com/v3/site-explorer/ai-responses-count",
+                "gzip": true,
+                "method": "get",
+                "headers": [
+                  {
+                    "name": "Authorization",
+                    "value": "Bearer {{1.body.values[1][1]}}"
+                  },
+                  {
+                    "name": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "useMtls": false,
+                "serializeUrl": false,
+                "shareCookies": false,
+                "parseResponse": false,
+                "followRedirect": true,
+                "useQuerystring": false,
+                "followAllRedirects": false,
+                "rejectUnauthorized": true
+              },
+              "module": "http:ActionSendData",
+              "version": 3,
+              "metadata": {
+                "designer": {
+                  "x": 600,
+                  "y": 1350
+                }
+              },
+              "parameters": {
+                "handleErrors": false,
+                "useNewZLibDeCompress": true
+              }
+            },
+            {
+              "id": 22,
+              "mapper": {
+                "from": "drive",
+                "mode": "select",
+                "values": {
+                  "0": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}",
+                  "1": "comp_ai_prev:competitor_4.com",
+                  "2": "{{21.statusCode}}",
+                  "3": "same snapshot 7 days back",
+                  "4": "{{toString(21.data)}}"
+                },
+                "sheetId": "raw",
+                "spreadsheetId": "<SPREADSHEET_ID>",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "useColumnHeaders": false,
+                "valueInputOption": "RAW",
+                "insertUnformatted": false
+              },
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": 1350
+                }
+              },
+              "parameters": {
+                "__IMTCONN__": 0
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 13,
+              "mapper": {
+                "qs": [
+                  {
+                    "name": "target",
+                    "value": "competitor_5.com"
+                  },
+                  {
+                    "name": "mode",
+                    "value": "subdomains"
+                  },
+                  {
+                    "name": "country",
+                    "value": "us"
+                  },
+                  {
+                    "name": "date",
+                    "value": "{{formatDate(now; \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "select",
+                    "value": "chatgpt,perplexity,gemini,google_ai_overviews,google_ai_mode"
+                  }
+                ],
+                "url": "https://api.ahrefs.com/v3/site-explorer/ai-responses-count",
+                "gzip": true,
+                "method": "get",
+                "headers": [
+                  {
+                    "name": "Authorization",
+                    "value": "Bearer {{1.body.values[1][1]}}"
+                  },
+                  {
+                    "name": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "useMtls": false,
+                "serializeUrl": false,
+                "shareCookies": false,
+                "parseResponse": false,
+                "followRedirect": true,
+                "useQuerystring": false,
+                "followAllRedirects": false,
+                "rejectUnauthorized": true
+              },
+              "module": "http:ActionSendData",
+              "version": 3,
+              "metadata": {
+                "designer": {
+                  "x": 600,
+                  "y": 750
+                }
+              },
+              "parameters": {
+                "handleErrors": false,
+                "useNewZLibDeCompress": true
+              }
+            },
+            {
+              "id": 14,
+              "mapper": {
+                "from": "drive",
+                "mode": "select",
+                "values": {
+                  "0": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}",
+                  "1": "comp_ai:competitor_5.com",
+                  "2": "{{13.statusCode}}",
+                  "3": "",
+                  "4": "{{toString(13.data)}}"
+                },
+                "sheetId": "raw",
+                "spreadsheetId": "<SPREADSHEET_ID>",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "useColumnHeaders": false,
+                "valueInputOption": "RAW",
+                "insertUnformatted": false
+              },
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": 750
+                }
+              },
+              "parameters": {
+                "__IMTCONN__": 0
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 23,
+              "mapper": {
+                "qs": [
+                  {
+                    "name": "target",
+                    "value": "competitor_5.com"
+                  },
+                  {
+                    "name": "mode",
+                    "value": "subdomains"
+                  },
+                  {
+                    "name": "country",
+                    "value": "us"
+                  },
+                  {
+                    "name": "date",
+                    "value": "{{formatDate(addDays(now; -7); \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "select",
+                    "value": "chatgpt,perplexity,gemini,google_ai_overviews,google_ai_mode"
+                  }
+                ],
+                "url": "https://api.ahrefs.com/v3/site-explorer/ai-responses-count",
+                "gzip": true,
+                "method": "get",
+                "headers": [
+                  {
+                    "name": "Authorization",
+                    "value": "Bearer {{1.body.values[1][1]}}"
+                  },
+                  {
+                    "name": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "useMtls": false,
+                "serializeUrl": false,
+                "shareCookies": false,
+                "parseResponse": false,
+                "followRedirect": true,
+                "useQuerystring": false,
+                "followAllRedirects": false,
+                "rejectUnauthorized": true
+              },
+              "module": "http:ActionSendData",
+              "version": 3,
+              "metadata": {
+                "designer": {
+                  "x": 600,
+                  "y": 1500
+                }
+              },
+              "parameters": {
+                "handleErrors": false,
+                "useNewZLibDeCompress": true
+              }
+            },
+            {
+              "id": 24,
+              "mapper": {
+                "from": "drive",
+                "mode": "select",
+                "values": {
+                  "0": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}",
+                  "1": "comp_ai_prev:competitor_5.com",
+                  "2": "{{23.statusCode}}",
+                  "3": "same snapshot 7 days back",
+                  "4": "{{toString(23.data)}}"
+                },
+                "sheetId": "raw",
+                "spreadsheetId": "<SPREADSHEET_ID>",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "useColumnHeaders": false,
+                "valueInputOption": "RAW",
+                "insertUnformatted": false
+              },
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": 1500
+                }
+              },
+              "parameters": {
+                "__IMTCONN__": 0
+              }
+            }
+          ]
+        }
+      ],
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 300,
+          "y": 0
+        }
+      }
+    }
+  ],
+  "name": "Dashboard — weekly competitors (Mon 09:10 Berlin)",
+  "metadata": {
+    "instant": false,
+    "version": 1
+  },
+  "scheduling": {
+    "days": [
+      1
+    ],
+    "time": "09:10",
+    "type": "weekly"
+  },
+  "interface": {
+    "input": [],
+    "output": []
+  }
+}

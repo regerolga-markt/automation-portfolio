@@ -1,0 +1,117 @@
+{
+  "flow": [
+    {
+      "id": 1,
+      "mapper": {},
+      "module": "gateway:CustomWebHook",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "hook": 0,
+        "maxResults": 1
+      }
+    },
+    {
+      "id": 2,
+      "mapper": {
+        "qs": [],
+        "url": "https://tagmanager.googleapis.com/tagmanager/v2/accounts/<GTM_ACCOUNT_ID>/containers/<GTM_CONTAINER_ID>/workspaces/<GTM_WORKSPACE_ID>/triggers",
+        "body": "{\"name\": \"Trigger — Application Thank You\", \"type\": \"PAGEVIEW\", \"filter\": [{\"type\": \"contains\", \"parameter\": [{\"type\": \"template\", \"key\": \"arg0\", \"value\": \"{{\"{{\" & \"Page URL\" & \"}}\"}}\"}, {\"type\": \"template\", \"key\": \"arg1\", \"value\": \"/thank-you\"}]}]}",
+        "method": "post",
+        "headers": [
+          {
+            "name": "Authorization",
+            "value": "Bearer <GOOGLE_OAUTH_ACCESS_TOKEN>"
+          },
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "bodyType": "raw",
+        "contentType": "json",
+        "serializeUrl": false,
+        "parseResponse": true
+      },
+      "module": "http:ActionSendData",
+      "version": 3,
+      "metadata": {
+        "designer": {
+          "x": 300,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "handleErrors": false,
+        "useNewZLibDecompression": true
+      }
+    },
+    {
+      "id": 3,
+      "mapper": {
+        "qs": [],
+        "url": "https://tagmanager.googleapis.com/tagmanager/v2/accounts/<GTM_ACCOUNT_ID>/containers/<GTM_CONTAINER_ID>/workspaces/<GTM_WORKSPACE_ID>/tags",
+        "body": "{\"name\": \"GA4 – Application Thank You\", \"type\": \"gaawe\", \"parameter\": [{\"type\": \"template\", \"key\": \"eventName\", \"value\": \"generate_lead\"}, {\"type\": \"list\", \"key\": \"eventParameters\", \"list\": [{\"type\": \"map\", \"map\": [{\"type\": \"template\", \"key\": \"name\", \"value\": \"form_id\"}, {\"type\": \"template\", \"key\": \"value\", \"value\": \"{{\"{{\" & \"form_id\" & \"}}\"}}\"}]}]}], \"tagFiringOption\": \"oncePerEvent\", \"firingTriggerId\": [\"{{2.data.triggerId}}\"]}",
+        "method": "post",
+        "headers": [
+          {
+            "name": "Authorization",
+            "value": "Bearer <GOOGLE_OAUTH_ACCESS_TOKEN>"
+          },
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "bodyType": "raw",
+        "contentType": "json",
+        "serializeUrl": false,
+        "parseResponse": true
+      },
+      "module": "http:ActionSendData",
+      "version": 3,
+      "metadata": {
+        "designer": {
+          "x": 600,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "handleErrors": false,
+        "useNewZLibDecompression": true
+      }
+    }
+  ],
+  "name": "GTM Auto-Builder — Multi-Platform",
+  "metadata": {
+    "zone": "eu1.make.com",
+    "instant": true,
+    "version": 1,
+    "designer": {
+      "orphans": []
+    },
+    "scenario": {
+      "dlq": false,
+      "dataloss": false,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "roundtrips": 1,
+      "sequential": false,
+      "confidential": false,
+      "freshVariables": false,
+      "autoCommitTriggerLast": true
+    }
+  },
+  "scheduling": {
+    "type": "immediately"
+  },
+  "interface": {
+    "input": [],
+    "output": []
+  }
+}

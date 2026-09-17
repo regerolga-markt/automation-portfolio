@@ -14,6 +14,11 @@ RULES = {
     "telegram chat id": r"\"chatId\"\s*:\s*\"?-?\d{6,}",
     "email": r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[a-z]{2,}",
     "phone": r"\+49\s?\d{2,4}[\s\d]{6,}",
+    "google oauth token": r"ya29\.[A-Za-z0-9_-]{20,}",
+    "long hex key": r"\b[a-f0-9]{32,}\b",
+    "google ads customer id": r"\b\d{3}-\d{3}-\d{4}\b",
+    "make connection id": r"__IMTCONN__\"\s*:\s*[1-9]",
+    "gtm/ga4 id": r"\b(GTM-[A-Z0-9]{5,}|G-[A-Z0-9]{8,})\b",
     # add private names to block via env: SCAN_BLOCKLIST="name1|name2"
 }
 if os.environ.get("SCAN_BLOCKLIST"):

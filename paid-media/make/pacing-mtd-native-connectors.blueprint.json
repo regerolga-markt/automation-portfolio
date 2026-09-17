@@ -1,0 +1,730 @@
+{
+  "flow": [
+    {
+      "id": 1,
+      "mapper": {
+        "limit": "100",
+        "endDate": "{{formatDate(addDays(now; -1); \"YYYY-MM-DD\")}}",
+        "accountId": "<GOOGLE_ADS_ACCOUNT_ID_1>",
+        "startDate": "{{formatDate(setDate(now; 1); \"YYYY-MM-DD\")}}"
+      },
+      "module": "google-ads-reports:runCampaignReport",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 2,
+      "mapper": {
+        "cost": "{{1.metrics.cost}}",
+        "region": "{{if(contains(lower(1.dimensions.campaignName); \"_latam_\"); \"LATAM\"; if(contains(lower(1.dimensions.campaignName); \"_us_\"); if(contains(lower(1.dimensions.campaignName); \"_eu_\"); \"SPLIT\"; if(contains(lower(1.dimensions.campaignName); \"_en_\"); \"SPLIT\"; \"US\")); if(contains(lower(1.dimensions.campaignName); \"_eu_\"); \"EU\"; if(contains(lower(1.dimensions.campaignName); \"_en_\"); \"EU\"; \"SPLIT\"))))}}",
+        "conversions": "{{1.metrics.conversions}}",
+        "campaignName": "{{1.dimensions.campaignName}}"
+      },
+      "module": "builtin:BasicAggregator",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 300,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "feeder": 1,
+        "groupBy": "",
+        "arrayName": "array"
+      }
+    },
+    {
+      "id": 3,
+      "mapper": {
+        "limit": "100",
+        "endDate": "{{formatDate(addDays(now; -1); \"YYYY-MM-DD\")}}",
+        "accountId": "<GOOGLE_ADS_ACCOUNT_ID_2>",
+        "startDate": "{{formatDate(setDate(now; 1); \"YYYY-MM-DD\")}}"
+      },
+      "module": "google-ads-reports:runCampaignReport",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 600,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 4,
+      "mapper": {
+        "cost": "{{3.metrics.cost}}",
+        "region": "{{if(contains(lower(3.dimensions.campaignName); \"_latam_\"); \"LATAM\"; if(contains(lower(3.dimensions.campaignName); \"_us_\"); if(contains(lower(3.dimensions.campaignName); \"_eu_\"); \"SPLIT\"; if(contains(lower(3.dimensions.campaignName); \"_en_\"); \"SPLIT\"; \"US\")); if(contains(lower(3.dimensions.campaignName); \"_eu_\"); \"EU\"; if(contains(lower(3.dimensions.campaignName); \"_en_\"); \"EU\"; \"SPLIT\"))))}}",
+        "conversions": "{{3.metrics.conversions}}",
+        "campaignName": "{{3.dimensions.campaignName}}"
+      },
+      "module": "builtin:BasicAggregator",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 900,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "feeder": 3,
+        "groupBy": "",
+        "arrayName": "array"
+      }
+    },
+    {
+      "id": 5,
+      "mapper": {
+        "type": "adAccount",
+        "level": "campaign",
+        "limit": "100",
+        "fields": [
+          "campaign_name",
+          "spend",
+          "actions"
+        ],
+        "business": "<META_BUSINESS_ID>",
+        "adAccount": "act_<META_AD_ACCOUNT_ID>",
+        "date_preset": "this_month",
+        "specify_date": "date_preset",
+        "time_increment": "all_days"
+      },
+      "module": "facebook-insights:GetAdAccountInsights",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 1200,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 6,
+      "mapper": {
+        "leads": "{{sum(map(5.actions; \"value\"; \"action_type\"; \"lead\"))}}",
+        "spend": "{{5.spend}}",
+        "region": "{{if(contains(lower(5.campaign_name); \"_latam_\"); \"LATAM\"; if(contains(lower(5.campaign_name); \"_us_\"); if(contains(lower(5.campaign_name); \"_eu_\"); \"SPLIT\"; if(contains(lower(5.campaign_name); \"_en_\"); \"SPLIT\"; \"US\")); if(contains(lower(5.campaign_name); \"_eu_\"); \"EU\"; if(contains(lower(5.campaign_name); \"_en_\"); \"EU\"; \"SPLIT\"))))}}",
+        "campaignName": "{{5.campaign_name}}"
+      },
+      "module": "builtin:BasicAggregator",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 1500,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "feeder": 5,
+        "groupBy": "",
+        "arrayName": "array"
+      }
+    },
+    {
+      "id": 26,
+      "mapper": {
+        "limit": "1",
+        "fields": [
+          "costInLocalCurrency",
+          "externalWebsiteConversions"
+        ],
+        "pivots": [
+          "ACCOUNT"
+        ],
+        "endDate": "{{formatDate(addDays(now; -1); \"YYYY-MM-DD\")}}",
+        "accounts": [
+          "urn:li:sponsoredAccount:<LINKEDIN_ACCOUNT_ID_1>"
+        ],
+        "startDate": "{{formatDate(setDate(now; 1); \"YYYY-MM-DD\")}}",
+        "timeGranularity": "ALL"
+      },
+      "module": "linkedin-ads-reports:generateAdStatisticsReport",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 1800,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 27,
+      "mapper": {
+        "limit": "1",
+        "fields": [
+          "costInLocalCurrency",
+          "externalWebsiteConversions"
+        ],
+        "pivots": [
+          "ACCOUNT"
+        ],
+        "endDate": "{{formatDate(addDays(now; -1); \"YYYY-MM-DD\")}}",
+        "accounts": [
+          "urn:li:sponsoredAccount:<LINKEDIN_ACCOUNT_ID_2>"
+        ],
+        "startDate": "{{formatDate(setDate(now; 1); \"YYYY-MM-DD\")}}",
+        "timeGranularity": "ALL"
+      },
+      "module": "linkedin-ads-reports:generateAdStatisticsReport",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 2100,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 7,
+      "mapper": {
+        "scope": "execution",
+        "variables": [
+          {
+            "name": "spend_latam_google",
+            "value": "{{round(sum(map(2.array; \"cost\"; \"region\"; \"LATAM\")) + sum(map(4.array; \"cost\"; \"region\"; \"LATAM\")); 2)}}"
+          },
+          {
+            "name": "spend_latam_meta",
+            "value": "{{round(sum(map(6.array; \"spend\"; \"region\"; \"LATAM\")); 2)}}"
+          },
+          {
+            "name": "spend_latam_linkedin",
+            "value": "{{round(parseNumber(ifempty(27.costInLocalCurrency; \"0\"); \".\"); 2)}}"
+          },
+          {
+            "name": "spend_us_google",
+            "value": "{{round(sum(map(2.array; \"cost\"; \"region\"; \"US\")) + sum(map(4.array; \"cost\"; \"region\"; \"US\")) + (sum(map(2.array; \"cost\"; \"region\"; \"SPLIT\")) + sum(map(4.array; \"cost\"; \"region\"; \"SPLIT\"))) * 0.5; 2)}}"
+          },
+          {
+            "name": "spend_us_meta",
+            "value": "{{round(sum(map(6.array; \"spend\"; \"region\"; \"US\")) + sum(map(6.array; \"spend\"; \"region\"; \"SPLIT\")) * 0.5; 2)}}"
+          },
+          {
+            "name": "spend_us_linkedin",
+            "value": "{{round(parseNumber(ifempty(26.costInLocalCurrency; \"0\"); \".\") * 0.5; 2)}}"
+          },
+          {
+            "name": "spend_eu_google",
+            "value": "{{round(sum(map(2.array; \"cost\"; \"region\"; \"EU\")) + sum(map(4.array; \"cost\"; \"region\"; \"EU\")) + (sum(map(2.array; \"cost\"; \"region\"; \"SPLIT\")) + sum(map(4.array; \"cost\"; \"region\"; \"SPLIT\"))) * 0.5; 2)}}"
+          },
+          {
+            "name": "spend_eu_meta",
+            "value": "{{round(sum(map(6.array; \"spend\"; \"region\"; \"EU\")) + sum(map(6.array; \"spend\"; \"region\"; \"SPLIT\")) * 0.5; 2)}}"
+          },
+          {
+            "name": "spend_eu_linkedin",
+            "value": "{{round(parseNumber(ifempty(26.costInLocalCurrency; \"0\"); \".\") * 0.5; 2)}}"
+          },
+          {
+            "name": "leads_latam_google",
+            "value": "{{round(sum(map(2.array; \"conversions\"; \"region\"; \"LATAM\")) + sum(map(4.array; \"conversions\"; \"region\"; \"LATAM\")); 1)}}"
+          },
+          {
+            "name": "leads_latam_meta",
+            "value": "{{round(sum(map(6.array; \"leads\"; \"region\"; \"LATAM\")); 1)}}"
+          },
+          {
+            "name": "leads_latam_linkedin",
+            "value": "{{round(ifempty(27.externalWebsiteConversions; 0); 1)}}"
+          },
+          {
+            "name": "leads_us_google",
+            "value": "{{round(sum(map(2.array; \"conversions\"; \"region\"; \"US\")) + sum(map(4.array; \"conversions\"; \"region\"; \"US\")) + (sum(map(2.array; \"conversions\"; \"region\"; \"SPLIT\")) + sum(map(4.array; \"conversions\"; \"region\"; \"SPLIT\"))) * 0.5; 1)}}"
+          },
+          {
+            "name": "leads_us_meta",
+            "value": "{{round(sum(map(6.array; \"leads\"; \"region\"; \"US\")) + sum(map(6.array; \"leads\"; \"region\"; \"SPLIT\")) * 0.5; 1)}}"
+          },
+          {
+            "name": "leads_us_linkedin",
+            "value": "{{round(ifempty(26.externalWebsiteConversions; 0) * 0.5; 1)}}"
+          },
+          {
+            "name": "leads_eu_google",
+            "value": "{{round(sum(map(2.array; \"conversions\"; \"region\"; \"EU\")) + sum(map(4.array; \"conversions\"; \"region\"; \"EU\")) + (sum(map(2.array; \"conversions\"; \"region\"; \"SPLIT\")) + sum(map(4.array; \"conversions\"; \"region\"; \"SPLIT\"))) * 0.5; 1)}}"
+          },
+          {
+            "name": "leads_eu_meta",
+            "value": "{{round(sum(map(6.array; \"leads\"; \"region\"; \"EU\")) + sum(map(6.array; \"leads\"; \"region\"; \"SPLIT\")) * 0.5; 1)}}"
+          },
+          {
+            "name": "leads_eu_linkedin",
+            "value": "{{round(ifempty(26.externalWebsiteConversions; 0) * 0.5; 1)}}"
+          }
+        ]
+      },
+      "module": "util:SetVariables",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 2400,
+          "y": 0
+        }
+      },
+      "parameters": {}
+    },
+    {
+      "id": 8,
+      "mapper": {
+        "cell": "D6",
+        "from": "drive",
+        "mode": "select",
+        "value": "{{7.spend_latam_google}}",
+        "sheetId": "Pacing",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "module": "google-sheets:updateCell",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 2700,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 9,
+      "mapper": {
+        "cell": "D7",
+        "from": "drive",
+        "mode": "select",
+        "value": "{{7.spend_latam_meta}}",
+        "sheetId": "Pacing",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "module": "google-sheets:updateCell",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 3000,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 10,
+      "mapper": {
+        "cell": "D9",
+        "from": "drive",
+        "mode": "select",
+        "value": "{{7.spend_latam_linkedin}}",
+        "sheetId": "Pacing",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "module": "google-sheets:updateCell",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 3300,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 11,
+      "mapper": {
+        "cell": "D10",
+        "from": "drive",
+        "mode": "select",
+        "value": "{{7.spend_us_google}}",
+        "sheetId": "Pacing",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "module": "google-sheets:updateCell",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 3600,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 12,
+      "mapper": {
+        "cell": "D11",
+        "from": "drive",
+        "mode": "select",
+        "value": "{{7.spend_us_meta}}",
+        "sheetId": "Pacing",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "module": "google-sheets:updateCell",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 3900,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 13,
+      "mapper": {
+        "cell": "D13",
+        "from": "drive",
+        "mode": "select",
+        "value": "{{7.spend_us_linkedin}}",
+        "sheetId": "Pacing",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "module": "google-sheets:updateCell",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 4200,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 14,
+      "mapper": {
+        "cell": "D14",
+        "from": "drive",
+        "mode": "select",
+        "value": "{{7.spend_eu_google}}",
+        "sheetId": "Pacing",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "module": "google-sheets:updateCell",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 4500,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 15,
+      "mapper": {
+        "cell": "D15",
+        "from": "drive",
+        "mode": "select",
+        "value": "{{7.spend_eu_meta}}",
+        "sheetId": "Pacing",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "module": "google-sheets:updateCell",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 4800,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 16,
+      "mapper": {
+        "cell": "D17",
+        "from": "drive",
+        "mode": "select",
+        "value": "{{7.spend_eu_linkedin}}",
+        "sheetId": "Pacing",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "module": "google-sheets:updateCell",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 5100,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 17,
+      "mapper": {
+        "cell": "H6",
+        "from": "drive",
+        "mode": "select",
+        "value": "{{7.leads_latam_google}}",
+        "sheetId": "Pacing",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "module": "google-sheets:updateCell",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 5400,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 18,
+      "mapper": {
+        "cell": "H7",
+        "from": "drive",
+        "mode": "select",
+        "value": "{{7.leads_latam_meta}}",
+        "sheetId": "Pacing",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "module": "google-sheets:updateCell",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 5700,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 19,
+      "mapper": {
+        "cell": "H9",
+        "from": "drive",
+        "mode": "select",
+        "value": "{{7.leads_latam_linkedin}}",
+        "sheetId": "Pacing",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "module": "google-sheets:updateCell",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 6000,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 20,
+      "mapper": {
+        "cell": "H10",
+        "from": "drive",
+        "mode": "select",
+        "value": "{{7.leads_us_google}}",
+        "sheetId": "Pacing",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "module": "google-sheets:updateCell",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 6300,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 21,
+      "mapper": {
+        "cell": "H11",
+        "from": "drive",
+        "mode": "select",
+        "value": "{{7.leads_us_meta}}",
+        "sheetId": "Pacing",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "module": "google-sheets:updateCell",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 6600,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 22,
+      "mapper": {
+        "cell": "H13",
+        "from": "drive",
+        "mode": "select",
+        "value": "{{7.leads_us_linkedin}}",
+        "sheetId": "Pacing",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "module": "google-sheets:updateCell",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 6900,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 23,
+      "mapper": {
+        "cell": "H14",
+        "from": "drive",
+        "mode": "select",
+        "value": "{{7.leads_eu_google}}",
+        "sheetId": "Pacing",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "module": "google-sheets:updateCell",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 7200,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 24,
+      "mapper": {
+        "cell": "H15",
+        "from": "drive",
+        "mode": "select",
+        "value": "{{7.leads_eu_meta}}",
+        "sheetId": "Pacing",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "module": "google-sheets:updateCell",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 7500,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 25,
+      "mapper": {
+        "cell": "H17",
+        "from": "drive",
+        "mode": "select",
+        "value": "{{7.leads_eu_linkedin}}",
+        "sheetId": "Pacing",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "module": "google-sheets:updateCell",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 7800,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    }
+  ],
+  "name": "Pacing MTD",
+  "metadata": {
+    "instant": false,
+    "version": 1,
+    "designer": {
+      "orphans": []
+    },
+    "scenario": {
+      "dlq": false,
+      "slots": null,
+      "dataloss": false,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "roundtrips": 1,
+      "sequential": false,
+      "confidential": false,
+      "freshVariables": false,
+      "autoCommitTriggerLast": true
+    }
+  },
+  "scheduling": {
+    "time": "06:00",
+    "type": "daily"
+  },
+  "interface": {
+    "input": [],
+    "output": []
+  }
+}

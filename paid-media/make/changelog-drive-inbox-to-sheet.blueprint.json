@@ -1,0 +1,109 @@
+{
+  "flow": [
+    {
+      "id": 1,
+      "mapper": {},
+      "module": "google-drive:TriggerNewFile",
+      "version": 3,
+      "metadata": {
+        "designer": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "watch": "onlyNew",
+        "account": 0,
+        "folderId": "<DRIVE_FOLDER_ID>",
+        "mimeType": "all",
+        "maxResults": 20,
+        "formatDrawings": "image/png",
+        "formatDocuments": "text/plain",
+        "formatSpreadsheets": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "formatPresentations": "application/pdf"
+      }
+    },
+    {
+      "id": 2,
+      "mapper": {
+        "json": "{{substring(toString(1.data); indexOf(toString(1.data); \"{\"); length(toString(1.data)))}}"
+      },
+      "module": "json:ParseJSON",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 300,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "type": 0
+      }
+    },
+    {
+      "id": 3,
+      "mapper": {
+        "mode": "fromAll",
+        "values": {
+          "0": "{{2.date}}",
+          "1": "{{2.platform}}",
+          "2": "{{2.account}}",
+          "3": "{{2.campaign}}",
+          "4": "{{2.action}}",
+          "5": "{{2.detail}}",
+          "6": "{{2.reason}}",
+          "7": "{{2.expected_effect}}",
+          "8": "{{2.source}}"
+        },
+        "sheetId": "Untitled",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "includesHeaders": true,
+        "insertDataOption": "INSERT_ROWS",
+        "useColumnHeaders": false,
+        "valueInputOption": "USER_ENTERED",
+        "insertUnformatted": false
+      },
+      "module": "google-sheets:addRow",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 600,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 4,
+      "mapper": {
+        "id": "{{1.id}}"
+      },
+      "module": "google-drive:ActionTrashFile",
+      "version": 3,
+      "metadata": {
+        "designer": {
+          "x": 900,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "account": 0
+      }
+    }
+  ],
+  "name": "Changelog — Drive inbox → Google Sheet",
+  "metadata": {
+    "instant": false,
+    "version": 1
+  },
+  "scheduling": {
+    "type": "indefinitely",
+    "interval": 3600
+  },
+  "interface": {
+    "input": [],
+    "output": []
+  }
+}

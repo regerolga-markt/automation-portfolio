@@ -1,0 +1,1487 @@
+{
+  "flow": [
+    {
+      "id": 1,
+      "mapper": {
+        "qs": [],
+        "url": "spreadsheets/<SPREADSHEET_ID>/values/config!B23:B24",
+        "method": "GET",
+        "headers": []
+      },
+      "module": "google-sheets:makeAPICall",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 2,
+      "module": "builtin:BasicRouter",
+      "routes": [
+        {
+          "flow": [
+            {
+              "id": 3,
+              "mapper": {
+                "qs": [
+                  {
+                    "name": "target",
+                    "value": "client.com"
+                  },
+                  {
+                    "name": "mode",
+                    "value": "subdomains"
+                  },
+                  {
+                    "name": "country",
+                    "value": "us"
+                  },
+                  {
+                    "name": "date_from",
+                    "value": "{{formatDate(addDays(now; -70); \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "date_to",
+                    "value": "{{formatDate(now; \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "history_grouping",
+                    "value": "weekly"
+                  },
+                  {
+                    "name": "select",
+                    "value": "date,org_traffic,org_cost,paid_traffic,paid_cost"
+                  }
+                ],
+                "url": "https://api.ahrefs.com/v3/site-explorer/metrics-history",
+                "gzip": true,
+                "method": "get",
+                "headers": [
+                  {
+                    "name": "Authorization",
+                    "value": "Bearer {{1.body.values[1][1]}}"
+                  },
+                  {
+                    "name": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "useMtls": false,
+                "serializeUrl": false,
+                "shareCookies": false,
+                "parseResponse": false,
+                "followRedirect": true,
+                "useQuerystring": false,
+                "followAllRedirects": false,
+                "rejectUnauthorized": true
+              },
+              "module": "http:ActionSendData",
+              "version": 3,
+              "metadata": {
+                "designer": {
+                  "x": 600,
+                  "y": 0
+                }
+              },
+              "parameters": {
+                "handleErrors": false,
+                "useNewZLibDeCompress": true
+              }
+            },
+            {
+              "id": 4,
+              "mapper": {
+                "from": "drive",
+                "mode": "select",
+                "values": {
+                  "0": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}",
+                  "1": "seo_hist",
+                  "2": "{{3.statusCode}}",
+                  "3": "70-day window = 10 ISO weeks, page slices to 9",
+                  "4": "{{toString(3.data)}}"
+                },
+                "sheetId": "raw",
+                "spreadsheetId": "<SPREADSHEET_ID>",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "useColumnHeaders": false,
+                "valueInputOption": "RAW",
+                "insertUnformatted": false
+              },
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": 0
+                }
+              },
+              "parameters": {
+                "__IMTCONN__": 0
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 5,
+              "mapper": {
+                "qs": [
+                  {
+                    "name": "target",
+                    "value": "client.com"
+                  },
+                  {
+                    "name": "date_from",
+                    "value": "{{formatDate(addDays(now; -70); \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "date_to",
+                    "value": "{{formatDate(now; \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "history_grouping",
+                    "value": "weekly"
+                  }
+                ],
+                "url": "https://api.ahrefs.com/v3/site-explorer/domain-rating-history",
+                "gzip": true,
+                "method": "get",
+                "headers": [
+                  {
+                    "name": "Authorization",
+                    "value": "Bearer {{1.body.values[1][1]}}"
+                  },
+                  {
+                    "name": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "useMtls": false,
+                "serializeUrl": false,
+                "shareCookies": false,
+                "parseResponse": false,
+                "followRedirect": true,
+                "useQuerystring": false,
+                "followAllRedirects": false,
+                "rejectUnauthorized": true
+              },
+              "module": "http:ActionSendData",
+              "version": 3,
+              "metadata": {
+                "designer": {
+                  "x": 600,
+                  "y": 150
+                }
+              },
+              "parameters": {
+                "handleErrors": false,
+                "useNewZLibDeCompress": true
+              }
+            },
+            {
+              "id": 6,
+              "mapper": {
+                "from": "drive",
+                "mode": "select",
+                "values": {
+                  "0": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}",
+                  "1": "seo_dr",
+                  "2": "{{5.statusCode}}",
+                  "3": "",
+                  "4": "{{toString(5.data)}}"
+                },
+                "sheetId": "raw",
+                "spreadsheetId": "<SPREADSHEET_ID>",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "useColumnHeaders": false,
+                "valueInputOption": "RAW",
+                "insertUnformatted": false
+              },
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": 150
+                }
+              },
+              "parameters": {
+                "__IMTCONN__": 0
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 7,
+              "mapper": {
+                "qs": [
+                  {
+                    "name": "target",
+                    "value": "client.com"
+                  },
+                  {
+                    "name": "mode",
+                    "value": "subdomains"
+                  },
+                  {
+                    "name": "date_from",
+                    "value": "{{formatDate(addDays(now; -70); \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "date_to",
+                    "value": "{{formatDate(now; \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "history_grouping",
+                    "value": "weekly"
+                  }
+                ],
+                "url": "https://api.ahrefs.com/v3/site-explorer/refdomains-history",
+                "gzip": true,
+                "method": "get",
+                "headers": [
+                  {
+                    "name": "Authorization",
+                    "value": "Bearer {{1.body.values[1][1]}}"
+                  },
+                  {
+                    "name": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "useMtls": false,
+                "serializeUrl": false,
+                "shareCookies": false,
+                "parseResponse": false,
+                "followRedirect": true,
+                "useQuerystring": false,
+                "followAllRedirects": false,
+                "rejectUnauthorized": true
+              },
+              "module": "http:ActionSendData",
+              "version": 3,
+              "metadata": {
+                "designer": {
+                  "x": 600,
+                  "y": 300
+                }
+              },
+              "parameters": {
+                "handleErrors": false,
+                "useNewZLibDeCompress": true
+              }
+            },
+            {
+              "id": 8,
+              "mapper": {
+                "from": "drive",
+                "mode": "select",
+                "values": {
+                  "0": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}",
+                  "1": "seo_refdom",
+                  "2": "{{7.statusCode}}",
+                  "3": "",
+                  "4": "{{toString(7.data)}}"
+                },
+                "sheetId": "raw",
+                "spreadsheetId": "<SPREADSHEET_ID>",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "useColumnHeaders": false,
+                "valueInputOption": "RAW",
+                "insertUnformatted": false
+              },
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": 300
+                }
+              },
+              "parameters": {
+                "__IMTCONN__": 0
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 9,
+              "mapper": {
+                "qs": [
+                  {
+                    "name": "target",
+                    "value": "client.com"
+                  },
+                  {
+                    "name": "mode",
+                    "value": "subdomains"
+                  },
+                  {
+                    "name": "country",
+                    "value": "us"
+                  },
+                  {
+                    "name": "date",
+                    "value": "{{formatDate(now; \"YYYY-MM-DD\")}}"
+                  }
+                ],
+                "url": "https://api.ahrefs.com/v3/site-explorer/metrics",
+                "gzip": true,
+                "method": "get",
+                "headers": [
+                  {
+                    "name": "Authorization",
+                    "value": "Bearer {{1.body.values[1][1]}}"
+                  },
+                  {
+                    "name": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "useMtls": false,
+                "serializeUrl": false,
+                "shareCookies": false,
+                "parseResponse": false,
+                "followRedirect": true,
+                "useQuerystring": false,
+                "followAllRedirects": false,
+                "rejectUnauthorized": true
+              },
+              "module": "http:ActionSendData",
+              "version": 3,
+              "metadata": {
+                "designer": {
+                  "x": 600,
+                  "y": 450
+                }
+              },
+              "parameters": {
+                "handleErrors": false,
+                "useNewZLibDeCompress": true
+              }
+            },
+            {
+              "id": 10,
+              "mapper": {
+                "from": "drive",
+                "mode": "select",
+                "values": {
+                  "0": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}",
+                  "1": "seo_snapshot",
+                  "2": "{{9.statusCode}}",
+                  "3": "point-in-time keywords",
+                  "4": "{{toString(9.data)}}"
+                },
+                "sheetId": "raw",
+                "spreadsheetId": "<SPREADSHEET_ID>",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "useColumnHeaders": false,
+                "valueInputOption": "RAW",
+                "insertUnformatted": false
+              },
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": 450
+                }
+              },
+              "parameters": {
+                "__IMTCONN__": 0
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 27,
+              "mapper": {
+                "qs": [
+                  {
+                    "name": "target",
+                    "value": "client.com"
+                  },
+                  {
+                    "name": "mode",
+                    "value": "subdomains"
+                  },
+                  {
+                    "name": "country",
+                    "value": "us"
+                  },
+                  {
+                    "name": "date",
+                    "value": "{{formatDate(addDays(now; -7); \"YYYY-MM-DD\")}}"
+                  }
+                ],
+                "url": "https://api.ahrefs.com/v3/site-explorer/metrics",
+                "gzip": true,
+                "method": "get",
+                "headers": [
+                  {
+                    "name": "Authorization",
+                    "value": "Bearer {{1.body.values[1][1]}}"
+                  },
+                  {
+                    "name": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "useMtls": false,
+                "serializeUrl": false,
+                "shareCookies": false,
+                "parseResponse": false,
+                "followRedirect": true,
+                "useQuerystring": false,
+                "followAllRedirects": false,
+                "rejectUnauthorized": true
+              },
+              "module": "http:ActionSendData",
+              "version": 3,
+              "metadata": {
+                "designer": {
+                  "x": 600,
+                  "y": 1800
+                }
+              },
+              "parameters": {
+                "handleErrors": false,
+                "useNewZLibDeCompress": true
+              }
+            },
+            {
+              "id": 28,
+              "mapper": {
+                "from": "drive",
+                "mode": "select",
+                "values": {
+                  "0": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}",
+                  "1": "seo_snapshot_prev",
+                  "2": "{{27.statusCode}}",
+                  "3": "same endpoint 7 days back, for the keywords delta",
+                  "4": "{{toString(27.data)}}"
+                },
+                "sheetId": "raw",
+                "spreadsheetId": "<SPREADSHEET_ID>",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "useColumnHeaders": false,
+                "valueInputOption": "RAW",
+                "insertUnformatted": false
+              },
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": 1800
+                }
+              },
+              "parameters": {
+                "__IMTCONN__": 0
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 11,
+              "mapper": {
+                "qs": [
+                  {
+                    "name": "target",
+                    "value": "client.com"
+                  },
+                  {
+                    "name": "mode",
+                    "value": "subdomains"
+                  },
+                  {
+                    "name": "date",
+                    "value": "{{formatDate(now; \"YYYY-MM-DD\")}}"
+                  }
+                ],
+                "url": "https://api.ahrefs.com/v3/site-explorer/backlinks-stats",
+                "gzip": true,
+                "method": "get",
+                "headers": [
+                  {
+                    "name": "Authorization",
+                    "value": "Bearer {{1.body.values[1][1]}}"
+                  },
+                  {
+                    "name": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "useMtls": false,
+                "serializeUrl": false,
+                "shareCookies": false,
+                "parseResponse": false,
+                "followRedirect": true,
+                "useQuerystring": false,
+                "followAllRedirects": false,
+                "rejectUnauthorized": true
+              },
+              "module": "http:ActionSendData",
+              "version": 3,
+              "metadata": {
+                "designer": {
+                  "x": 600,
+                  "y": 600
+                }
+              },
+              "parameters": {
+                "handleErrors": false,
+                "useNewZLibDeCompress": true
+              }
+            },
+            {
+              "id": 12,
+              "mapper": {
+                "from": "drive",
+                "mode": "select",
+                "values": {
+                  "0": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}",
+                  "1": "seo_links",
+                  "2": "{{11.statusCode}}",
+                  "3": "",
+                  "4": "{{toString(11.data)}}"
+                },
+                "sheetId": "raw",
+                "spreadsheetId": "<SPREADSHEET_ID>",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "useColumnHeaders": false,
+                "valueInputOption": "RAW",
+                "insertUnformatted": false
+              },
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": 600
+                }
+              },
+              "parameters": {
+                "__IMTCONN__": 0
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 13,
+              "mapper": {
+                "qs": [
+                  {
+                    "name": "target",
+                    "value": "client.com"
+                  },
+                  {
+                    "name": "mode",
+                    "value": "subdomains"
+                  },
+                  {
+                    "name": "country",
+                    "value": "us"
+                  },
+                  {
+                    "name": "date",
+                    "value": "{{formatDate(now; \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "date_compared",
+                    "value": "{{formatDate(addDays(now; -7); \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "select",
+                    "value": "url,sum_traffic,sum_traffic_prev,keywords,top_keyword,top_keyword_best_position"
+                  },
+                  {
+                    "name": "order_by",
+                    "value": "sum_traffic:desc"
+                  },
+                  {
+                    "name": "limit",
+                    "value": "15"
+                  }
+                ],
+                "url": "https://api.ahrefs.com/v3/site-explorer/top-pages",
+                "gzip": true,
+                "method": "get",
+                "headers": [
+                  {
+                    "name": "Authorization",
+                    "value": "Bearer {{1.body.values[1][1]}}"
+                  },
+                  {
+                    "name": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "useMtls": false,
+                "serializeUrl": false,
+                "shareCookies": false,
+                "parseResponse": false,
+                "followRedirect": true,
+                "useQuerystring": false,
+                "followAllRedirects": false,
+                "rejectUnauthorized": true
+              },
+              "module": "http:ActionSendData",
+              "version": 3,
+              "metadata": {
+                "designer": {
+                  "x": 600,
+                  "y": 750
+                }
+              },
+              "parameters": {
+                "handleErrors": false,
+                "useNewZLibDeCompress": true
+              }
+            },
+            {
+              "id": 14,
+              "mapper": {
+                "from": "drive",
+                "mode": "select",
+                "values": {
+                  "0": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}",
+                  "1": "top_pages",
+                  "2": "{{13.statusCode}}",
+                  "3": "date_compared is 7 days back, so sum_traffic_prev is the 7v7 comparison",
+                  "4": "{{toString(13.data)}}"
+                },
+                "sheetId": "raw",
+                "spreadsheetId": "<SPREADSHEET_ID>",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "useColumnHeaders": false,
+                "valueInputOption": "RAW",
+                "insertUnformatted": false
+              },
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": 750
+                }
+              },
+              "parameters": {
+                "__IMTCONN__": 0
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 15,
+              "mapper": {
+                "qs": [
+                  {
+                    "name": "target",
+                    "value": "client.com"
+                  },
+                  {
+                    "name": "mode",
+                    "value": "subdomains"
+                  },
+                  {
+                    "name": "country",
+                    "value": "us"
+                  },
+                  {
+                    "name": "date",
+                    "value": "{{formatDate(now; \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "select",
+                    "value": "chatgpt,perplexity,gemini,google_ai_overviews,google_ai_mode"
+                  }
+                ],
+                "url": "https://api.ahrefs.com/v3/site-explorer/ai-responses-count",
+                "gzip": true,
+                "method": "get",
+                "headers": [
+                  {
+                    "name": "Authorization",
+                    "value": "Bearer {{1.body.values[1][1]}}"
+                  },
+                  {
+                    "name": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "useMtls": false,
+                "serializeUrl": false,
+                "shareCookies": false,
+                "parseResponse": false,
+                "followRedirect": true,
+                "useQuerystring": false,
+                "followAllRedirects": false,
+                "rejectUnauthorized": true
+              },
+              "module": "http:ActionSendData",
+              "version": 3,
+              "metadata": {
+                "designer": {
+                  "x": 600,
+                  "y": 900
+                }
+              },
+              "parameters": {
+                "handleErrors": false,
+                "useNewZLibDeCompress": true
+              }
+            },
+            {
+              "id": 16,
+              "mapper": {
+                "from": "drive",
+                "mode": "select",
+                "values": {
+                  "0": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}",
+                  "1": "aeo_citations",
+                  "2": "{{15.statusCode}}",
+                  "3": "cumulative snapshot as of today, not a 7-day flow",
+                  "4": "{{toString(15.data)}}"
+                },
+                "sheetId": "raw",
+                "spreadsheetId": "<SPREADSHEET_ID>",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "useColumnHeaders": false,
+                "valueInputOption": "RAW",
+                "insertUnformatted": false
+              },
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": 900
+                }
+              },
+              "parameters": {
+                "__IMTCONN__": 0
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 29,
+              "mapper": {
+                "qs": [
+                  {
+                    "name": "target",
+                    "value": "client.com"
+                  },
+                  {
+                    "name": "mode",
+                    "value": "subdomains"
+                  },
+                  {
+                    "name": "country",
+                    "value": "us"
+                  },
+                  {
+                    "name": "date",
+                    "value": "{{formatDate(addDays(now; -7); \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "select",
+                    "value": "chatgpt,perplexity,gemini,google_ai_overviews,google_ai_mode"
+                  }
+                ],
+                "url": "https://api.ahrefs.com/v3/site-explorer/ai-responses-count",
+                "gzip": true,
+                "method": "get",
+                "headers": [
+                  {
+                    "name": "Authorization",
+                    "value": "Bearer {{1.body.values[1][1]}}"
+                  },
+                  {
+                    "name": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "useMtls": false,
+                "serializeUrl": false,
+                "shareCookies": false,
+                "parseResponse": false,
+                "followRedirect": true,
+                "useQuerystring": false,
+                "followAllRedirects": false,
+                "rejectUnauthorized": true
+              },
+              "module": "http:ActionSendData",
+              "version": 3,
+              "metadata": {
+                "designer": {
+                  "x": 600,
+                  "y": 1950
+                }
+              },
+              "parameters": {
+                "handleErrors": false,
+                "useNewZLibDeCompress": true
+              }
+            },
+            {
+              "id": 30,
+              "mapper": {
+                "from": "drive",
+                "mode": "select",
+                "values": {
+                  "0": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}",
+                  "1": "aeo_citations_prev",
+                  "2": "{{29.statusCode}}",
+                  "3": "same snapshot 7 days back. The difference is the 7-day change, NOT citations earned in 7 days.",
+                  "4": "{{toString(29.data)}}"
+                },
+                "sheetId": "raw",
+                "spreadsheetId": "<SPREADSHEET_ID>",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "useColumnHeaders": false,
+                "valueInputOption": "RAW",
+                "insertUnformatted": false
+              },
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": 1950
+                }
+              },
+              "parameters": {
+                "__IMTCONN__": 0
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 17,
+              "mapper": {
+                "qs": [],
+                "url": "https://api.ahrefs.com/v3/brand-radar/citations-history",
+                "data": "{\"report_id\": \"<BRAND_RADAR_REPORT_ID>\", \"prompts\": \"custom\", \"date_from\": \"{{formatDate(addDays(now; -70); \\\"YYYY-MM-DD\\\")}}\", \"date_to\": \"{{formatDate(now; \\\"YYYY-MM-DD\\\")}}\", \"data_source\": [\"chatgpt\", \"perplexity\", \"gemini\", \"google_ai_overviews\", \"google_ai_mode\"], \"market\": [\"us\"], \"brands\": [{\"names\": [\"client\"], \"url_groups\": [{\"target\": \"client.com\", \"scope\": \"subdomains\"}]}]}",
+                "gzip": true,
+                "method": "post",
+                "headers": [
+                  {
+                    "name": "Authorization",
+                    "value": "Bearer {{1.body.values[1][1]}}"
+                  },
+                  {
+                    "name": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "useMtls": false,
+                "bodyType": "raw",
+                "contentType": "application/json",
+                "serializeUrl": false,
+                "shareCookies": false,
+                "parseResponse": false,
+                "followRedirect": true,
+                "useQuerystring": false,
+                "followAllRedirects": false,
+                "rejectUnauthorized": true
+              },
+              "module": "http:ActionSendData",
+              "version": 3,
+              "metadata": {
+                "designer": {
+                  "x": 600,
+                  "y": 1050
+                }
+              },
+              "parameters": {
+                "handleErrors": false,
+                "useNewZLibDeCompress": true
+              }
+            },
+            {
+              "id": 18,
+              "mapper": {
+                "from": "drive",
+                "mode": "select",
+                "values": {
+                  "0": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}",
+                  "1": "br_daily",
+                  "2": "{{17.statusCode}}",
+                  "3": "POST not GET (GET answers 405). Daily series: the 7v7 comparison is computed downstream, no extra call. Zeros before the collection start date are measured, not missing.",
+                  "4": "{{toString(17.data)}}"
+                },
+                "sheetId": "raw",
+                "spreadsheetId": "<SPREADSHEET_ID>",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "useColumnHeaders": false,
+                "valueInputOption": "RAW",
+                "insertUnformatted": false
+              },
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": 1050
+                }
+              },
+              "parameters": {
+                "__IMTCONN__": 0
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 19,
+              "mapper": {
+                "qs": [
+                  {
+                    "name": "report_id",
+                    "value": "<BRAND_RADAR_REPORT_ID>"
+                  },
+                  {
+                    "name": "prompts",
+                    "value": "custom"
+                  },
+                  {
+                    "name": "date",
+                    "value": "{{formatDate(now; \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "data_source",
+                    "value": "chatgpt,perplexity,gemini,google_ai_overviews,google_ai_mode"
+                  },
+                  {
+                    "name": "market",
+                    "value": "us"
+                  },
+                  {
+                    "name": "select",
+                    "value": "domain,responses,pages"
+                  },
+                  {
+                    "name": "limit",
+                    "value": "25"
+                  }
+                ],
+                "url": "https://api.ahrefs.com/v3/brand-radar/cited-domains",
+                "gzip": true,
+                "method": "get",
+                "headers": [
+                  {
+                    "name": "Authorization",
+                    "value": "Bearer {{1.body.values[1][1]}}"
+                  },
+                  {
+                    "name": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "useMtls": false,
+                "serializeUrl": false,
+                "shareCookies": false,
+                "parseResponse": false,
+                "followRedirect": true,
+                "useQuerystring": false,
+                "followAllRedirects": false,
+                "rejectUnauthorized": true
+              },
+              "module": "http:ActionSendData",
+              "version": 3,
+              "metadata": {
+                "designer": {
+                  "x": 600,
+                  "y": 1200
+                }
+              },
+              "parameters": {
+                "handleErrors": false,
+                "useNewZLibDeCompress": true
+              }
+            },
+            {
+              "id": 20,
+              "mapper": {
+                "from": "drive",
+                "mode": "select",
+                "values": {
+                  "0": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}",
+                  "1": "cited_domains",
+                  "2": "{{19.statusCode}}",
+                  "3": "outreach targets",
+                  "4": "{{toString(19.data)}}"
+                },
+                "sheetId": "raw",
+                "spreadsheetId": "<SPREADSHEET_ID>",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "useColumnHeaders": false,
+                "valueInputOption": "RAW",
+                "insertUnformatted": false
+              },
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": 1200
+                }
+              },
+              "parameters": {
+                "__IMTCONN__": 0
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 31,
+              "mapper": {
+                "qs": [
+                  {
+                    "name": "report_id",
+                    "value": "<BRAND_RADAR_REPORT_ID>"
+                  },
+                  {
+                    "name": "prompts",
+                    "value": "custom"
+                  },
+                  {
+                    "name": "date",
+                    "value": "{{formatDate(addDays(now; -7); \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "data_source",
+                    "value": "chatgpt,perplexity,gemini,google_ai_overviews,google_ai_mode"
+                  },
+                  {
+                    "name": "market",
+                    "value": "us"
+                  },
+                  {
+                    "name": "select",
+                    "value": "domain,responses,pages"
+                  },
+                  {
+                    "name": "limit",
+                    "value": "25"
+                  }
+                ],
+                "url": "https://api.ahrefs.com/v3/brand-radar/cited-domains",
+                "gzip": true,
+                "method": "get",
+                "headers": [
+                  {
+                    "name": "Authorization",
+                    "value": "Bearer {{1.body.values[1][1]}}"
+                  },
+                  {
+                    "name": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "useMtls": false,
+                "serializeUrl": false,
+                "shareCookies": false,
+                "parseResponse": false,
+                "followRedirect": true,
+                "useQuerystring": false,
+                "followAllRedirects": false,
+                "rejectUnauthorized": true
+              },
+              "module": "http:ActionSendData",
+              "version": 3,
+              "metadata": {
+                "designer": {
+                  "x": 600,
+                  "y": 2100
+                }
+              },
+              "parameters": {
+                "handleErrors": false,
+                "useNewZLibDeCompress": true
+              }
+            },
+            {
+              "id": 32,
+              "mapper": {
+                "from": "drive",
+                "mode": "select",
+                "values": {
+                  "0": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}",
+                  "1": "cited_domains_prev",
+                  "2": "{{31.statusCode}}",
+                  "3": "same list 7 days back, for the per-domain delta",
+                  "4": "{{toString(31.data)}}"
+                },
+                "sheetId": "raw",
+                "spreadsheetId": "<SPREADSHEET_ID>",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "useColumnHeaders": false,
+                "valueInputOption": "RAW",
+                "insertUnformatted": false
+              },
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": 2100
+                }
+              },
+              "parameters": {
+                "__IMTCONN__": 0
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 21,
+              "mapper": {
+                "qs": [
+                  {
+                    "name": "api_key",
+                    "value": "{{1.body.values[2][1]}}"
+                  },
+                  {
+                    "name": "accounts",
+                    "value": "<GOOGLE_ADS_CUSTOMER_ID>"
+                  },
+                  {
+                    "name": "date_from",
+                    "value": "{{formatDate(addDays(now; -70); \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "date_to",
+                    "value": "{{formatDate(now; \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "fields",
+                    "value": "week,campaign,spend,clicks,impressions,conversions,conversion_value"
+                  }
+                ],
+                "url": "https://connectors.windsor.ai/google_ads",
+                "gzip": true,
+                "method": "get",
+                "headers": [
+                  {
+                    "name": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "useMtls": false,
+                "serializeUrl": false,
+                "shareCookies": false,
+                "parseResponse": false,
+                "followRedirect": true,
+                "useQuerystring": false,
+                "followAllRedirects": false,
+                "rejectUnauthorized": true
+              },
+              "module": "http:ActionSendData",
+              "version": 3,
+              "metadata": {
+                "designer": {
+                  "x": 600,
+                  "y": 1350
+                }
+              },
+              "parameters": {
+                "handleErrors": false,
+                "useNewZLibDeCompress": true
+              }
+            },
+            {
+              "id": 22,
+              "mapper": {
+                "from": "drive",
+                "mode": "select",
+                "values": {
+                  "0": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}",
+                  "1": "gads_camp",
+                  "2": "{{21.statusCode}}",
+                  "3": "account-wide; scope is applied downstream from config.scope_campaigns",
+                  "4": "{{toString(21.data)}}"
+                },
+                "sheetId": "raw",
+                "spreadsheetId": "<SPREADSHEET_ID>",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "useColumnHeaders": false,
+                "valueInputOption": "RAW",
+                "insertUnformatted": false
+              },
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": 1350
+                }
+              },
+              "parameters": {
+                "__IMTCONN__": 0
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 23,
+              "mapper": {
+                "qs": [
+                  {
+                    "name": "api_key",
+                    "value": "{{1.body.values[2][1]}}"
+                  },
+                  {
+                    "name": "accounts",
+                    "value": "<GOOGLE_ADS_CUSTOMER_ID>"
+                  },
+                  {
+                    "name": "date_from",
+                    "value": "{{formatDate(addDays(now; -70); \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "date_to",
+                    "value": "{{formatDate(now; \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "fields",
+                    "value": "week,campaign,conversion_action_name,all_conversions,conversion_value"
+                  },
+                  {
+                    "name": "filter",
+                    "value": "[[\"conversion_action_name\", \"in\", \"[\\\"Paid Subscription\\\", \\\"Trial Payment - Offline Conversion Import\\\", \\\"Subscription Done - Offline Conversion Import\\\", \\\"Free Trial Start\\\"]\"]]"
+                  }
+                ],
+                "url": "https://connectors.windsor.ai/google_ads",
+                "gzip": true,
+                "method": "get",
+                "headers": [
+                  {
+                    "name": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "useMtls": false,
+                "serializeUrl": false,
+                "shareCookies": false,
+                "parseResponse": false,
+                "followRedirect": true,
+                "useQuerystring": false,
+                "followAllRedirects": false,
+                "rejectUnauthorized": true
+              },
+              "module": "http:ActionSendData",
+              "version": 3,
+              "metadata": {
+                "designer": {
+                  "x": 600,
+                  "y": 1500
+                }
+              },
+              "parameters": {
+                "handleErrors": false,
+                "useNewZLibDeCompress": true
+              }
+            },
+            {
+              "id": 24,
+              "mapper": {
+                "from": "drive",
+                "mode": "select",
+                "values": {
+                  "0": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}",
+                  "1": "gads_conv",
+                  "2": "{{23.statusCode}}",
+                  "3": "NO campaign filter: spend is account-wide, so conversions must be too, or a campaign outside the list reads as zero subscriptions instead of unknown. Check the response size against the 50k-character cell limit.",
+                  "4": "{{toString(23.data)}}"
+                },
+                "sheetId": "raw",
+                "spreadsheetId": "<SPREADSHEET_ID>",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "useColumnHeaders": false,
+                "valueInputOption": "RAW",
+                "insertUnformatted": false
+              },
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": 1500
+                }
+              },
+              "parameters": {
+                "__IMTCONN__": 0
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 25,
+              "mapper": {
+                "qs": [
+                  {
+                    "name": "api_key",
+                    "value": "{{1.body.values[2][1]}}"
+                  },
+                  {
+                    "name": "accounts",
+                    "value": "<OPENAI_ADS_ACCOUNT_ID>"
+                  },
+                  {
+                    "name": "date_from",
+                    "value": "{{formatDate(addDays(now; -70); \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "date_to",
+                    "value": "{{formatDate(now; \"YYYY-MM-DD\")}}"
+                  },
+                  {
+                    "name": "fields",
+                    "value": "date,campaign,campaign_status,spend,impressions,clicks"
+                  }
+                ],
+                "url": "https://connectors.windsor.ai/openai_ads",
+                "gzip": true,
+                "method": "get",
+                "headers": [
+                  {
+                    "name": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "useMtls": false,
+                "serializeUrl": false,
+                "shareCookies": false,
+                "parseResponse": false,
+                "followRedirect": true,
+                "useQuerystring": false,
+                "followAllRedirects": false,
+                "rejectUnauthorized": true
+              },
+              "module": "http:ActionSendData",
+              "version": 3,
+              "metadata": {
+                "designer": {
+                  "x": 600,
+                  "y": 1650
+                }
+              },
+              "parameters": {
+                "handleErrors": false,
+                "useNewZLibDeCompress": true
+              }
+            },
+            {
+              "id": 26,
+              "mapper": {
+                "from": "drive",
+                "mode": "select",
+                "values": {
+                  "0": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}",
+                  "1": "openai_ads",
+                  "2": "{{25.statusCode}}",
+                  "3": "several campaigns may be one test with a changing optimisation goal",
+                  "4": "{{toString(25.data)}}"
+                },
+                "sheetId": "raw",
+                "spreadsheetId": "<SPREADSHEET_ID>",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "useColumnHeaders": false,
+                "valueInputOption": "RAW",
+                "insertUnformatted": false
+              },
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": 1650
+                }
+              },
+              "parameters": {
+                "__IMTCONN__": 0
+              }
+            }
+          ]
+        }
+      ],
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 300,
+          "y": 0
+        }
+      }
+    }
+  ],
+  "name": "Dashboard — weekly ingest (Mon 09:00 Berlin)",
+  "metadata": {
+    "instant": false,
+    "version": 1
+  },
+  "scheduling": {
+    "days": [
+      1
+    ],
+    "time": "09:00",
+    "type": "weekly"
+  },
+  "interface": {
+    "input": [],
+    "output": []
+  }
+}

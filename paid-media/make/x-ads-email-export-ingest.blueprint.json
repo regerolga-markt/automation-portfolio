@@ -1,0 +1,1087 @@
+{
+  "flow": [
+    {
+      "id": 1,
+      "mapper": {},
+      "module": "google-email:triggerWatchNewEmails",
+      "version": 4,
+      "metadata": {
+        "restore": {
+          "parameters": {
+            "size": {
+              "nested": {
+                "unit": {
+                  "label": "MB (megabytes)"
+                },
+                "criteria": {
+                  "label": "Greater than"
+                }
+              }
+            },
+            "folder": {
+              "label": "Inbox"
+            },
+            "format": {
+              "label": "Full content"
+            },
+            "criteria": {
+              "label": "All messages"
+            },
+            "labelIds": {
+              "label": "Empty"
+            },
+            "filterType": {
+              "label": "Simple filter"
+            },
+            "__IMTCONN__": {
+              "data": {
+                "scoped": "true",
+                "connection": "google-email"
+              },
+              "label": "My Gmail connection"
+            }
+          }
+        },
+        "advanced": true,
+        "designer": {
+          "x": 0,
+          "y": 0
+        },
+        "interface": [
+          {
+            "name": "id",
+            "type": "text",
+            "label": "Message ID"
+          },
+          {
+            "name": "threadId",
+            "type": "text",
+            "label": "Thread ID"
+          },
+          {
+            "name": "internalDate",
+            "type": "date",
+            "label": "Date"
+          },
+          {
+            "name": "subject",
+            "type": "text",
+            "label": "Subject",
+            "condition": true
+          },
+          {
+            "name": "fromName",
+            "type": "text",
+            "label": "From (name)",
+            "condition": true
+          },
+          {
+            "name": "fromEmail",
+            "type": "text",
+            "label": "From (email)",
+            "condition": true
+          },
+          {
+            "name": "to",
+            "spec": {
+              "spec": [
+                {
+                  "name": "name",
+                  "type": "text",
+                  "label": "Name"
+                },
+                {
+                  "name": "email",
+                  "type": "text",
+                  "label": "Email"
+                }
+              ],
+              "type": "collection"
+            },
+            "type": "array",
+            "label": "To",
+            "condition": true
+          },
+          {
+            "name": "cc",
+            "spec": [
+              {
+                "name": "email",
+                "type": "email",
+                "label": "Email"
+              },
+              {
+                "name": "name",
+                "type": "text",
+                "label": "Name"
+              }
+            ],
+            "type": "array",
+            "label": "CC",
+            "condition": true
+          },
+          {
+            "name": "bcc",
+            "spec": [
+              {
+                "name": "email",
+                "type": "email",
+                "label": "Email"
+              },
+              {
+                "name": "name",
+                "type": "text",
+                "label": "Name"
+              }
+            ],
+            "type": "array",
+            "label": "BCC",
+            "condition": true
+          },
+          {
+            "name": "snippet",
+            "type": "text",
+            "label": "Snippet"
+          },
+          {
+            "name": "fullTextBody",
+            "type": "text",
+            "label": "Full text body",
+            "condition": true
+          },
+          {
+            "name": "htmlBody",
+            "type": "text",
+            "label": "HTML body",
+            "condition": true
+          },
+          {
+            "name": "hasAttachment",
+            "type": "boolean",
+            "label": "Has attachment",
+            "condition": true
+          },
+          {
+            "name": "hasMedia",
+            "type": "boolean",
+            "label": "Has media",
+            "condition": true
+          },
+          {
+            "name": "sysFolders",
+            "spec": [
+              {
+                "name": "id",
+                "type": "text",
+                "label": "System folder ID"
+              },
+              {
+                "name": "name",
+                "type": "text",
+                "label": "System folder name"
+              }
+            ],
+            "type": "array",
+            "label": "System folders"
+          },
+          {
+            "name": "categoryFolders",
+            "spec": [
+              {
+                "name": "id",
+                "type": "text",
+                "label": "Category folder ID"
+              },
+              {
+                "name": "name",
+                "type": "text",
+                "label": "Category folder name"
+              }
+            ],
+            "type": "array",
+            "label": "Category folders"
+          },
+          {
+            "name": "userLabelFolders",
+            "spec": [
+              {
+                "name": "id",
+                "type": "text",
+                "label": "User label folder ID"
+              },
+              {
+                "name": "name",
+                "type": "text",
+                "label": "User label folder name"
+              }
+            ],
+            "type": "array",
+            "label": "User label folders"
+          },
+          {
+            "name": "labelIds",
+            "spec": {
+              "type": "text"
+            },
+            "type": "array",
+            "label": "Message folder IDs"
+          },
+          {
+            "name": "headers",
+            "spec": [
+              {
+                "name": "Delivered-To",
+                "type": "text",
+                "label": "Delivered-To"
+              },
+              {
+                "name": "Received",
+                "type": "text",
+                "label": "Received"
+              },
+              {
+                "name": "Date",
+                "type": "text",
+                "label": "Date (header)"
+              },
+              {
+                "name": "X-Original-Sender",
+                "type": "text"
+              },
+              {
+                "name": "Reply-To",
+                "type": "text"
+              },
+              {
+                "name": "Subject",
+                "type": "text",
+                "label": "Subject"
+              },
+              {
+                "name": "From",
+                "type": "text",
+                "label": "From"
+              },
+              {
+                "name": "To",
+                "type": "text",
+                "label": "To"
+              },
+              {
+                "name": "Message-ID",
+                "type": "text",
+                "label": "Message-ID"
+              },
+              {
+                "name": "In-Reply-To",
+                "type": "text",
+                "label": "In-Reply-To"
+              }
+            ],
+            "type": "collection",
+            "label": "Headers",
+            "condition": true
+          },
+          {
+            "name": "sizeEstimate",
+            "type": "number",
+            "label": "Size estimate"
+          },
+          {
+            "name": "historyId",
+            "type": "text",
+            "label": "History ID"
+          }
+        ],
+        "parameters": [
+          {
+            "name": "__IMTCONN__",
+            "type": "account:google-email",
+            "label": "Connection",
+            "required": true
+          },
+          {
+            "name": "filterType",
+            "type": "select",
+            "label": "Filter type",
+            "required": true,
+            "validate": {
+              "enum": [
+                "simpleSearch",
+                "gmailSearch"
+              ]
+            }
+          },
+          {
+            "name": "format",
+            "type": "select",
+            "label": "Content format",
+            "required": true,
+            "validate": {
+              "enum": [
+                "full",
+                "raw",
+                "metadata",
+                "minimal"
+              ]
+            }
+          },
+          {
+            "name": "folder",
+            "type": "select",
+            "label": "Folder",
+            "required": true
+          },
+          {
+            "name": "labelIds",
+            "type": "select",
+            "label": "Label"
+          },
+          {
+            "name": "criteria",
+            "type": "select",
+            "label": "Criteria",
+            "required": true,
+            "validate": {
+              "enum": [
+                "all",
+                "is:read",
+                "is:unread"
+              ]
+            }
+          },
+          {
+            "name": "markSeen",
+            "type": "boolean",
+            "label": "Mark email message(s) as read when fetched"
+          },
+          {
+            "name": "limit",
+            "type": "uinteger",
+            "label": "Limit",
+            "required": true,
+            "validate": {
+              "max": 500
+            }
+          },
+          {
+            "name": "from",
+            "type": "email",
+            "label": "Sender email address"
+          },
+          {
+            "name": "subject",
+            "type": "text",
+            "label": "Subject"
+          },
+          {
+            "name": "includeWords",
+            "type": "text",
+            "label": "Has the words"
+          },
+          {
+            "name": "excludeWords",
+            "type": "text",
+            "label": "Doesn't have"
+          },
+          {
+            "name": "size",
+            "spec": [
+              {
+                "name": "criteria",
+                "type": "select",
+                "label": "Criteria",
+                "validate": {
+                  "enum": [
+                    "larger",
+                    "smaller"
+                  ]
+                }
+              },
+              {
+                "name": "amount",
+                "type": "integer",
+                "label": "Size",
+                "validate": {
+                  "min": 0
+                }
+              },
+              {
+                "name": "unit",
+                "type": "select",
+                "label": "Size unit",
+                "validate": {
+                  "enum": [
+                    "M",
+                    "K",
+                    "bytes"
+                  ]
+                }
+              }
+            ],
+            "type": "collection",
+            "label": "Email size"
+          },
+          {
+            "name": "hasAttachment",
+            "type": "boolean",
+            "label": "Only emails with attachments/media",
+            "required": true
+          }
+        ]
+      },
+      "parameters": {
+        "from": "<SENDER_EMAIL>",
+        "size": {
+          "unit": "M",
+          "amount": null,
+          "criteria": "larger"
+        },
+        "limit": 200,
+        "folder": "INBOX",
+        "format": "full",
+        "subject": "",
+        "criteria": "all",
+        "labelIds": "",
+        "markSeen": false,
+        "filterType": "simpleSearch",
+        "__IMTCONN__": 0,
+        "excludeWords": "",
+        "includeWords": "",
+        "hasAttachment": true
+      }
+    },
+    {
+      "id": 2,
+      "mapper": {
+        "messageId": "{{1.id}}"
+      },
+      "module": "google-email:listEmailAttachments",
+      "version": 4,
+      "metadata": {
+        "designer": {
+          "x": 300,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 11,
+      "filter": {
+        "name": "Only xlsx",
+        "conditions": [
+          [
+            {
+              "a": "{{2.mimeType}}",
+              "b": "spreadsheetml",
+              "o": "text:contain"
+            }
+          ]
+        ]
+      },
+      "mapper": {
+        "url": "/v1/users/me/messages/{{1.id}}/attachments/{{2.id}}",
+        "method": "GET",
+        "headers": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ]
+      },
+      "module": "google-email:makeAnApiCall",
+      "version": 4,
+      "metadata": {
+        "expect": [
+          {
+            "name": "url",
+            "type": "text",
+            "label": "URL",
+            "required": true
+          },
+          {
+            "name": "method",
+            "type": "select",
+            "label": "Method",
+            "required": true,
+            "validate": {
+              "enum": [
+                "GET",
+                "POST",
+                "PUT",
+                "PATCH",
+                "DELETE"
+              ]
+            }
+          },
+          {
+            "name": "headers",
+            "spec": {
+              "name": "value",
+              "spec": [
+                {
+                  "name": "key",
+                  "type": "text",
+                  "label": "Key"
+                },
+                {
+                  "name": "value",
+                  "type": "text",
+                  "label": "Value"
+                }
+              ],
+              "type": "collection",
+              "label": "Header"
+            },
+            "type": "array",
+            "label": "Headers"
+          },
+          {
+            "name": "qs",
+            "spec": {
+              "name": "value",
+              "spec": [
+                {
+                  "name": "key",
+                  "type": "text",
+                  "label": "Key"
+                },
+                {
+                  "name": "value",
+                  "type": "text",
+                  "label": "Value"
+                }
+              ],
+              "type": "collection",
+              "label": "Parameter"
+            },
+            "type": "array",
+            "label": "Query String"
+          },
+          {
+            "name": "body",
+            "type": "any",
+            "label": "Body"
+          }
+        ],
+        "restore": {
+          "expect": {
+            "qs": {
+              "mode": "chose"
+            },
+            "method": {
+              "mode": "chose",
+              "label": "GET"
+            },
+            "headers": {
+              "mode": "chose",
+              "items": [
+                null
+              ]
+            }
+          },
+          "parameters": {
+            "__IMTCONN__": {
+              "data": {
+                "scoped": "true",
+                "connection": "google-email"
+              },
+              "label": "My Gmail connection"
+            }
+          }
+        },
+        "designer": {
+          "x": 600,
+          "y": 0
+        },
+        "parameters": [
+          {
+            "name": "__IMTCONN__",
+            "type": "account:google-email",
+            "label": "Connection",
+            "required": true
+          }
+        ]
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 3,
+      "mapper": {
+        "data": "{{toBinary(11.data; \"base64\")}}",
+        "title": "{{1.id}}",
+        "convert": true,
+        "fileName": "{{2.filename}}",
+        "folderId": "/",
+        "destination": "personal"
+      },
+      "module": "google-drive:ActionUploadFile",
+      "version": 3,
+      "metadata": {
+        "expect": [
+          {
+            "name": "destination",
+            "type": "select",
+            "label": "Destination",
+            "required": true,
+            "validate": {
+              "enum": [
+                "personal",
+                "shared"
+              ]
+            }
+          },
+          {
+            "name": "folderId",
+            "type": "folder",
+            "label": "Target folder",
+            "required": true
+          },
+          {
+            "name": "fileName",
+            "type": "filename",
+            "label": "File name",
+            "required": true
+          },
+          {
+            "name": "data",
+            "type": "buffer",
+            "label": "Data",
+            "required": true
+          },
+          {
+            "name": "title",
+            "type": "text",
+            "label": "Title"
+          },
+          {
+            "name": "convert",
+            "type": "boolean",
+            "label": "Convert a file",
+            "required": true
+          }
+        ],
+        "restore": {
+          "expect": {
+            "convert": {
+              "mode": "chose"
+            },
+            "folderId": {
+              "mode": "chose",
+              "path": [
+                "/"
+              ]
+            },
+            "destination": {
+              "label": "My Drive"
+            }
+          },
+          "parameters": {
+            "account": {
+              "data": {
+                "scoped": "true",
+                "connection": "google"
+              },
+              "label": "My Google connection"
+            }
+          }
+        },
+        "advanced": true,
+        "designer": {
+          "x": 900,
+          "y": 0
+        },
+        "parameters": [
+          {
+            "name": "account",
+            "type": "account:google",
+            "label": "Connection",
+            "required": true
+          }
+        ]
+      },
+      "parameters": {
+        "account": 0
+      }
+    },
+    {
+      "id": 4,
+      "mapper": {
+        "from": "drive",
+        "limit": "100",
+        "sheetId": "Location",
+        "sortOrder": "asc",
+        "spreadsheetId": "{{3.id}}",
+        "tableFirstRow": "A1:CZ1",
+        "includesHeaders": true,
+        "valueRenderOption": "FORMATTED_VALUE",
+        "dateTimeRenderOption": "FORMATTED_STRING"
+      },
+      "module": "google-sheets:filterRows",
+      "version": 2,
+      "metadata": {
+        "expect": [
+          {
+            "name": "from",
+            "type": "select",
+            "label": "Search Method",
+            "required": true,
+            "validate": {
+              "enum": [
+                "drive",
+                "share"
+              ]
+            }
+          },
+          {
+            "name": "valueRenderOption",
+            "type": "select",
+            "label": "Value render option",
+            "validate": {
+              "enum": [
+                "FORMATTED_VALUE",
+                "UNFORMATTED_VALUE",
+                "FORMULA"
+              ]
+            }
+          },
+          {
+            "name": "dateTimeRenderOption",
+            "type": "select",
+            "label": "Date and time render option",
+            "validate": {
+              "enum": [
+                "SERIAL_NUMBER",
+                "FORMATTED_STRING"
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "type": "uinteger",
+            "label": "Limit"
+          },
+          {
+            "name": "spreadsheetId",
+            "type": "select",
+            "label": "Spreadsheet Name",
+            "required": true
+          },
+          {
+            "name": "sheetId",
+            "type": "any",
+            "label": "Sheet Name",
+            "required": true
+          },
+          {
+            "name": "includesHeaders",
+            "type": "select",
+            "label": "Table contains headers",
+            "required": true,
+            "validate": {
+              "enum": [
+                true,
+                false
+              ]
+            }
+          },
+          {
+            "name": "tableFirstRow",
+            "type": "select",
+            "label": "Column range",
+            "required": true,
+            "validate": {
+              "enum": [
+                "A1:Z1",
+                "A1:BZ1",
+                "A1:CZ1",
+                "A1:DZ1",
+                "A1:MZ1",
+                "A1:ZZ1",
+                "A1:AZZ1",
+                "A1:BZZ1",
+                "A1:CZZ1",
+                "A1:DZZ1",
+                "A1:MZZ1",
+                "A1:ZZZ1"
+              ]
+            }
+          },
+          {
+            "name": "filter",
+            "type": "filter",
+            "label": "Filter",
+            "options": "rpc://google-sheets/2/rpcGetFilterKeys?includesHeaders=true"
+          },
+          {
+            "name": "orderBy",
+            "type": "select",
+            "label": "Order by"
+          },
+          {
+            "name": "sortOrder",
+            "type": "select",
+            "label": "Sort order",
+            "validate": {
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          }
+        ],
+        "restore": {
+          "expect": {
+            "from": {
+              "label": "Select from My Drive"
+            },
+            "orderBy": {
+              "mode": "chose"
+            },
+            "sortOrder": {
+              "mode": "chose",
+              "label": "Ascending"
+            },
+            "spreadsheetId": {
+              "mode": "edit"
+            },
+            "tableFirstRow": {
+              "label": "A-CZ"
+            },
+            "includesHeaders": {
+              "mode": "chose",
+              "label": "Yes"
+            },
+            "valueRenderOption": {
+              "mode": "chose",
+              "label": "Formatted value"
+            },
+            "dateTimeRenderOption": {
+              "mode": "chose",
+              "label": "Formatted string"
+            }
+          },
+          "parameters": {
+            "__IMTCONN__": {
+              "data": {
+                "scoped": "true",
+                "connection": "google"
+              },
+              "label": "My Google connection"
+            }
+          }
+        },
+        "designer": {
+          "x": 1200,
+          "y": 0
+        },
+        "parameters": [
+          {
+            "name": "__IMTCONN__",
+            "type": "account:google",
+            "label": "Connection",
+            "required": true
+          }
+        ]
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 5,
+      "mapper": {
+        "spend": "{{parseNumber(ifempty(4.Spend; \"0\"); \".\")}}",
+        "region": "{{if(contains(\"|US|CA|\"; \"|\" + 4.Location + \"|\"); \"US\"; if(contains(\"|ES|DE|FR|NL|GB|IT|PL|IE|AT|BE|SE|DK|FI|NO|CH|PT|GR|CZ|RO|HU|\"; \"|\" + 4.Location + \"|\"); \"EU\"; if(contains(\"|BR|MX|AR|CO|CL|PE|UY|EC|VE|BO|PY|DO|GT|CR|PA|\"; \"|\" + 4.Location + \"|\"); \"LATAM\"; \"Other\")))}}",
+        "location": "{{4.Location}}"
+      },
+      "module": "builtin:BasicAggregator",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 1500,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "feeder": 4,
+        "groupBy": "",
+        "arrayName": "array"
+      }
+    },
+    {
+      "id": 6,
+      "mapper": {
+        "scope": "execution",
+        "variables": [
+          {
+            "name": "report_date",
+            "value": "{{formatDate(addDays(now; -1); \"YYYY-MM-DD\")}}"
+          },
+          {
+            "name": "us_spend",
+            "value": "{{round(sum(map(5.array; \"spend\"; \"region\"; \"US\")); 2)}}"
+          },
+          {
+            "name": "eu_spend",
+            "value": "{{round(sum(map(5.array; \"spend\"; \"region\"; \"EU\")); 2)}}"
+          },
+          {
+            "name": "latam_spend",
+            "value": "{{round(sum(map(5.array; \"spend\"; \"region\"; \"LATAM\")); 2)}}"
+          },
+          {
+            "name": "other_spend",
+            "value": "{{round(sum(map(5.array; \"spend\"; \"region\"; \"Other\")); 2)}}"
+          }
+        ]
+      },
+      "module": "util:SetVariables",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 1800,
+          "y": 0
+        }
+      },
+      "parameters": {}
+    },
+    {
+      "id": 7,
+      "mapper": {
+        "from": "drive",
+        "mode": "select",
+        "values": {
+          "0": "{{6.report_date}}",
+          "1": "US",
+          "2": "{{6.us_spend}}",
+          "3": "0"
+        },
+        "sheetId": "Twitter_Daily",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "includesHeaders": true,
+        "insertDataOption": "INSERT_ROWS",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "module": "google-sheets:addRow",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 2100,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 8,
+      "mapper": {
+        "from": "drive",
+        "mode": "select",
+        "values": {
+          "0": "{{6.report_date}}",
+          "1": "EU",
+          "2": "{{6.eu_spend}}",
+          "3": "0"
+        },
+        "sheetId": "Twitter_Daily",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "includesHeaders": true,
+        "insertDataOption": "INSERT_ROWS",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "module": "google-sheets:addRow",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 2400,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 9,
+      "mapper": {
+        "from": "drive",
+        "mode": "select",
+        "values": {
+          "0": "{{6.report_date}}",
+          "1": "LATAM",
+          "2": "{{6.latam_spend}}",
+          "3": "0"
+        },
+        "sheetId": "Twitter_Daily",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "includesHeaders": true,
+        "insertDataOption": "INSERT_ROWS",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "module": "google-sheets:addRow",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 2700,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 10,
+      "mapper": {
+        "fileId": "{{3.id}}"
+      },
+      "module": "google-drive:ActionDeleteFile",
+      "version": 3,
+      "metadata": {
+        "designer": {
+          "x": 3000,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    }
+  ],
+  "name": "X Ads Ingest",
+  "metadata": {
+    "instant": false,
+    "version": 1,
+    "designer": {
+      "orphans": []
+    },
+    "scenario": {
+      "dlq": false,
+      "slots": null,
+      "dataloss": false,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "roundtrips": 1,
+      "sequential": false,
+      "confidential": false,
+      "freshVariables": false,
+      "autoCommitTriggerLast": true
+    }
+  },
+  "scheduling": {
+    "type": "indefinitely",
+    "interval": 900
+  },
+  "interface": {
+    "input": [],
+    "output": []
+  }
+}

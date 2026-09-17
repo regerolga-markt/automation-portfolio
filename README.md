@@ -6,6 +6,8 @@ This repo collects the patterns that held up in real use across paid media, anal
 
 Everything was built for an employer or clients, so I describe how each piece works instead of sharing exports or account data. The one exception is the dashboard template: written from scratch, it runs on sample data and comes with tests.
 
+Each folder has a short write-up per automation, the Make.com blueprints behind it (`make/`) and the Claude skills I use to run it (`skills/`). Blueprints and skills are sanitized copies: keys, account IDs, sheet IDs, client names and business numbers are replaced with placeholders, so they import and read as working templates.
+
 | Folder | Patterns |
 |---|---|
 | [`paid-media/`](paid-media/) | Cross-channel spend pacing · Campaign change log |

@@ -1,0 +1,5232 @@
+{
+  "flow": [
+    {
+      "id": 2,
+      "mapper": {
+        "limit": "100",
+        "endDate": "{{formatDate(addDays(now; -1); \"YYYY-MM-DD\")}}",
+        "accountId": "<GOOGLE_ADS_ACCOUNT_ID_US>",
+        "startDate": "{{formatDate(addDays(now; -7); \"YYYY-MM-DD\")}}"
+      },
+      "module": "google-ads-reports:runCampaignReport",
+      "version": 1,
+      "metadata": {
+        "expect": [
+          {
+            "name": "accountId",
+            "type": "select",
+            "label": "Account ID",
+            "required": true
+          },
+          {
+            "name": "startDate",
+            "time": false,
+            "type": "date",
+            "label": "Start Date",
+            "required": true
+          },
+          {
+            "name": "endDate",
+            "time": false,
+            "type": "date",
+            "label": "End Date",
+            "required": true
+          },
+          {
+            "name": "limit",
+            "type": "number",
+            "label": "Limit"
+          },
+          {
+            "name": "campaignIDs",
+            "spec": {
+              "name": "value",
+              "type": "uinteger",
+              "label": "Campaign ID"
+            },
+            "type": "array",
+            "label": "Campaign IDs"
+          }
+        ],
+        "restore": {
+          "expect": {
+            "accountId": {
+              "mode": "chose",
+              "label": "Brand B2B US (<GOOGLE_ADS_ACCOUNT_ID_US>)"
+            },
+            "campaignIDs": {
+              "mode": "chose"
+            }
+          },
+          "parameters": {
+            "__IMTCONN__": 0
+          }
+        },
+        "designer": {
+          "x": 0,
+          "y": 150
+        },
+        "parameters": [
+          {
+            "name": "__IMTCONN__",
+            "type": "account:google-ads2",
+            "label": "Connection",
+            "required": true
+          }
+        ]
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 3,
+      "mapper": {
+        "cost": "{{2.metrics.cost}}",
+        "conversions": "{{2.metrics.conversions}}",
+        "costPerConv": "{{if(2.metrics.conversions > 0; 2.metrics.cost / 2.metrics.conversions; 0)}}",
+        "campaignName": "{{2.dimensions.campaignName}}"
+      },
+      "module": "builtin:BasicAggregator",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 300,
+          "y": 150
+        }
+      },
+      "parameters": {
+        "feeder": 2,
+        "groupBy": "",
+        "arrayName": "array"
+      }
+    },
+    {
+      "id": 4,
+      "mapper": {
+        "limit": "100",
+        "endDate": "{{formatDate(addDays(now; -1); \"YYYY-MM-DD\")}}",
+        "accountId": "<GOOGLE_ADS_ACCOUNT_ID_LATAM>",
+        "startDate": "{{formatDate(addDays(now; -7); \"YYYY-MM-DD\")}}"
+      },
+      "module": "google-ads-reports:runCampaignReport",
+      "version": 1,
+      "metadata": {
+        "expect": [
+          {
+            "name": "accountId",
+            "type": "select",
+            "label": "Account ID",
+            "required": true
+          },
+          {
+            "name": "startDate",
+            "time": false,
+            "type": "date",
+            "label": "Start Date",
+            "required": true
+          },
+          {
+            "name": "endDate",
+            "time": false,
+            "type": "date",
+            "label": "End Date",
+            "required": true
+          },
+          {
+            "name": "limit",
+            "type": "number",
+            "label": "Limit"
+          },
+          {
+            "name": "campaignIDs",
+            "spec": {
+              "name": "value",
+              "type": "uinteger",
+              "label": "Campaign ID"
+            },
+            "type": "array",
+            "label": "Campaign IDs"
+          }
+        ],
+        "restore": {
+          "expect": {
+            "accountId": {
+              "mode": "chose",
+              "label": "Brand B2B LATAM (<GOOGLE_ADS_ACCOUNT_ID_LATAM>)"
+            },
+            "campaignIDs": {
+              "mode": "chose"
+            }
+          },
+          "parameters": {
+            "__IMTCONN__": 0
+          }
+        },
+        "designer": {
+          "x": 600,
+          "y": 150
+        },
+        "parameters": [
+          {
+            "name": "__IMTCONN__",
+            "type": "account:google-ads2",
+            "label": "Connection",
+            "required": true
+          }
+        ]
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 5,
+      "mapper": {
+        "cost": "{{4.metrics.cost}}",
+        "conversions": "{{4.metrics.conversions}}",
+        "costPerConv": "{{if(4.metrics.conversions > 0; 4.metrics.cost / 4.metrics.conversions; 0)}}",
+        "campaignName": "{{4.dimensions.campaignName}}"
+      },
+      "module": "builtin:BasicAggregator",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 900,
+          "y": 150
+        }
+      },
+      "parameters": {
+        "feeder": 4,
+        "groupBy": "",
+        "arrayName": "array"
+      }
+    },
+    {
+      "id": 6,
+      "mapper": {
+        "limit": "100",
+        "endDate": "{{formatDate(addDays(now; -1); \"YYYY-MM-DD\")}}",
+        "accountId": "<GOOGLE_ADS_ACCOUNT_ID_B2C>",
+        "startDate": "{{formatDate(addDays(now; -7); \"YYYY-MM-DD\")}}"
+      },
+      "module": "google-ads-reports:runCampaignReport",
+      "version": 1,
+      "metadata": {
+        "expect": [
+          {
+            "name": "accountId",
+            "type": "select",
+            "label": "Account ID",
+            "required": true
+          },
+          {
+            "name": "startDate",
+            "time": false,
+            "type": "date",
+            "label": "Start Date",
+            "required": true
+          },
+          {
+            "name": "endDate",
+            "time": false,
+            "type": "date",
+            "label": "End Date",
+            "required": true
+          },
+          {
+            "name": "limit",
+            "type": "number",
+            "label": "Limit"
+          },
+          {
+            "name": "campaignIDs",
+            "spec": {
+              "name": "value",
+              "type": "uinteger",
+              "label": "Campaign ID"
+            },
+            "type": "array",
+            "label": "Campaign IDs"
+          }
+        ],
+        "restore": {
+          "expect": {
+            "accountId": {
+              "mode": "chose",
+              "label": "Brand B2C (<GOOGLE_ADS_ACCOUNT_ID_B2C>)"
+            },
+            "campaignIDs": {
+              "mode": "chose"
+            }
+          },
+          "parameters": {
+            "__IMTCONN__": 0
+          }
+        },
+        "designer": {
+          "x": 1200,
+          "y": 150
+        },
+        "parameters": [
+          {
+            "name": "__IMTCONN__",
+            "type": "account:google-ads2",
+            "label": "Connection",
+            "required": true
+          }
+        ]
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 7,
+      "mapper": {
+        "cost": "{{6.metrics.cost}}",
+        "conversions": "{{6.metrics.conversions}}",
+        "costPerConv": "{{if(6.metrics.conversions > 0; 6.metrics.cost / 6.metrics.conversions; 0)}}",
+        "campaignName": "{{6.dimensions.campaignName}}"
+      },
+      "module": "builtin:BasicAggregator",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 1500,
+          "y": 150
+        }
+      },
+      "parameters": {
+        "feeder": 6,
+        "groupBy": "",
+        "arrayName": "array"
+      }
+    },
+    {
+      "id": 8,
+      "mapper": {
+        "type": "adAccount",
+        "level": "campaign",
+        "limit": "100",
+        "fields": [
+          "account_currency",
+          "account_id",
+          "account_name",
+          "action_values",
+          "actions",
+          "ad_id",
+          "ad_name",
+          "adset_id",
+          "adset_name",
+          "buying_type",
+          "campaign_id",
+          "campaign_name",
+          "canvas_avg_view_percent",
+          "canvas_avg_view_time",
+          "clicks",
+          "conversion_rate_ranking",
+          "conversion_values",
+          "conversions",
+          "converted_product_quantity",
+          "converted_product_value",
+          "cost_per_action_type",
+          "cost_per_conversion",
+          "cost_per_estimated_ad_recallers",
+          "cost_per_inline_link_click",
+          "cost_per_inline_post_engagement",
+          "cost_per_outbound_click",
+          "cost_per_thruplay",
+          "cost_per_unique_action_type",
+          "cost_per_unique_click",
+          "cost_per_unique_inline_link_click",
+          "cost_per_unique_outbound_click",
+          "cpc",
+          "cpm",
+          "cpp",
+          "ctr",
+          "date_start",
+          "date_stop",
+          "dda_results",
+          "engagement_rate_ranking",
+          "estimated_ad_recall_rate",
+          "estimated_ad_recallers",
+          "frequency",
+          "full_view_impressions",
+          "full_view_reach",
+          "impressions",
+          "inline_link_click_ctr",
+          "inline_link_clicks",
+          "inline_post_engagement",
+          "instagram_upcoming_event_reminders_set",
+          "instant_experience_clicks_to_open",
+          "instant_experience_clicks_to_start",
+          "instant_experience_outbound_clicks",
+          "mobile_app_purchase_roas",
+          "objective",
+          "optimization_goal",
+          "outbound_clicks",
+          "outbound_clicks_ctr",
+          "purchase_roas",
+          "qualifying_question_qualify_answer_rate",
+          "quality_ranking",
+          "reach",
+          "social_spend",
+          "spend",
+          "unique_actions",
+          "unique_clicks",
+          "unique_ctr",
+          "unique_inline_link_click_ctr",
+          "unique_inline_link_clicks",
+          "unique_link_clicks_ctr",
+          "unique_outbound_clicks",
+          "unique_outbound_clicks_ctr",
+          "video_30_sec_watched_actions",
+          "video_avg_time_watched_actions",
+          "video_p100_watched_actions",
+          "video_p25_watched_actions",
+          "video_p50_watched_actions",
+          "video_p75_watched_actions",
+          "video_p95_watched_actions",
+          "video_play_actions",
+          "video_play_curve_actions",
+          "video_thruplay_watched_actions",
+          "website_ctr",
+          "website_purchase_roas"
+        ],
+        "business": "<META_BUSINESS_ID>",
+        "adAccount": "act_<META_AD_ACCOUNT_ID>",
+        "date_preset": "last_7d",
+        "specify_date": "date_preset",
+        "time_increment": "all_days"
+      },
+      "module": "facebook-insights:GetAdAccountInsights",
+      "version": 1,
+      "metadata": {
+        "expect": [
+          {
+            "name": "type",
+            "type": "select",
+            "label": "Get Insights for",
+            "required": true,
+            "validate": {
+              "enum": [
+                "campaign",
+                "adAccount",
+                "adSet",
+                "ad"
+              ]
+            }
+          },
+          {
+            "name": "specify_date",
+            "type": "select",
+            "label": "Specify Date by",
+            "validate": {
+              "enum": [
+                "date_preset",
+                "time_range",
+                "time_ranges"
+              ]
+            }
+          },
+          {
+            "name": "fields",
+            "type": "select",
+            "label": "Fields",
+            "multiple": true,
+            "required": true
+          },
+          {
+            "name": "breakdowns",
+            "type": "select",
+            "label": "Breakdowns",
+            "multiple": true
+          },
+          {
+            "name": "limit",
+            "type": "uinteger",
+            "label": "Limit",
+            "required": true
+          },
+          {
+            "name": "level",
+            "type": "select",
+            "label": "Level",
+            "validate": {
+              "enum": [
+                "ad",
+                "adset",
+                "account",
+                "campaign"
+              ]
+            }
+          },
+          {
+            "name": "product_id_limit",
+            "type": "text",
+            "label": "Product ID Limit"
+          },
+          {
+            "name": "use_account_attribution_setting",
+            "type": "boolean",
+            "label": "Use Account Attribution Setting"
+          },
+          {
+            "name": "action_attribution_windows",
+            "type": "select",
+            "label": "Action Attribution Windows",
+            "multiple": true,
+            "validate": {
+              "enum": [
+                "1d_view",
+                "7d_view",
+                "28d_view",
+                "1d_click",
+                "7d_click",
+                "28d_click",
+                "default"
+              ]
+            }
+          },
+          {
+            "name": "action_breakdowns",
+            "type": "select",
+            "label": "Action Breakdowns",
+            "multiple": true,
+            "validate": {
+              "enum": [
+                "action_device",
+                "action_canvas_component_name",
+                "action_carousel_card_id",
+                "action_carousel_card_name",
+                "action_destination",
+                "action_reaction",
+                "action_target_id",
+                "action_type",
+                "action_video_sound",
+                "action_video_type"
+              ]
+            }
+          },
+          {
+            "name": "action_report_time",
+            "type": "select",
+            "label": "Action Report Time",
+            "validate": {
+              "enum": [
+                "impression",
+                "conversion"
+              ]
+            }
+          },
+          {
+            "name": "filtering",
+            "spec": [
+              {
+                "name": "field",
+                "type": "select",
+                "label": "Field",
+                "dynamic": true,
+                "options": [],
+                "required": true
+              },
+              {
+                "name": "operator",
+                "type": "select",
+                "label": "Operator",
+                "grouped": true,
+                "options": [
+                  {
+                    "label": "String",
+                    "options": [
+                      {
+                        "label": "Equal",
+                        "value": "EQUAL"
+                      },
+                      {
+                        "label": "Not equal",
+                        "value": "NOT_EQUAL"
+                      },
+                      {
+                        "label": "Contain",
+                        "value": "CONTAIN"
+                      },
+                      {
+                        "label": "Not contain",
+                        "value": "NOT_CONTAIN"
+                      },
+                      {
+                        "label": "Starts with",
+                        "value": "STARTS_WITH"
+                      },
+                      {
+                        "label": "None",
+                        "value": "NONE"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "Number",
+                    "options": [
+                      {
+                        "label": "Equal",
+                        "value": "EQUAL"
+                      },
+                      {
+                        "label": "Not equal",
+                        "value": "NOT_EQUAL"
+                      },
+                      {
+                        "label": "Greater than",
+                        "value": "GREATER_THAN"
+                      },
+                      {
+                        "label": "Greater than or equal",
+                        "value": "GREATER_THAN_OR_EQUAL"
+                      },
+                      {
+                        "label": "Less than",
+                        "value": "LESS_THAN"
+                      },
+                      {
+                        "label": "Less than or than",
+                        "value": "LESS_THAN_OR_EQUAL"
+                      },
+                      {
+                        "label": "None",
+                        "value": "NONE"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "Array",
+                    "options": [
+                      {
+                        "label": "In",
+                        "value": "IN"
+                      },
+                      {
+                        "label": "Not in",
+                        "value": "NOT_IN"
+                      }
+                    ]
+                  }
+                ],
+                "required": true
+              },
+              {
+                "name": "value",
+                "type": "any",
+                "label": "Value"
+              }
+            ],
+            "type": "array",
+            "label": "Filter"
+          },
+          {
+            "name": "sort",
+            "spec": [
+              {
+                "name": "field",
+                "type": "select",
+                "label": "Field",
+                "dynamic": true,
+                "options": [],
+                "required": true
+              },
+              {
+                "name": "direction",
+                "type": "select",
+                "label": "Direction",
+                "options": [
+                  {
+                    "label": "Ascending",
+                    "value": "ascending",
+                    "default": true
+                  },
+                  {
+                    "label": "Descending",
+                    "value": "descending"
+                  }
+                ],
+                "required": true
+              }
+            ],
+            "type": "array",
+            "label": "Sort",
+            "validate": {
+              "maxItems": 1
+            }
+          },
+          {
+            "name": "business",
+            "type": "select",
+            "label": "Business Manager",
+            "required": true
+          },
+          {
+            "name": "adAccount",
+            "type": "select",
+            "label": "Ad Account",
+            "required": true
+          },
+          {
+            "name": "date_preset",
+            "type": "select",
+            "label": "Date Preset",
+            "validate": {
+              "enum": [
+                "today",
+                "yesterday",
+                "this_week_sun_today",
+                "this_week_mon_today",
+                "last_week_sun_sat",
+                "last_week_mon_sun",
+                "this_month",
+                "last_month",
+                "this_quarter",
+                "last_3d",
+                "last_7d",
+                "last_14d",
+                "last_28d",
+                "last_30d",
+                "last_90d",
+                "this_year",
+                "last_year",
+                "lifetime"
+              ]
+            }
+          },
+          {
+            "name": "time_increment",
+            "type": "text",
+            "label": "Time Increment"
+          }
+        ],
+        "restore": {
+          "expect": {
+            "sort": {
+              "mode": "chose"
+            },
+            "type": {
+              "mode": "chose",
+              "label": "Ad Account"
+            },
+            "level": {
+              "mode": "chose",
+              "label": "Campaign"
+            },
+            "fields": {
+              "mode": "chose",
+              "label": [
+                "Account Currency",
+                "Account ID",
+                "Account Name",
+                "Action Values",
+                "Actions",
+                "Ad ID",
+                "Ad Name",
+                "Adset ID",
+                "Adset Name",
+                "Buying Type",
+                "Campaign ID",
+                "Campaign Name",
+                "Canvas Avg View Percent",
+                "Canvas Avg View Time",
+                "Clicks",
+                "Conversion Rate Ranking",
+                "Conversion Values",
+                "Conversions",
+                "Converted Product Quantity",
+                "Converted Product Value",
+                "Cost Per Action Type",
+                "Cost Per Conversion",
+                "Cost Per Estimated Ad Recallers",
+                "Cost Per Inline Link Click",
+                "Cost Per Inline Post Engagement",
+                "Cost Per Outbound Click",
+                "Cost Per Thruplay",
+                "Cost Per Unique Action Type",
+                "Cost Per Unique Click",
+                "Cost Per Unique Inline Link Click",
+                "Cost Per Unique Outbound Click",
+                "CPC",
+                "CPM",
+                "CPP",
+                "CTR",
+                "Date Start",
+                "Date Stop",
+                "DDA Results",
+                "Engagement Rate Ranking",
+                "Estimated Ad Recall Rate",
+                "Estimated Ad Recallers",
+                "Frequency",
+                "Full View Impressions",
+                "Full View Reach",
+                "Impressions",
+                "Inline Link Click CTR",
+                "Inline Link Clicks",
+                "Inline Post Engagement",
+                "Instagram Upcoming Event Reminders Set",
+                "Instant Experience Clicks to Open",
+                "Instant Experience Clicks to Start",
+                "Instant Experience Outbound Clicks",
+                "Mobile App Purchase ROAS",
+                "Objective",
+                "Optimization Goal",
+                "Outbound Clicks",
+                "Outbound Clicks CTR",
+                "Purchase ROAS",
+                "Qualifying Question Qualify Answer Rate",
+                "Quality Ranking",
+                "Reach",
+                "Social Spend",
+                "Spend",
+                "Unique Actions",
+                "Unique Clicks",
+                "Unique CTR",
+                "Unique Inline Link Click CTR",
+                "Unique Inline Link Clicks",
+                "Unique Link Clicks CTR",
+                "Unique Outbound Clicks",
+                "Unique Outbound Clicks CTR",
+                "Video 30 Sec Watched Actions",
+                "Video Avg Time Watched Actions",
+                "Video P100 Watched Actions",
+                "Video P25 Watched Actions",
+                "Video P50 Watched Actions",
+                "Video P75 Watched Actions",
+                "Video P95 Watched Actions",
+                "Video Play Actions",
+                "Video Play Curve Actions",
+                "Video Thruplay Watched Actions",
+                "Website CTR",
+                "Website Purchase ROAS"
+              ]
+            },
+            "business": {
+              "mode": "chose",
+              "label": "brand Business Account"
+            },
+            "adAccount": {
+              "mode": "chose",
+              "label": "Brand"
+            },
+            "filtering": {
+              "mode": "chose"
+            },
+            "breakdowns": {
+              "mode": "chose"
+            },
+            "date_preset": {
+              "mode": "chose",
+              "label": "Last 7 Days"
+            },
+            "specify_date": {
+              "label": "Date Preset"
+            },
+            "action_breakdowns": {
+              "mode": "chose"
+            },
+            "action_report_time": {
+              "mode": "chose",
+              "label": "Empty"
+            },
+            "action_attribution_windows": {
+              "mode": "chose"
+            },
+            "use_account_attribution_setting": {
+              "mode": "chose"
+            }
+          },
+          "parameters": {
+            "__IMTCONN__": 0
+          }
+        },
+        "designer": {
+          "x": 1800,
+          "y": 150
+        },
+        "interface": [
+          {
+            "name": "__IMTLENGTH__",
+            "type": "uinteger",
+            "label": "Total number of bundles"
+          },
+          {
+            "name": "__IMTINDEX__",
+            "type": "uinteger",
+            "label": "Bundle order position"
+          },
+          {
+            "name": "account_currency",
+            "type": "text",
+            "label": "Account Currency"
+          },
+          {
+            "name": "account_id",
+            "type": "text",
+            "label": "Account ID"
+          },
+          {
+            "name": "account_name",
+            "type": "text",
+            "label": "Account Name"
+          },
+          {
+            "name": "action_values",
+            "type": "text",
+            "label": "Action Values"
+          },
+          {
+            "name": "actions",
+            "spec": [
+              {
+                "name": "action_type",
+                "type": "text",
+                "label": "Action type"
+              },
+              {
+                "name": "value",
+                "type": "text",
+                "label": "Value"
+              }
+            ],
+            "type": "array",
+            "label": "Actions"
+          },
+          {
+            "name": "ad_id",
+            "type": "text",
+            "label": "Ad ID"
+          },
+          {
+            "name": "ad_name",
+            "type": "text",
+            "label": "Ad Name"
+          },
+          {
+            "name": "adset_id",
+            "type": "text",
+            "label": "Adset ID"
+          },
+          {
+            "name": "adset_name",
+            "type": "text",
+            "label": "Adset Name"
+          },
+          {
+            "name": "buying_type",
+            "type": "text",
+            "label": "Buying Type"
+          },
+          {
+            "name": "campaign_id",
+            "type": "text",
+            "label": "Campaign ID"
+          },
+          {
+            "name": "campaign_name",
+            "type": "text",
+            "label": "Campaign Name"
+          },
+          {
+            "name": "canvas_avg_view_percent",
+            "type": "text",
+            "label": "Canvas Avg View Percent"
+          },
+          {
+            "name": "canvas_avg_view_time",
+            "type": "text",
+            "label": "Canvas Avg View Time"
+          },
+          {
+            "name": "clicks",
+            "type": "text",
+            "label": "Clicks"
+          },
+          {
+            "name": "conversion_rate_ranking",
+            "type": "text",
+            "label": "Conversion Rate Ranking"
+          },
+          {
+            "name": "conversion_values",
+            "type": "text",
+            "label": "Conversion Values"
+          },
+          {
+            "name": "conversions",
+            "type": "array",
+            "label": "Conversions"
+          },
+          {
+            "name": "converted_product_quantity",
+            "type": "array",
+            "label": "Converted Product Quantity"
+          },
+          {
+            "name": "converted_product_value",
+            "type": "array",
+            "label": "Converted Product Value"
+          },
+          {
+            "name": "cost_per_action_type",
+            "type": "array",
+            "label": "Cost Per Action Type"
+          },
+          {
+            "name": "cost_per_conversion",
+            "type": "text",
+            "label": "Cost Per Conversion"
+          },
+          {
+            "name": "cost_per_estimated_ad_recallers",
+            "type": "text",
+            "label": "Cost Per Estimated Ad Recallers"
+          },
+          {
+            "name": "cost_per_inline_link_click",
+            "type": "text",
+            "label": "Cost Per Inline Link Click"
+          },
+          {
+            "name": "cost_per_inline_post_engagement",
+            "type": "text",
+            "label": "Cost Per Inline Post Engagement"
+          },
+          {
+            "name": "cost_per_outbound_click",
+            "type": "text",
+            "label": "Cost Per Outbound Click"
+          },
+          {
+            "name": "cost_per_thruplay",
+            "type": "text",
+            "label": "Cost Per Thruplay"
+          },
+          {
+            "name": "cost_per_unique_action_type",
+            "type": "text",
+            "label": "Cost Per Unique Action Type"
+          },
+          {
+            "name": "cost_per_unique_click",
+            "type": "text",
+            "label": "Cost Per Unique Click"
+          },
+          {
+            "name": "cost_per_unique_inline_link_click",
+            "type": "text",
+            "label": "Cost Per Unique Inline Link Click"
+          },
+          {
+            "name": "cost_per_unique_outbound_click",
+            "type": "text",
+            "label": "Cost Per Unique Outbound Click"
+          },
+          {
+            "name": "cpc",
+            "type": "text",
+            "label": "CPC"
+          },
+          {
+            "name": "cpm",
+            "type": "text",
+            "label": "CPM"
+          },
+          {
+            "name": "cpp",
+            "type": "text",
+            "label": "CPP"
+          },
+          {
+            "name": "ctr",
+            "type": "text",
+            "label": "CTR"
+          },
+          {
+            "name": "date_start",
+            "type": "text",
+            "label": "Date Start"
+          },
+          {
+            "name": "date_stop",
+            "type": "text",
+            "label": "Date Stop"
+          },
+          {
+            "name": "dda_results",
+            "type": "array",
+            "label": "DDA Results"
+          },
+          {
+            "name": "engagement_rate_ranking",
+            "type": "text",
+            "label": "Engagement Rate Ranking"
+          },
+          {
+            "name": "estimated_ad_recall_rate",
+            "type": "text",
+            "label": "Estimated Ad Recall Rate"
+          },
+          {
+            "name": "estimated_ad_recallers",
+            "type": "text",
+            "label": "Estimated Ad Recallers"
+          },
+          {
+            "name": "frequency",
+            "type": "text",
+            "label": "Frequency"
+          },
+          {
+            "name": "full_view_impressions",
+            "type": "text",
+            "label": "Full View Impressions"
+          },
+          {
+            "name": "full_view_reach",
+            "type": "text",
+            "label": "Full View Reach"
+          },
+          {
+            "name": "impressions",
+            "type": "text",
+            "label": "Impressions"
+          },
+          {
+            "name": "inline_link_click_ctr",
+            "type": "text",
+            "label": "Inline Link Click CTR"
+          },
+          {
+            "name": "inline_link_clicks",
+            "type": "text",
+            "label": "Inline Link Clicks"
+          },
+          {
+            "name": "inline_post_engagement",
+            "type": "text",
+            "label": "Inline Post Engagement"
+          },
+          {
+            "name": "instagram_upcoming_event_reminders_set",
+            "type": "text",
+            "label": "Instagram Upcoming Event Reminders Set"
+          },
+          {
+            "name": "instant_experience_clicks_to_open",
+            "type": "text",
+            "label": "Instant Experience Clicks to Open"
+          },
+          {
+            "name": "instant_experience_clicks_to_start",
+            "type": "text",
+            "label": "Instant Experience Clicks to Start"
+          },
+          {
+            "name": "instant_experience_outbound_clicks",
+            "type": "text",
+            "label": "Instant Experience Outbound Clicks"
+          },
+          {
+            "name": "mobile_app_purchase_roas",
+            "type": "text",
+            "label": "Mobile App Purchase ROAS"
+          },
+          {
+            "name": "objective",
+            "type": "text",
+            "label": "Objective"
+          },
+          {
+            "name": "optimization_goal",
+            "type": "text",
+            "label": "Optimization Goal"
+          },
+          {
+            "name": "outbound_clicks",
+            "type": "text",
+            "label": "Outbound Clicks"
+          },
+          {
+            "name": "outbound_clicks_ctr",
+            "type": "text",
+            "label": "Outbound Clicks CTR"
+          },
+          {
+            "name": "purchase_roas",
+            "type": "text",
+            "label": "Purchase ROAS"
+          },
+          {
+            "name": "qualifying_question_qualify_answer_rate",
+            "type": "text",
+            "label": "Qualifying Question Qualify Answer Rate"
+          },
+          {
+            "name": "quality_ranking",
+            "type": "text",
+            "label": "Quality Ranking"
+          },
+          {
+            "name": "reach",
+            "type": "text",
+            "label": "Reach"
+          },
+          {
+            "name": "social_spend",
+            "type": "text",
+            "label": "Social Spend"
+          },
+          {
+            "name": "spend",
+            "type": "text",
+            "label": "Spend"
+          },
+          {
+            "name": "unique_actions",
+            "spec": [
+              {
+                "name": "action_type",
+                "type": "text",
+                "label": "Action type"
+              },
+              {
+                "name": "value",
+                "type": "text",
+                "label": "Value"
+              }
+            ],
+            "type": "array",
+            "label": "Unique Actions"
+          },
+          {
+            "name": "unique_clicks",
+            "type": "text",
+            "label": "Unique Clicks"
+          },
+          {
+            "name": "unique_ctr",
+            "type": "text",
+            "label": "Unique CTR"
+          },
+          {
+            "name": "unique_inline_link_click_ctr",
+            "type": "text",
+            "label": "Unique Inline Link Click CTR"
+          },
+          {
+            "name": "unique_inline_link_clicks",
+            "type": "text",
+            "label": "Unique Inline Link Clicks"
+          },
+          {
+            "name": "unique_link_clicks_ctr",
+            "type": "text",
+            "label": "Unique Link Clicks CTR"
+          },
+          {
+            "name": "unique_outbound_clicks",
+            "type": "text",
+            "label": "Unique Outbound Clicks"
+          },
+          {
+            "name": "unique_outbound_clicks_ctr",
+            "type": "text",
+            "label": "Unique Outbound Clicks CTR"
+          },
+          {
+            "name": "video_30_sec_watched_actions",
+            "type": "text",
+            "label": "Video 30 Sec Watched Actions"
+          },
+          {
+            "name": "video_avg_time_watched_actions",
+            "type": "text",
+            "label": "Video Avg Time Watched Actions"
+          },
+          {
+            "name": "video_p100_watched_actions",
+            "type": "text",
+            "label": "Video P100 Watched Actions"
+          },
+          {
+            "name": "video_p25_watched_actions",
+            "type": "text",
+            "label": "Video P25 Watched Actions"
+          },
+          {
+            "name": "video_p50_watched_actions",
+            "type": "text",
+            "label": "Video P50 Watched Actions"
+          },
+          {
+            "name": "video_p75_watched_actions",
+            "type": "text",
+            "label": "Video P75 Watched Actions"
+          },
+          {
+            "name": "video_p95_watched_actions",
+            "type": "text",
+            "label": "Video P95 Watched Actions"
+          },
+          {
+            "name": "video_play_actions",
+            "type": "text",
+            "label": "Video Play Actions"
+          },
+          {
+            "name": "video_play_curve_actions",
+            "type": "text",
+            "label": "Video Play Curve Actions"
+          },
+          {
+            "name": "video_thruplay_watched_actions",
+            "type": "text",
+            "label": "Video Thruplay Watched Actions"
+          },
+          {
+            "name": "website_ctr",
+            "type": "text",
+            "label": "Website CTR"
+          },
+          {
+            "name": "website_purchase_roas",
+            "type": "text",
+            "label": "Website Purchase ROAS"
+          }
+        ],
+        "parameters": [
+          {
+            "name": "__IMTCONN__",
+            "type": "account:facebook",
+            "label": "Connection",
+            "required": true
+          }
+        ]
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 9,
+      "mapper": {
+        "spend": "{{8.spend}}",
+        "conversions": "{{first(map(8.conversions; \"value\"))}}",
+        "costPerConv": "{{first(map(8.cost_per_conversion; \"value\"))}}",
+        "campaignName": "{{8.campaign_name}}"
+      },
+      "module": "builtin:BasicAggregator",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 2100,
+          "y": 150
+        }
+      },
+      "parameters": {
+        "feeder": 8,
+        "groupBy": "",
+        "arrayName": "array"
+      }
+    },
+    {
+      "id": 10,
+      "mapper": {
+        "type": "adAccount",
+        "level": "account",
+        "limit": "10",
+        "fields": [
+          "account_currency",
+          "account_id",
+          "account_name",
+          "action_values",
+          "actions",
+          "ad_id",
+          "ad_name",
+          "adset_id",
+          "adset_name",
+          "buying_type",
+          "campaign_id",
+          "campaign_name",
+          "canvas_avg_view_percent",
+          "canvas_avg_view_time",
+          "clicks",
+          "conversion_rate_ranking",
+          "conversion_values",
+          "conversions",
+          "converted_product_quantity",
+          "converted_product_value",
+          "cost_per_action_type",
+          "cost_per_conversion",
+          "cost_per_estimated_ad_recallers",
+          "cost_per_inline_link_click",
+          "cost_per_inline_post_engagement",
+          "cost_per_outbound_click",
+          "cost_per_thruplay",
+          "cost_per_unique_action_type",
+          "cost_per_unique_click",
+          "cost_per_unique_inline_link_click",
+          "cost_per_unique_outbound_click",
+          "cpc",
+          "cpm",
+          "cpp",
+          "ctr",
+          "date_start",
+          "date_stop",
+          "dda_results",
+          "engagement_rate_ranking",
+          "estimated_ad_recall_rate",
+          "estimated_ad_recallers",
+          "frequency",
+          "full_view_impressions",
+          "full_view_reach",
+          "impressions",
+          "inline_link_click_ctr",
+          "inline_link_clicks",
+          "inline_post_engagement",
+          "instagram_upcoming_event_reminders_set",
+          "instant_experience_clicks_to_open",
+          "instant_experience_clicks_to_start",
+          "instant_experience_outbound_clicks",
+          "mobile_app_purchase_roas",
+          "objective",
+          "optimization_goal",
+          "outbound_clicks",
+          "outbound_clicks_ctr",
+          "purchase_roas",
+          "qualifying_question_qualify_answer_rate",
+          "quality_ranking",
+          "reach",
+          "social_spend",
+          "spend",
+          "unique_actions",
+          "unique_clicks",
+          "unique_ctr",
+          "unique_inline_link_click_ctr",
+          "unique_inline_link_clicks",
+          "unique_link_clicks_ctr",
+          "unique_outbound_clicks",
+          "unique_outbound_clicks_ctr",
+          "video_30_sec_watched_actions",
+          "video_avg_time_watched_actions",
+          "video_p100_watched_actions",
+          "video_p25_watched_actions",
+          "video_p50_watched_actions",
+          "video_p75_watched_actions",
+          "video_p95_watched_actions",
+          "video_play_actions",
+          "video_play_curve_actions",
+          "video_thruplay_watched_actions",
+          "website_ctr",
+          "website_purchase_roas"
+        ],
+        "business": "<META_BUSINESS_ID>",
+        "adAccount": "act_<META_AD_ACCOUNT_ID>",
+        "date_preset": "last_28d",
+        "specify_date": "date_preset",
+        "time_increment": "7"
+      },
+      "module": "facebook-insights:GetAdAccountInsights",
+      "version": 1,
+      "metadata": {
+        "expect": [
+          {
+            "name": "type",
+            "type": "select",
+            "label": "Get Insights for",
+            "required": true,
+            "validate": {
+              "enum": [
+                "campaign",
+                "adAccount",
+                "adSet",
+                "ad"
+              ]
+            }
+          },
+          {
+            "name": "specify_date",
+            "type": "select",
+            "label": "Specify Date by",
+            "validate": {
+              "enum": [
+                "date_preset",
+                "time_range",
+                "time_ranges"
+              ]
+            }
+          },
+          {
+            "name": "fields",
+            "type": "select",
+            "label": "Fields",
+            "multiple": true,
+            "required": true
+          },
+          {
+            "name": "breakdowns",
+            "type": "select",
+            "label": "Breakdowns",
+            "multiple": true
+          },
+          {
+            "name": "limit",
+            "type": "uinteger",
+            "label": "Limit",
+            "required": true
+          },
+          {
+            "name": "level",
+            "type": "select",
+            "label": "Level",
+            "validate": {
+              "enum": [
+                "ad",
+                "adset",
+                "account",
+                "campaign"
+              ]
+            }
+          },
+          {
+            "name": "product_id_limit",
+            "type": "text",
+            "label": "Product ID Limit"
+          },
+          {
+            "name": "use_account_attribution_setting",
+            "type": "boolean",
+            "label": "Use Account Attribution Setting"
+          },
+          {
+            "name": "action_attribution_windows",
+            "type": "select",
+            "label": "Action Attribution Windows",
+            "multiple": true,
+            "validate": {
+              "enum": [
+                "1d_view",
+                "7d_view",
+                "28d_view",
+                "1d_click",
+                "7d_click",
+                "28d_click",
+                "default"
+              ]
+            }
+          },
+          {
+            "name": "action_breakdowns",
+            "type": "select",
+            "label": "Action Breakdowns",
+            "multiple": true,
+            "validate": {
+              "enum": [
+                "action_device",
+                "action_canvas_component_name",
+                "action_carousel_card_id",
+                "action_carousel_card_name",
+                "action_destination",
+                "action_reaction",
+                "action_target_id",
+                "action_type",
+                "action_video_sound",
+                "action_video_type"
+              ]
+            }
+          },
+          {
+            "name": "action_report_time",
+            "type": "select",
+            "label": "Action Report Time",
+            "validate": {
+              "enum": [
+                "impression",
+                "conversion"
+              ]
+            }
+          },
+          {
+            "name": "filtering",
+            "spec": [
+              {
+                "name": "field",
+                "type": "select",
+                "label": "Field",
+                "dynamic": true,
+                "options": [],
+                "required": true
+              },
+              {
+                "name": "operator",
+                "type": "select",
+                "label": "Operator",
+                "grouped": true,
+                "options": [
+                  {
+                    "label": "String",
+                    "options": [
+                      {
+                        "label": "Equal",
+                        "value": "EQUAL"
+                      },
+                      {
+                        "label": "Not equal",
+                        "value": "NOT_EQUAL"
+                      },
+                      {
+                        "label": "Contain",
+                        "value": "CONTAIN"
+                      },
+                      {
+                        "label": "Not contain",
+                        "value": "NOT_CONTAIN"
+                      },
+                      {
+                        "label": "Starts with",
+                        "value": "STARTS_WITH"
+                      },
+                      {
+                        "label": "None",
+                        "value": "NONE"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "Number",
+                    "options": [
+                      {
+                        "label": "Equal",
+                        "value": "EQUAL"
+                      },
+                      {
+                        "label": "Not equal",
+                        "value": "NOT_EQUAL"
+                      },
+                      {
+                        "label": "Greater than",
+                        "value": "GREATER_THAN"
+                      },
+                      {
+                        "label": "Greater than or equal",
+                        "value": "GREATER_THAN_OR_EQUAL"
+                      },
+                      {
+                        "label": "Less than",
+                        "value": "LESS_THAN"
+                      },
+                      {
+                        "label": "Less than or than",
+                        "value": "LESS_THAN_OR_EQUAL"
+                      },
+                      {
+                        "label": "None",
+                        "value": "NONE"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "Array",
+                    "options": [
+                      {
+                        "label": "In",
+                        "value": "IN"
+                      },
+                      {
+                        "label": "Not in",
+                        "value": "NOT_IN"
+                      }
+                    ]
+                  }
+                ],
+                "required": true
+              },
+              {
+                "name": "value",
+                "type": "any",
+                "label": "Value"
+              }
+            ],
+            "type": "array",
+            "label": "Filter"
+          },
+          {
+            "name": "sort",
+            "spec": [
+              {
+                "name": "field",
+                "type": "select",
+                "label": "Field",
+                "dynamic": true,
+                "options": [],
+                "required": true
+              },
+              {
+                "name": "direction",
+                "type": "select",
+                "label": "Direction",
+                "options": [
+                  {
+                    "label": "Ascending",
+                    "value": "ascending",
+                    "default": true
+                  },
+                  {
+                    "label": "Descending",
+                    "value": "descending"
+                  }
+                ],
+                "required": true
+              }
+            ],
+            "type": "array",
+            "label": "Sort",
+            "validate": {
+              "maxItems": 1
+            }
+          },
+          {
+            "name": "business",
+            "type": "select",
+            "label": "Business Manager",
+            "required": true
+          },
+          {
+            "name": "adAccount",
+            "type": "select",
+            "label": "Ad Account",
+            "required": true
+          },
+          {
+            "name": "date_preset",
+            "type": "select",
+            "label": "Date Preset",
+            "validate": {
+              "enum": [
+                "today",
+                "yesterday",
+                "this_week_sun_today",
+                "this_week_mon_today",
+                "last_week_sun_sat",
+                "last_week_mon_sun",
+                "this_month",
+                "last_month",
+                "this_quarter",
+                "last_3d",
+                "last_7d",
+                "last_14d",
+                "last_28d",
+                "last_30d",
+                "last_90d",
+                "this_year",
+                "last_year",
+                "lifetime"
+              ]
+            }
+          },
+          {
+            "name": "time_increment",
+            "type": "text",
+            "label": "Time Increment"
+          }
+        ],
+        "restore": {
+          "expect": {
+            "sort": {
+              "mode": "chose"
+            },
+            "type": {
+              "mode": "chose",
+              "label": "Ad Account"
+            },
+            "level": {
+              "mode": "chose",
+              "label": "Account"
+            },
+            "fields": {
+              "mode": "chose",
+              "label": [
+                "Account Currency",
+                "Account ID",
+                "Account Name",
+                "Action Values",
+                "Actions",
+                "Ad ID",
+                "Ad Name",
+                "Adset ID",
+                "Adset Name",
+                "Buying Type",
+                "Campaign ID",
+                "Campaign Name",
+                "Canvas Avg View Percent",
+                "Canvas Avg View Time",
+                "Clicks",
+                "Conversion Rate Ranking",
+                "Conversion Values",
+                "Conversions",
+                "Converted Product Quantity",
+                "Converted Product Value",
+                "Cost Per Action Type",
+                "Cost Per Conversion",
+                "Cost Per Estimated Ad Recallers",
+                "Cost Per Inline Link Click",
+                "Cost Per Inline Post Engagement",
+                "Cost Per Outbound Click",
+                "Cost Per Thruplay",
+                "Cost Per Unique Action Type",
+                "Cost Per Unique Click",
+                "Cost Per Unique Inline Link Click",
+                "Cost Per Unique Outbound Click",
+                "CPC",
+                "CPM",
+                "CPP",
+                "CTR",
+                "Date Start",
+                "Date Stop",
+                "DDA Results",
+                "Engagement Rate Ranking",
+                "Estimated Ad Recall Rate",
+                "Estimated Ad Recallers",
+                "Frequency",
+                "Full View Impressions",
+                "Full View Reach",
+                "Impressions",
+                "Inline Link Click CTR",
+                "Inline Link Clicks",
+                "Inline Post Engagement",
+                "Instagram Upcoming Event Reminders Set",
+                "Instant Experience Clicks to Open",
+                "Instant Experience Clicks to Start",
+                "Instant Experience Outbound Clicks",
+                "Mobile App Purchase ROAS",
+                "Objective",
+                "Optimization Goal",
+                "Outbound Clicks",
+                "Outbound Clicks CTR",
+                "Purchase ROAS",
+                "Qualifying Question Qualify Answer Rate",
+                "Quality Ranking",
+                "Reach",
+                "Social Spend",
+                "Spend",
+                "Unique Actions",
+                "Unique Clicks",
+                "Unique CTR",
+                "Unique Inline Link Click CTR",
+                "Unique Inline Link Clicks",
+                "Unique Link Clicks CTR",
+                "Unique Outbound Clicks",
+                "Unique Outbound Clicks CTR",
+                "Video 30 Sec Watched Actions",
+                "Video Avg Time Watched Actions",
+                "Video P100 Watched Actions",
+                "Video P25 Watched Actions",
+                "Video P50 Watched Actions",
+                "Video P75 Watched Actions",
+                "Video P95 Watched Actions",
+                "Video Play Actions",
+                "Video Play Curve Actions",
+                "Video Thruplay Watched Actions",
+                "Website CTR",
+                "Website Purchase ROAS"
+              ]
+            },
+            "business": {
+              "mode": "chose",
+              "label": "brand Business Account"
+            },
+            "adAccount": {
+              "mode": "chose",
+              "label": "Brand"
+            },
+            "filtering": {
+              "mode": "chose"
+            },
+            "breakdowns": {
+              "mode": "chose"
+            },
+            "date_preset": {
+              "mode": "chose",
+              "label": "Last 28 Days"
+            },
+            "specify_date": {
+              "label": "Date Preset"
+            },
+            "action_breakdowns": {
+              "mode": "chose"
+            },
+            "action_report_time": {
+              "mode": "chose",
+              "label": "Empty"
+            },
+            "action_attribution_windows": {
+              "mode": "chose"
+            },
+            "use_account_attribution_setting": {
+              "mode": "chose"
+            }
+          },
+          "parameters": {
+            "__IMTCONN__": 0
+          }
+        },
+        "designer": {
+          "x": 2400,
+          "y": 150
+        },
+        "interface": [
+          {
+            "name": "__IMTLENGTH__",
+            "type": "uinteger",
+            "label": "Total number of bundles"
+          },
+          {
+            "name": "__IMTINDEX__",
+            "type": "uinteger",
+            "label": "Bundle order position"
+          },
+          {
+            "name": "account_currency",
+            "type": "text",
+            "label": "Account Currency"
+          },
+          {
+            "name": "account_id",
+            "type": "text",
+            "label": "Account ID"
+          },
+          {
+            "name": "account_name",
+            "type": "text",
+            "label": "Account Name"
+          },
+          {
+            "name": "action_values",
+            "type": "text",
+            "label": "Action Values"
+          },
+          {
+            "name": "actions",
+            "spec": [
+              {
+                "name": "action_type",
+                "type": "text",
+                "label": "Action type"
+              },
+              {
+                "name": "value",
+                "type": "text",
+                "label": "Value"
+              }
+            ],
+            "type": "array",
+            "label": "Actions"
+          },
+          {
+            "name": "ad_id",
+            "type": "text",
+            "label": "Ad ID"
+          },
+          {
+            "name": "ad_name",
+            "type": "text",
+            "label": "Ad Name"
+          },
+          {
+            "name": "adset_id",
+            "type": "text",
+            "label": "Adset ID"
+          },
+          {
+            "name": "adset_name",
+            "type": "text",
+            "label": "Adset Name"
+          },
+          {
+            "name": "buying_type",
+            "type": "text",
+            "label": "Buying Type"
+          },
+          {
+            "name": "campaign_id",
+            "type": "text",
+            "label": "Campaign ID"
+          },
+          {
+            "name": "campaign_name",
+            "type": "text",
+            "label": "Campaign Name"
+          },
+          {
+            "name": "canvas_avg_view_percent",
+            "type": "text",
+            "label": "Canvas Avg View Percent"
+          },
+          {
+            "name": "canvas_avg_view_time",
+            "type": "text",
+            "label": "Canvas Avg View Time"
+          },
+          {
+            "name": "clicks",
+            "type": "text",
+            "label": "Clicks"
+          },
+          {
+            "name": "conversion_rate_ranking",
+            "type": "text",
+            "label": "Conversion Rate Ranking"
+          },
+          {
+            "name": "conversion_values",
+            "type": "text",
+            "label": "Conversion Values"
+          },
+          {
+            "name": "conversions",
+            "type": "array",
+            "label": "Conversions"
+          },
+          {
+            "name": "converted_product_quantity",
+            "type": "array",
+            "label": "Converted Product Quantity"
+          },
+          {
+            "name": "converted_product_value",
+            "type": "array",
+            "label": "Converted Product Value"
+          },
+          {
+            "name": "cost_per_action_type",
+            "type": "array",
+            "label": "Cost Per Action Type"
+          },
+          {
+            "name": "cost_per_conversion",
+            "type": "text",
+            "label": "Cost Per Conversion"
+          },
+          {
+            "name": "cost_per_estimated_ad_recallers",
+            "type": "text",
+            "label": "Cost Per Estimated Ad Recallers"
+          },
+          {
+            "name": "cost_per_inline_link_click",
+            "type": "text",
+            "label": "Cost Per Inline Link Click"
+          },
+          {
+            "name": "cost_per_inline_post_engagement",
+            "type": "text",
+            "label": "Cost Per Inline Post Engagement"
+          },
+          {
+            "name": "cost_per_outbound_click",
+            "type": "text",
+            "label": "Cost Per Outbound Click"
+          },
+          {
+            "name": "cost_per_thruplay",
+            "type": "text",
+            "label": "Cost Per Thruplay"
+          },
+          {
+            "name": "cost_per_unique_action_type",
+            "type": "text",
+            "label": "Cost Per Unique Action Type"
+          },
+          {
+            "name": "cost_per_unique_click",
+            "type": "text",
+            "label": "Cost Per Unique Click"
+          },
+          {
+            "name": "cost_per_unique_inline_link_click",
+            "type": "text",
+            "label": "Cost Per Unique Inline Link Click"
+          },
+          {
+            "name": "cost_per_unique_outbound_click",
+            "type": "text",
+            "label": "Cost Per Unique Outbound Click"
+          },
+          {
+            "name": "cpc",
+            "type": "text",
+            "label": "CPC"
+          },
+          {
+            "name": "cpm",
+            "type": "text",
+            "label": "CPM"
+          },
+          {
+            "name": "cpp",
+            "type": "text",
+            "label": "CPP"
+          },
+          {
+            "name": "ctr",
+            "type": "text",
+            "label": "CTR"
+          },
+          {
+            "name": "date_start",
+            "type": "text",
+            "label": "Date Start"
+          },
+          {
+            "name": "date_stop",
+            "type": "text",
+            "label": "Date Stop"
+          },
+          {
+            "name": "dda_results",
+            "type": "array",
+            "label": "DDA Results"
+          },
+          {
+            "name": "engagement_rate_ranking",
+            "type": "text",
+            "label": "Engagement Rate Ranking"
+          },
+          {
+            "name": "estimated_ad_recall_rate",
+            "type": "text",
+            "label": "Estimated Ad Recall Rate"
+          },
+          {
+            "name": "estimated_ad_recallers",
+            "type": "text",
+            "label": "Estimated Ad Recallers"
+          },
+          {
+            "name": "frequency",
+            "type": "text",
+            "label": "Frequency"
+          },
+          {
+            "name": "full_view_impressions",
+            "type": "text",
+            "label": "Full View Impressions"
+          },
+          {
+            "name": "full_view_reach",
+            "type": "text",
+            "label": "Full View Reach"
+          },
+          {
+            "name": "impressions",
+            "type": "text",
+            "label": "Impressions"
+          },
+          {
+            "name": "inline_link_click_ctr",
+            "type": "text",
+            "label": "Inline Link Click CTR"
+          },
+          {
+            "name": "inline_link_clicks",
+            "type": "text",
+            "label": "Inline Link Clicks"
+          },
+          {
+            "name": "inline_post_engagement",
+            "type": "text",
+            "label": "Inline Post Engagement"
+          },
+          {
+            "name": "instagram_upcoming_event_reminders_set",
+            "type": "text",
+            "label": "Instagram Upcoming Event Reminders Set"
+          },
+          {
+            "name": "instant_experience_clicks_to_open",
+            "type": "text",
+            "label": "Instant Experience Clicks to Open"
+          },
+          {
+            "name": "instant_experience_clicks_to_start",
+            "type": "text",
+            "label": "Instant Experience Clicks to Start"
+          },
+          {
+            "name": "instant_experience_outbound_clicks",
+            "type": "text",
+            "label": "Instant Experience Outbound Clicks"
+          },
+          {
+            "name": "mobile_app_purchase_roas",
+            "type": "text",
+            "label": "Mobile App Purchase ROAS"
+          },
+          {
+            "name": "objective",
+            "type": "text",
+            "label": "Objective"
+          },
+          {
+            "name": "optimization_goal",
+            "type": "text",
+            "label": "Optimization Goal"
+          },
+          {
+            "name": "outbound_clicks",
+            "type": "text",
+            "label": "Outbound Clicks"
+          },
+          {
+            "name": "outbound_clicks_ctr",
+            "type": "text",
+            "label": "Outbound Clicks CTR"
+          },
+          {
+            "name": "purchase_roas",
+            "type": "text",
+            "label": "Purchase ROAS"
+          },
+          {
+            "name": "qualifying_question_qualify_answer_rate",
+            "type": "text",
+            "label": "Qualifying Question Qualify Answer Rate"
+          },
+          {
+            "name": "quality_ranking",
+            "type": "text",
+            "label": "Quality Ranking"
+          },
+          {
+            "name": "reach",
+            "type": "text",
+            "label": "Reach"
+          },
+          {
+            "name": "social_spend",
+            "type": "text",
+            "label": "Social Spend"
+          },
+          {
+            "name": "spend",
+            "type": "text",
+            "label": "Spend"
+          },
+          {
+            "name": "unique_actions",
+            "spec": [
+              {
+                "name": "action_type",
+                "type": "text",
+                "label": "Action type"
+              },
+              {
+                "name": "value",
+                "type": "text",
+                "label": "Value"
+              }
+            ],
+            "type": "array",
+            "label": "Unique Actions"
+          },
+          {
+            "name": "unique_clicks",
+            "type": "text",
+            "label": "Unique Clicks"
+          },
+          {
+            "name": "unique_ctr",
+            "type": "text",
+            "label": "Unique CTR"
+          },
+          {
+            "name": "unique_inline_link_click_ctr",
+            "type": "text",
+            "label": "Unique Inline Link Click CTR"
+          },
+          {
+            "name": "unique_inline_link_clicks",
+            "type": "text",
+            "label": "Unique Inline Link Clicks"
+          },
+          {
+            "name": "unique_link_clicks_ctr",
+            "type": "text",
+            "label": "Unique Link Clicks CTR"
+          },
+          {
+            "name": "unique_outbound_clicks",
+            "type": "text",
+            "label": "Unique Outbound Clicks"
+          },
+          {
+            "name": "unique_outbound_clicks_ctr",
+            "type": "text",
+            "label": "Unique Outbound Clicks CTR"
+          },
+          {
+            "name": "video_30_sec_watched_actions",
+            "type": "text",
+            "label": "Video 30 Sec Watched Actions"
+          },
+          {
+            "name": "video_avg_time_watched_actions",
+            "type": "text",
+            "label": "Video Avg Time Watched Actions"
+          },
+          {
+            "name": "video_p100_watched_actions",
+            "type": "text",
+            "label": "Video P100 Watched Actions"
+          },
+          {
+            "name": "video_p25_watched_actions",
+            "type": "text",
+            "label": "Video P25 Watched Actions"
+          },
+          {
+            "name": "video_p50_watched_actions",
+            "type": "text",
+            "label": "Video P50 Watched Actions"
+          },
+          {
+            "name": "video_p75_watched_actions",
+            "type": "text",
+            "label": "Video P75 Watched Actions"
+          },
+          {
+            "name": "video_p95_watched_actions",
+            "type": "text",
+            "label": "Video P95 Watched Actions"
+          },
+          {
+            "name": "video_play_actions",
+            "type": "text",
+            "label": "Video Play Actions"
+          },
+          {
+            "name": "video_play_curve_actions",
+            "type": "text",
+            "label": "Video Play Curve Actions"
+          },
+          {
+            "name": "video_thruplay_watched_actions",
+            "type": "text",
+            "label": "Video Thruplay Watched Actions"
+          },
+          {
+            "name": "website_ctr",
+            "type": "text",
+            "label": "Website CTR"
+          },
+          {
+            "name": "website_purchase_roas",
+            "type": "text",
+            "label": "Website Purchase ROAS"
+          }
+        ],
+        "parameters": [
+          {
+            "name": "__IMTCONN__",
+            "type": "account:facebook",
+            "label": "Connection",
+            "required": true
+          }
+        ]
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 11,
+      "mapper": {
+        "spend": "{{10.spend}}",
+        "dateStop": "{{10.date_stop}}",
+        "dateStart": "{{10.date_start}}",
+        "conversions": "{{first(map(10.conversions; \"value\"))}}"
+      },
+      "module": "builtin:BasicAggregator",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 2700,
+          "y": 150
+        }
+      },
+      "parameters": {
+        "feeder": 10,
+        "groupBy": "",
+        "arrayName": "array"
+      }
+    },
+    {
+      "id": 22,
+      "mapper": {
+        "limit": "1",
+        "fields": [
+          "costInLocalCurrency"
+        ],
+        "pivots": [
+          "ACCOUNT"
+        ],
+        "endDate": "{{formatDate(addDays(now; -1); \"YYYY-MM-DD\")}}",
+        "accounts": [
+          "urn:li:sponsoredAccount:<LINKEDIN_ACCOUNT_ID_EN>"
+        ],
+        "startDate": "{{formatDate(addDays(now; -7); \"YYYY-MM-DD\")}}",
+        "timeGranularity": "ALL"
+      },
+      "module": "linkedin-ads-reports:generateAdStatisticsReport",
+      "version": 1,
+      "metadata": {
+        "expect": [
+          {
+            "name": "pivots",
+            "type": "select",
+            "label": "Pivots",
+            "multiple": true,
+            "required": true,
+            "validate": {
+              "enum": [
+                "COMPANY",
+                "ACCOUNT",
+                "SHARE",
+                "CAMPAIGN",
+                "CONVERSION",
+                "CREATIVE",
+                "CAMPAIGN_GROUP",
+                "CONVERSATION_NODE",
+                "CONVERSATION_NODE_OPTION_INDEX",
+                "SERVING_LOCATION",
+                "OBJECTIVE_TYPE",
+                "CARD_INDEX",
+                "IMPRESSION_DEVICE_TYPE",
+                "EVENT_STAGE"
+              ]
+            }
+          },
+          {
+            "name": "accounts",
+            "spec": {
+              "name": "value",
+              "type": "select",
+              "label": "Account URN",
+              "dynamic": true,
+              "options": [],
+              "required": true
+            },
+            "type": "array",
+            "label": "Accounts"
+          },
+          {
+            "name": "campaigns",
+            "spec": {
+              "rpc": {
+                "url": "rpc://linkedin-ads-reports/1/listCampaigns?format=urn",
+                "label": "Search",
+                "parameters": [
+                  {
+                    "name": "account",
+                    "spec": {
+                      "type": "integer"
+                    },
+                    "type": "select",
+                    "label": "Ad Account ID",
+                    "options": "rpc://linkedin-ads-reports/1/listAdAccounts",
+                    "required": true
+                  }
+                ]
+              },
+              "name": "value",
+              "type": "text",
+              "label": "Campaign URN",
+              "required": true
+            },
+            "type": "array",
+            "label": "Campaigns"
+          },
+          {
+            "name": "timeGranularity",
+            "type": "select",
+            "label": "Time Granularity",
+            "required": true,
+            "validate": {
+              "enum": [
+                "ALL",
+                "DAILY",
+                "MONTHLY",
+                "YEARLY"
+              ]
+            }
+          },
+          {
+            "name": "fields",
+            "type": "select",
+            "label": "Fields",
+            "multiple": true,
+            "required": true,
+            "validate": {
+              "maxItems": 18
+            }
+          },
+          {
+            "name": "startDate",
+            "type": "date",
+            "label": "Start Date",
+            "required": true
+          },
+          {
+            "name": "endDate",
+            "type": "date",
+            "label": "End Date"
+          },
+          {
+            "name": "objectiveType",
+            "type": "select",
+            "label": "Objective Type",
+            "validate": {
+              "enum": [
+                "LEAD_GENERATION",
+                "CREATIVE_ENGAGEMENT",
+                "WEBSITE_TRAFFIC",
+                "VIDEO_VIEW",
+                "BRAND_AWARENESS",
+                "WEBSITE_CONVERSION",
+                "WEBSITE_VISIT",
+                "ENGAGEMENT",
+                "JOB_APPLICANT"
+              ]
+            }
+          },
+          {
+            "name": "campaignType",
+            "type": "select",
+            "label": "Campaign Type",
+            "validate": {
+              "enum": [
+                "TEXT_AD",
+                "SPONSORED_UPDATES",
+                "SPONSORED_INMAILS",
+                "DYNAMIC"
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "type": "uinteger",
+            "label": "Limit"
+          }
+        ],
+        "restore": {
+          "expect": {
+            "fields": {
+              "mode": "chose"
+            },
+            "pivots": {
+              "mode": "chose"
+            },
+            "accounts": {
+              "mode": "chose",
+              "items": [
+                {
+                  "value": {
+                    "mode": "chose",
+                    "label": "Brand  (ACTIVE)"
+                  }
+                }
+              ]
+            },
+            "campaigns": {
+              "mode": "chose"
+            },
+            "campaignType": {
+              "mode": "chose",
+              "label": "Empty"
+            },
+            "objectiveType": {
+              "mode": "chose",
+              "label": "Empty"
+            },
+            "timeGranularity": {
+              "mode": "chose",
+              "label": "All"
+            }
+          },
+          "parameters": {
+            "__IMTCONN__": 0
+          }
+        },
+        "designer": {
+          "x": 3000,
+          "y": 150
+        },
+        "interface": [
+          {
+            "name": "__IMTLENGTH__",
+            "type": "uinteger",
+            "label": "Total number of bundles"
+          },
+          {
+            "name": "__IMTINDEX__",
+            "type": "uinteger",
+            "label": "Bundle order position"
+          },
+          {
+            "name": "startDate",
+            "type": "date",
+            "label": "Start Date"
+          },
+          {
+            "name": "endDate",
+            "type": "date",
+            "label": "End Date"
+          },
+          {
+            "name": "pivotValues",
+            "spec": [
+              {
+                "name": "urn",
+                "type": "text",
+                "label": "URN"
+              }
+            ],
+            "type": "array",
+            "label": "Pivot Values"
+          },
+          {
+            "name": "costInLocalCurrency",
+            "type": "number",
+            "label": "Cost In Local Currency"
+          }
+        ],
+        "parameters": [
+          {
+            "name": "__IMTCONN__",
+            "type": "account:linkedin2,linkedin-openid",
+            "label": "Connection",
+            "required": true
+          }
+        ]
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 23,
+      "mapper": {
+        "limit": "1",
+        "fields": [
+          "externalWebsiteConversions"
+        ],
+        "pivots": [
+          "ACCOUNT"
+        ],
+        "endDate": "{{formatDate(addDays(now; -1); \"YYYY-MM-DD\")}}",
+        "accounts": [
+          "urn:li:sponsoredAccount:<LINKEDIN_ACCOUNT_ID_EN>"
+        ],
+        "startDate": "{{formatDate(addDays(now; -7); \"YYYY-MM-DD\")}}",
+        "timeGranularity": "ALL"
+      },
+      "module": "linkedin-ads-reports:generateAdStatisticsReport",
+      "version": 1,
+      "metadata": {
+        "expect": [
+          {
+            "name": "pivots",
+            "type": "select",
+            "label": "Pivots",
+            "multiple": true,
+            "required": true,
+            "validate": {
+              "enum": [
+                "COMPANY",
+                "ACCOUNT",
+                "SHARE",
+                "CAMPAIGN",
+                "CONVERSION",
+                "CREATIVE",
+                "CAMPAIGN_GROUP",
+                "CONVERSATION_NODE",
+                "CONVERSATION_NODE_OPTION_INDEX",
+                "SERVING_LOCATION",
+                "OBJECTIVE_TYPE",
+                "CARD_INDEX",
+                "IMPRESSION_DEVICE_TYPE",
+                "EVENT_STAGE"
+              ]
+            }
+          },
+          {
+            "name": "accounts",
+            "spec": {
+              "name": "value",
+              "type": "select",
+              "label": "Account URN",
+              "dynamic": true,
+              "options": [],
+              "required": true
+            },
+            "type": "array",
+            "label": "Accounts"
+          },
+          {
+            "name": "campaigns",
+            "spec": {
+              "rpc": {
+                "url": "rpc://linkedin-ads-reports/1/listCampaigns?format=urn",
+                "label": "Search",
+                "parameters": [
+                  {
+                    "name": "account",
+                    "spec": {
+                      "type": "integer"
+                    },
+                    "type": "select",
+                    "label": "Ad Account ID",
+                    "options": "rpc://linkedin-ads-reports/1/listAdAccounts",
+                    "required": true
+                  }
+                ]
+              },
+              "name": "value",
+              "type": "text",
+              "label": "Campaign URN",
+              "required": true
+            },
+            "type": "array",
+            "label": "Campaigns"
+          },
+          {
+            "name": "timeGranularity",
+            "type": "select",
+            "label": "Time Granularity",
+            "required": true,
+            "validate": {
+              "enum": [
+                "ALL",
+                "DAILY",
+                "MONTHLY",
+                "YEARLY"
+              ]
+            }
+          },
+          {
+            "name": "fields",
+            "type": "select",
+            "label": "Fields",
+            "multiple": true,
+            "required": true,
+            "validate": {
+              "maxItems": 18
+            }
+          },
+          {
+            "name": "startDate",
+            "type": "date",
+            "label": "Start Date",
+            "required": true
+          },
+          {
+            "name": "endDate",
+            "type": "date",
+            "label": "End Date"
+          },
+          {
+            "name": "objectiveType",
+            "type": "select",
+            "label": "Objective Type",
+            "validate": {
+              "enum": [
+                "LEAD_GENERATION",
+                "CREATIVE_ENGAGEMENT",
+                "WEBSITE_TRAFFIC",
+                "VIDEO_VIEW",
+                "BRAND_AWARENESS",
+                "WEBSITE_CONVERSION",
+                "WEBSITE_VISIT",
+                "ENGAGEMENT",
+                "JOB_APPLICANT"
+              ]
+            }
+          },
+          {
+            "name": "campaignType",
+            "type": "select",
+            "label": "Campaign Type",
+            "validate": {
+              "enum": [
+                "TEXT_AD",
+                "SPONSORED_UPDATES",
+                "SPONSORED_INMAILS",
+                "DYNAMIC"
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "type": "uinteger",
+            "label": "Limit"
+          }
+        ],
+        "restore": {
+          "expect": {
+            "fields": {
+              "mode": "chose"
+            },
+            "pivots": {
+              "mode": "chose"
+            },
+            "accounts": {
+              "mode": "chose",
+              "items": [
+                {
+                  "value": {
+                    "mode": "chose",
+                    "label": "Brand  (ACTIVE)"
+                  }
+                }
+              ]
+            },
+            "campaigns": {
+              "mode": "chose"
+            },
+            "campaignType": {
+              "mode": "chose",
+              "label": "Empty"
+            },
+            "objectiveType": {
+              "mode": "chose",
+              "label": "Empty"
+            },
+            "timeGranularity": {
+              "mode": "chose",
+              "label": "All"
+            }
+          },
+          "parameters": {
+            "__IMTCONN__": 0
+          }
+        },
+        "designer": {
+          "x": 3300,
+          "y": 150
+        },
+        "interface": [
+          {
+            "name": "__IMTLENGTH__",
+            "type": "uinteger",
+            "label": "Total number of bundles"
+          },
+          {
+            "name": "__IMTINDEX__",
+            "type": "uinteger",
+            "label": "Bundle order position"
+          },
+          {
+            "name": "startDate",
+            "type": "date",
+            "label": "Start Date"
+          },
+          {
+            "name": "endDate",
+            "type": "date",
+            "label": "End Date"
+          },
+          {
+            "name": "pivotValues",
+            "spec": [
+              {
+                "name": "urn",
+                "type": "text",
+                "label": "URN"
+              }
+            ],
+            "type": "array",
+            "label": "Pivot Values"
+          },
+          {
+            "name": "externalWebsiteConversions",
+            "type": "number",
+            "label": "External Website Conversions"
+          }
+        ],
+        "parameters": [
+          {
+            "name": "__IMTCONN__",
+            "type": "account:linkedin2,linkedin-openid",
+            "label": "Connection",
+            "required": true
+          }
+        ]
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 24,
+      "mapper": {
+        "limit": "1",
+        "fields": [
+          "costInLocalCurrency"
+        ],
+        "pivots": [
+          "ACCOUNT"
+        ],
+        "endDate": "{{formatDate(addDays(now; -1); \"YYYY-MM-DD\")}}",
+        "accounts": [
+          "urn:li:sponsoredAccount:<LINKEDIN_ACCOUNT_ID_LATAM>"
+        ],
+        "startDate": "{{formatDate(addDays(now; -7); \"YYYY-MM-DD\")}}",
+        "timeGranularity": "ALL"
+      },
+      "module": "linkedin-ads-reports:generateAdStatisticsReport",
+      "version": 1,
+      "metadata": {
+        "expect": [
+          {
+            "name": "pivots",
+            "type": "select",
+            "label": "Pivots",
+            "multiple": true,
+            "required": true,
+            "validate": {
+              "enum": [
+                "COMPANY",
+                "ACCOUNT",
+                "SHARE",
+                "CAMPAIGN",
+                "CONVERSION",
+                "CREATIVE",
+                "CAMPAIGN_GROUP",
+                "CONVERSATION_NODE",
+                "CONVERSATION_NODE_OPTION_INDEX",
+                "SERVING_LOCATION",
+                "OBJECTIVE_TYPE",
+                "CARD_INDEX",
+                "IMPRESSION_DEVICE_TYPE",
+                "EVENT_STAGE"
+              ]
+            }
+          },
+          {
+            "name": "accounts",
+            "spec": {
+              "name": "value",
+              "type": "select",
+              "label": "Account URN",
+              "dynamic": true,
+              "options": [],
+              "required": true
+            },
+            "type": "array",
+            "label": "Accounts"
+          },
+          {
+            "name": "campaigns",
+            "spec": {
+              "rpc": {
+                "url": "rpc://linkedin-ads-reports/1/listCampaigns?format=urn",
+                "label": "Search",
+                "parameters": [
+                  {
+                    "name": "account",
+                    "spec": {
+                      "type": "integer"
+                    },
+                    "type": "select",
+                    "label": "Ad Account ID",
+                    "options": "rpc://linkedin-ads-reports/1/listAdAccounts",
+                    "required": true
+                  }
+                ]
+              },
+              "name": "value",
+              "type": "text",
+              "label": "Campaign URN",
+              "required": true
+            },
+            "type": "array",
+            "label": "Campaigns"
+          },
+          {
+            "name": "timeGranularity",
+            "type": "select",
+            "label": "Time Granularity",
+            "required": true,
+            "validate": {
+              "enum": [
+                "ALL",
+                "DAILY",
+                "MONTHLY",
+                "YEARLY"
+              ]
+            }
+          },
+          {
+            "name": "fields",
+            "type": "select",
+            "label": "Fields",
+            "multiple": true,
+            "required": true,
+            "validate": {
+              "maxItems": 18
+            }
+          },
+          {
+            "name": "startDate",
+            "type": "date",
+            "label": "Start Date",
+            "required": true
+          },
+          {
+            "name": "endDate",
+            "type": "date",
+            "label": "End Date"
+          },
+          {
+            "name": "objectiveType",
+            "type": "select",
+            "label": "Objective Type",
+            "validate": {
+              "enum": [
+                "LEAD_GENERATION",
+                "CREATIVE_ENGAGEMENT",
+                "WEBSITE_TRAFFIC",
+                "VIDEO_VIEW",
+                "BRAND_AWARENESS",
+                "WEBSITE_CONVERSION",
+                "WEBSITE_VISIT",
+                "ENGAGEMENT",
+                "JOB_APPLICANT"
+              ]
+            }
+          },
+          {
+            "name": "campaignType",
+            "type": "select",
+            "label": "Campaign Type",
+            "validate": {
+              "enum": [
+                "TEXT_AD",
+                "SPONSORED_UPDATES",
+                "SPONSORED_INMAILS",
+                "DYNAMIC"
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "type": "uinteger",
+            "label": "Limit"
+          }
+        ],
+        "restore": {
+          "expect": {
+            "fields": {
+              "mode": "chose"
+            },
+            "pivots": {
+              "mode": "chose"
+            },
+            "accounts": {
+              "mode": "chose",
+              "items": [
+                {
+                  "value": {
+                    "mode": "chose",
+                    "label": "Brand Latam (ACTIVE)"
+                  }
+                }
+              ]
+            },
+            "campaigns": {
+              "mode": "chose"
+            },
+            "campaignType": {
+              "mode": "chose",
+              "label": "Empty"
+            },
+            "objectiveType": {
+              "mode": "chose",
+              "label": "Empty"
+            },
+            "timeGranularity": {
+              "mode": "chose",
+              "label": "All"
+            }
+          },
+          "parameters": {
+            "__IMTCONN__": 0
+          }
+        },
+        "designer": {
+          "x": 3600,
+          "y": 150
+        },
+        "interface": [
+          {
+            "name": "__IMTLENGTH__",
+            "type": "uinteger",
+            "label": "Total number of bundles"
+          },
+          {
+            "name": "__IMTINDEX__",
+            "type": "uinteger",
+            "label": "Bundle order position"
+          },
+          {
+            "name": "startDate",
+            "type": "date",
+            "label": "Start Date"
+          },
+          {
+            "name": "endDate",
+            "type": "date",
+            "label": "End Date"
+          },
+          {
+            "name": "pivotValues",
+            "spec": [
+              {
+                "name": "urn",
+                "type": "text",
+                "label": "URN"
+              }
+            ],
+            "type": "array",
+            "label": "Pivot Values"
+          },
+          {
+            "name": "costInLocalCurrency",
+            "type": "number",
+            "label": "Cost In Local Currency"
+          }
+        ],
+        "parameters": [
+          {
+            "name": "__IMTCONN__",
+            "type": "account:linkedin2,linkedin-openid",
+            "label": "Connection",
+            "required": true
+          }
+        ]
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 25,
+      "mapper": {
+        "limit": "1",
+        "fields": [
+          "externalWebsiteConversions"
+        ],
+        "pivots": [
+          "ACCOUNT"
+        ],
+        "endDate": "{{formatDate(addDays(now; -1); \"YYYY-MM-DD\")}}",
+        "accounts": [
+          "urn:li:sponsoredAccount:<LINKEDIN_ACCOUNT_ID_LATAM>"
+        ],
+        "startDate": "{{formatDate(addDays(now; -7); \"YYYY-MM-DD\")}}",
+        "timeGranularity": "ALL"
+      },
+      "module": "linkedin-ads-reports:generateAdStatisticsReport",
+      "version": 1,
+      "metadata": {
+        "expect": [
+          {
+            "name": "pivots",
+            "type": "select",
+            "label": "Pivots",
+            "multiple": true,
+            "required": true,
+            "validate": {
+              "enum": [
+                "COMPANY",
+                "ACCOUNT",
+                "SHARE",
+                "CAMPAIGN",
+                "CONVERSION",
+                "CREATIVE",
+                "CAMPAIGN_GROUP",
+                "CONVERSATION_NODE",
+                "CONVERSATION_NODE_OPTION_INDEX",
+                "SERVING_LOCATION",
+                "OBJECTIVE_TYPE",
+                "CARD_INDEX",
+                "IMPRESSION_DEVICE_TYPE",
+                "EVENT_STAGE"
+              ]
+            }
+          },
+          {
+            "name": "accounts",
+            "spec": {
+              "name": "value",
+              "type": "select",
+              "label": "Account URN",
+              "dynamic": true,
+              "options": [],
+              "required": true
+            },
+            "type": "array",
+            "label": "Accounts"
+          },
+          {
+            "name": "campaigns",
+            "spec": {
+              "rpc": {
+                "url": "rpc://linkedin-ads-reports/1/listCampaigns?format=urn",
+                "label": "Search",
+                "parameters": [
+                  {
+                    "name": "account",
+                    "spec": {
+                      "type": "integer"
+                    },
+                    "type": "select",
+                    "label": "Ad Account ID",
+                    "options": "rpc://linkedin-ads-reports/1/listAdAccounts",
+                    "required": true
+                  }
+                ]
+              },
+              "name": "value",
+              "type": "text",
+              "label": "Campaign URN",
+              "required": true
+            },
+            "type": "array",
+            "label": "Campaigns"
+          },
+          {
+            "name": "timeGranularity",
+            "type": "select",
+            "label": "Time Granularity",
+            "required": true,
+            "validate": {
+              "enum": [
+                "ALL",
+                "DAILY",
+                "MONTHLY",
+                "YEARLY"
+              ]
+            }
+          },
+          {
+            "name": "fields",
+            "type": "select",
+            "label": "Fields",
+            "multiple": true,
+            "required": true,
+            "validate": {
+              "maxItems": 18
+            }
+          },
+          {
+            "name": "startDate",
+            "type": "date",
+            "label": "Start Date",
+            "required": true
+          },
+          {
+            "name": "endDate",
+            "type": "date",
+            "label": "End Date"
+          },
+          {
+            "name": "objectiveType",
+            "type": "select",
+            "label": "Objective Type",
+            "validate": {
+              "enum": [
+                "LEAD_GENERATION",
+                "CREATIVE_ENGAGEMENT",
+                "WEBSITE_TRAFFIC",
+                "VIDEO_VIEW",
+                "BRAND_AWARENESS",
+                "WEBSITE_CONVERSION",
+                "WEBSITE_VISIT",
+                "ENGAGEMENT",
+                "JOB_APPLICANT"
+              ]
+            }
+          },
+          {
+            "name": "campaignType",
+            "type": "select",
+            "label": "Campaign Type",
+            "validate": {
+              "enum": [
+                "TEXT_AD",
+                "SPONSORED_UPDATES",
+                "SPONSORED_INMAILS",
+                "DYNAMIC"
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "type": "uinteger",
+            "label": "Limit"
+          }
+        ],
+        "restore": {
+          "expect": {
+            "fields": {
+              "mode": "chose"
+            },
+            "pivots": {
+              "mode": "chose"
+            },
+            "accounts": {
+              "mode": "chose",
+              "items": [
+                {
+                  "value": {
+                    "mode": "chose",
+                    "label": "Brand Latam (ACTIVE)"
+                  }
+                }
+              ]
+            },
+            "campaigns": {
+              "mode": "chose"
+            },
+            "campaignType": {
+              "mode": "chose",
+              "label": "Empty"
+            },
+            "objectiveType": {
+              "mode": "chose",
+              "label": "Empty"
+            },
+            "timeGranularity": {
+              "mode": "chose",
+              "label": "All"
+            }
+          },
+          "parameters": {
+            "__IMTCONN__": 0
+          }
+        },
+        "designer": {
+          "x": 3900,
+          "y": 150
+        },
+        "interface": [
+          {
+            "name": "__IMTLENGTH__",
+            "type": "uinteger",
+            "label": "Total number of bundles"
+          },
+          {
+            "name": "__IMTINDEX__",
+            "type": "uinteger",
+            "label": "Bundle order position"
+          },
+          {
+            "name": "startDate",
+            "type": "date",
+            "label": "Start Date"
+          },
+          {
+            "name": "endDate",
+            "type": "date",
+            "label": "End Date"
+          },
+          {
+            "name": "pivotValues",
+            "spec": [
+              {
+                "name": "urn",
+                "type": "text",
+                "label": "URN"
+              }
+            ],
+            "type": "array",
+            "label": "Pivot Values"
+          },
+          {
+            "name": "externalWebsiteConversions",
+            "type": "number",
+            "label": "External Website Conversions"
+          }
+        ],
+        "parameters": [
+          {
+            "name": "__IMTCONN__",
+            "type": "account:linkedin2,linkedin-openid",
+            "label": "Connection",
+            "required": true
+          }
+        ]
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 12,
+      "mapper": {
+        "scope": "execution",
+        "variables": [
+          {
+            "name": "s_gads_cost",
+            "value": "{{round(sum(map(3.array; \"cost\")) + sum(map(5.array; \"cost\")) + sum(map(7.array; \"cost\")); 2)}}"
+          },
+          {
+            "name": "s_gads_conv",
+            "value": "{{round(sum(map(3.array; \"conversions\")) + sum(map(5.array; \"conversions\")) + sum(map(7.array; \"conversions\")); 1)}}"
+          },
+          {
+            "name": "s_gads_cpc",
+            "value": "{{round(if(sum(map(3.array; \"conversions\")) + sum(map(5.array; \"conversions\")) + sum(map(7.array; \"conversions\")) > 0; (sum(map(3.array; \"cost\")) + sum(map(5.array; \"cost\")) + sum(map(7.array; \"cost\"))) / (sum(map(3.array; \"conversions\")) + sum(map(5.array; \"conversions\")) + sum(map(7.array; \"conversions\"))); 0); 2)}}"
+          },
+          {
+            "name": "s_meta_cost",
+            "value": "{{round(sum(map(9.array; \"spend\")); 2)}}"
+          },
+          {
+            "name": "s_meta_conv",
+            "value": "{{round(sum(map(9.array; \"conversions\")); 1)}}"
+          },
+          {
+            "name": "s_meta_cpc",
+            "value": "{{round(if(sum(map(9.array; \"conversions\")) > 0; sum(map(9.array; \"spend\")) / sum(map(9.array; \"conversions\")); 0); 2)}}"
+          },
+          {
+            "name": "s_li_cost",
+            "value": "{{round(ifempty(22.costInLocalCurrency; 0) + ifempty(24.costInLocalCurrency; 0); 2)}}"
+          },
+          {
+            "name": "s_li_conv",
+            "value": "{{round(ifempty(23.externalWebsiteConversions; 0) + ifempty(25.externalWebsiteConversions; 0); 1)}}"
+          },
+          {
+            "name": "s_li_cpc",
+            "value": "{{round(if(ifempty(23.externalWebsiteConversions; 0) + ifempty(25.externalWebsiteConversions; 0) > 0; (ifempty(22.costInLocalCurrency; 0) + ifempty(24.costInLocalCurrency; 0)) / (ifempty(23.externalWebsiteConversions; 0) + ifempty(25.externalWebsiteConversions; 0)); 0); 2)}}"
+          },
+          {
+            "name": "s_total_cost",
+            "value": "{{round(sum(map(3.array; \"cost\")) + sum(map(5.array; \"cost\")) + sum(map(7.array; \"cost\")) + sum(map(9.array; \"spend\")) + ifempty(22.costInLocalCurrency; 0) + ifempty(24.costInLocalCurrency; 0); 2)}}"
+          },
+          {
+            "name": "s_total_conv",
+            "value": "{{round(sum(map(3.array; \"conversions\")) + sum(map(5.array; \"conversions\")) + sum(map(7.array; \"conversions\")) + sum(map(9.array; \"conversions\")) + ifempty(23.externalWebsiteConversions; 0) + ifempty(25.externalWebsiteConversions; 0); 1)}}"
+          },
+          {
+            "name": "s_total_cpc",
+            "value": "{{round(if(sum(map(3.array; \"conversions\")) + sum(map(5.array; \"conversions\")) + sum(map(7.array; \"conversions\")) + sum(map(9.array; \"conversions\")) + ifempty(23.externalWebsiteConversions; 0) + ifempty(25.externalWebsiteConversions; 0) > 0; (sum(map(3.array; \"cost\")) + sum(map(5.array; \"cost\")) + sum(map(7.array; \"cost\")) + sum(map(9.array; \"spend\")) + ifempty(22.costInLocalCurrency; 0) + ifempty(24.costInLocalCurrency; 0)) / (sum(map(3.array; \"conversions\")) + sum(map(5.array; \"conversions\")) + sum(map(7.array; \"conversions\")) + sum(map(9.array; \"conversions\")) + ifempty(23.externalWebsiteConversions; 0) + ifempty(25.externalWebsiteConversions; 0)); 0); 2)}}"
+          },
+          {
+            "name": "s_chart_url",
+            "value": "{{\"https://quickchart.io/chart?width=600&height=280&c=\" + encodeURL(\"{\\\"type\\\":\\\"bar\\\",\\\"data\\\":{\\\"labels\\\":[\\\"\" + ifempty(11.array[0].dateStart; \"\") + \"\\\",\\\"\" + ifempty(11.array[1].dateStart; \"\") + \"\\\",\\\"\" + ifempty(11.array[2].dateStart; \"\") + \"\\\",\\\"\" + ifempty(11.array[3].dateStart; \"\") + \"\\\"],\\\"datasets\\\":[{\\\"label\\\":\\\"Conv\\\",\\\"data\\\":[\" + ifempty(11.array[0].conversions; 0) + \",\" + ifempty(11.array[1].conversions; 0) + \",\" + ifempty(11.array[2].conversions; 0) + \",\" + ifempty(11.array[3].conversions; 0) + \"],\\\"backgroundColor\\\":\\\"#4285f4\\\"}]},\\\"options\\\":{\\\"scales\\\":{\\\"y\\\":{\\\"beginAtZero\\\":true}}}}\")}}"
+          }
+        ]
+      },
+      "module": "util:SetVariables",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 4200,
+          "y": 150
+        }
+      },
+      "parameters": {}
+    },
+    {
+      "id": 13,
+      "mapper": {
+        "to": [
+          "<REPORT_RECIPIENT_EMAIL>"
+        ],
+        "content": "{{\"<html><body style='font-family:Arial,sans-serif;padding:20px;max-width:700px'><h2>Summary Ads Dashboard</h2><p style='color:#666'>All accounts · Last 7 days · \" + formatDate(now; \"DD MMM YYYY\") + \"</p><table width='100%' cellpadding='10' style='border-collapse:collapse'><tr style='background:#f5f5f5'><th style='text-align:left'>Channel</th><th>Cost</th><th>Conv</th><th>CPC</th></tr><tr><td>Google Ads</td><td style='text-align:center'>\" + 12.s_gads_cost + \" EUR</td><td style='text-align:center'>\" + 12.s_gads_conv + \"</td><td style='text-align:center'>\" + 12.s_gads_cpc + \" EUR</td></tr><tr style='background:#f9f9f9'><td>Meta Ads</td><td style='text-align:center'>\" + 12.s_meta_cost + \" EUR</td><td style='text-align:center'>\" + 12.s_meta_conv + \"</td><td style='text-align:center'>\" + 12.s_meta_cpc + \" EUR</td></tr><tr><td>LinkedIn (EN+LATAM)</td><td style='text-align:center'>\" + 12.s_li_cost + \" EUR</td><td style='text-align:center'>\" + 12.s_li_conv + \"</td><td style='text-align:center'>\" + 12.s_li_cpc + \" EUR</td></tr><tr style='background:#e8f5e9;font-weight:bold'><td>Total</td><td style='text-align:center'>\" + 12.s_total_cost + \" EUR</td><td style='text-align:center'>\" + 12.s_total_conv + \"</td><td style='text-align:center'>\" + 12.s_total_cpc + \" EUR</td></tr></table><br><img src='\" + 12.s_chart_url + \"' width='100%' style='border-radius:8px'><p style='color:#999;font-size:11px;margin-top:20px'>Make.com · \" + formatDate(now; \"DD.MM.YYYY HH:mm\") + \"</p></body></html>\"}}",
+        "subject": "{{\"📊 Summary Ads Dashboard — \" + formatDate(now; \"DD MMM YYYY\")}}",
+        "bodyType": "rawHtml"
+      },
+      "module": "google-email:sendAnEmail",
+      "version": 4,
+      "metadata": {
+        "expect": [
+          {
+            "name": "to",
+            "spec": {
+              "name": "value",
+              "type": "email",
+              "label": "Recipient email address",
+              "required": true,
+              "validate": true
+            },
+            "type": "array",
+            "label": "To",
+            "required": true
+          },
+          {
+            "name": "subject",
+            "type": "text",
+            "label": "Subject"
+          },
+          {
+            "name": "bodyType",
+            "type": "select",
+            "label": "Body type",
+            "required": true,
+            "validate": {
+              "enum": [
+                "rawHtml",
+                "collection"
+              ]
+            }
+          },
+          {
+            "name": "attachments",
+            "spec": {
+              "name": "value",
+              "spec": [
+                {
+                  "name": "filename",
+                  "type": "filename",
+                  "label": "File name",
+                  "required": true,
+                  "semantic": "file:name"
+                },
+                {
+                  "name": "data",
+                  "type": "buffer",
+                  "label": "Data",
+                  "required": true,
+                  "semantic": "file:data"
+                }
+              ],
+              "type": "collection",
+              "label": "Attachment"
+            },
+            "type": "array",
+            "label": "Attachments"
+          },
+          {
+            "name": "from",
+            "type": "select",
+            "label": "From"
+          },
+          {
+            "name": "cc",
+            "spec": {
+              "name": "value",
+              "type": "email",
+              "label": "Recipient email address"
+            },
+            "type": "array",
+            "label": "CC recipients"
+          },
+          {
+            "name": "bcc",
+            "spec": {
+              "name": "value",
+              "type": "email",
+              "label": "Recipient email address"
+            },
+            "type": "array",
+            "label": "BCC recipients"
+          },
+          {
+            "name": "emailHeaders",
+            "spec": {
+              "name": "value",
+              "spec": [
+                {
+                  "name": "key",
+                  "type": "text",
+                  "label": "Key",
+                  "required": true
+                },
+                {
+                  "name": "value",
+                  "type": "text",
+                  "label": "Value"
+                }
+              ],
+              "type": "collection",
+              "label": "Email header"
+            },
+            "type": "array",
+            "label": "Additional email headers"
+          },
+          {
+            "name": "content",
+            "type": "text",
+            "label": "Content"
+          }
+        ],
+        "restore": {
+          "expect": {
+            "cc": {
+              "mode": "chose"
+            },
+            "to": {
+              "mode": "chose",
+              "items": [
+                null
+              ]
+            },
+            "bcc": {
+              "mode": "chose"
+            },
+            "from": {
+              "mode": "chose"
+            },
+            "bodyType": {
+              "label": "Raw HTML"
+            },
+            "attachments": {
+              "mode": "chose"
+            },
+            "emailHeaders": {
+              "mode": "chose"
+            }
+          },
+          "parameters": {
+            "__IMTCONN__": 0
+          }
+        },
+        "designer": {
+          "x": 4500,
+          "y": 150
+        },
+        "parameters": [
+          {
+            "name": "__IMTCONN__",
+            "type": "account:google-email",
+            "label": "Connection",
+            "required": true
+          }
+        ]
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 14,
+      "mapper": {
+        "type": "adAccount",
+        "level": "campaign",
+        "limit": "100",
+        "fields": [
+          "account_currency",
+          "account_id",
+          "account_name",
+          "action_values",
+          "actions",
+          "ad_id",
+          "ad_name",
+          "adset_id",
+          "adset_name",
+          "buying_type",
+          "campaign_id",
+          "campaign_name",
+          "canvas_avg_view_percent",
+          "canvas_avg_view_time",
+          "clicks",
+          "conversion_rate_ranking",
+          "conversion_values",
+          "conversions",
+          "converted_product_quantity",
+          "converted_product_value",
+          "cost_per_action_type",
+          "cost_per_conversion",
+          "cost_per_estimated_ad_recallers",
+          "cost_per_inline_link_click",
+          "cost_per_inline_post_engagement",
+          "cost_per_outbound_click",
+          "cost_per_thruplay",
+          "cost_per_unique_action_type",
+          "cost_per_unique_click",
+          "cost_per_unique_inline_link_click",
+          "cost_per_unique_outbound_click",
+          "cpc",
+          "cpm",
+          "cpp",
+          "ctr",
+          "date_start",
+          "date_stop",
+          "dda_results",
+          "engagement_rate_ranking",
+          "estimated_ad_recall_rate",
+          "estimated_ad_recallers",
+          "frequency",
+          "full_view_impressions",
+          "full_view_reach",
+          "impressions",
+          "inline_link_click_ctr",
+          "inline_link_clicks",
+          "inline_post_engagement",
+          "instagram_upcoming_event_reminders_set",
+          "instant_experience_clicks_to_open",
+          "instant_experience_clicks_to_start",
+          "instant_experience_outbound_clicks",
+          "mobile_app_purchase_roas",
+          "objective",
+          "optimization_goal",
+          "outbound_clicks",
+          "outbound_clicks_ctr",
+          "purchase_roas",
+          "qualifying_question_qualify_answer_rate",
+          "quality_ranking",
+          "reach",
+          "social_spend",
+          "spend",
+          "unique_actions",
+          "unique_clicks",
+          "unique_ctr",
+          "unique_inline_link_click_ctr",
+          "unique_inline_link_clicks",
+          "unique_link_clicks_ctr",
+          "unique_outbound_clicks",
+          "unique_outbound_clicks_ctr",
+          "video_30_sec_watched_actions",
+          "video_avg_time_watched_actions",
+          "video_p100_watched_actions",
+          "video_p25_watched_actions",
+          "video_p50_watched_actions",
+          "video_p75_watched_actions",
+          "video_p95_watched_actions",
+          "video_play_actions",
+          "video_play_curve_actions",
+          "video_thruplay_watched_actions",
+          "website_ctr",
+          "website_purchase_roas"
+        ],
+        "business": "<META_BUSINESS_ID>",
+        "adAccount": "act_<META_AD_ACCOUNT_ID>",
+        "date_preset": "last_7d",
+        "specify_date": "date_preset",
+        "time_increment": "all_days"
+      },
+      "module": "facebook-insights:GetAdAccountInsights",
+      "version": 1,
+      "metadata": {
+        "expect": [
+          {
+            "name": "type",
+            "type": "select",
+            "label": "Get Insights for",
+            "required": true,
+            "validate": {
+              "enum": [
+                "campaign",
+                "adAccount",
+                "adSet",
+                "ad"
+              ]
+            }
+          },
+          {
+            "name": "specify_date",
+            "type": "select",
+            "label": "Specify Date by",
+            "validate": {
+              "enum": [
+                "date_preset",
+                "time_range",
+                "time_ranges"
+              ]
+            }
+          },
+          {
+            "name": "fields",
+            "type": "select",
+            "label": "Fields",
+            "multiple": true,
+            "required": true
+          },
+          {
+            "name": "breakdowns",
+            "type": "select",
+            "label": "Breakdowns",
+            "multiple": true
+          },
+          {
+            "name": "limit",
+            "type": "uinteger",
+            "label": "Limit",
+            "required": true
+          },
+          {
+            "name": "level",
+            "type": "select",
+            "label": "Level",
+            "validate": {
+              "enum": [
+                "ad",
+                "adset",
+                "account",
+                "campaign"
+              ]
+            }
+          },
+          {
+            "name": "product_id_limit",
+            "type": "text",
+            "label": "Product ID Limit"
+          },
+          {
+            "name": "use_account_attribution_setting",
+            "type": "boolean",
+            "label": "Use Account Attribution Setting"
+          },
+          {
+            "name": "action_attribution_windows",
+            "type": "select",
+            "label": "Action Attribution Windows",
+            "multiple": true,
+            "validate": {
+              "enum": [
+                "1d_view",
+                "7d_view",
+                "28d_view",
+                "1d_click",
+                "7d_click",
+                "28d_click",
+                "default"
+              ]
+            }
+          },
+          {
+            "name": "action_breakdowns",
+            "type": "select",
+            "label": "Action Breakdowns",
+            "multiple": true,
+            "validate": {
+              "enum": [
+                "action_device",
+                "action_canvas_component_name",
+                "action_carousel_card_id",
+                "action_carousel_card_name",
+                "action_destination",
+                "action_reaction",
+                "action_target_id",
+                "action_type",
+                "action_video_sound",
+                "action_video_type"
+              ]
+            }
+          },
+          {
+            "name": "action_report_time",
+            "type": "select",
+            "label": "Action Report Time",
+            "validate": {
+              "enum": [
+                "impression",
+                "conversion"
+              ]
+            }
+          },
+          {
+            "name": "filtering",
+            "spec": [
+              {
+                "name": "field",
+                "type": "select",
+                "label": "Field",
+                "dynamic": true,
+                "options": [],
+                "required": true
+              },
+              {
+                "name": "operator",
+                "type": "select",
+                "label": "Operator",
+                "grouped": true,
+                "options": [
+                  {
+                    "label": "String",
+                    "options": [
+                      {
+                        "label": "Equal",
+                        "value": "EQUAL"
+                      },
+                      {
+                        "label": "Not equal",
+                        "value": "NOT_EQUAL"
+                      },
+                      {
+                        "label": "Contain",
+                        "value": "CONTAIN"
+                      },
+                      {
+                        "label": "Not contain",
+                        "value": "NOT_CONTAIN"
+                      },
+                      {
+                        "label": "Starts with",
+                        "value": "STARTS_WITH"
+                      },
+                      {
+                        "label": "None",
+                        "value": "NONE"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "Number",
+                    "options": [
+                      {
+                        "label": "Equal",
+                        "value": "EQUAL"
+                      },
+                      {
+                        "label": "Not equal",
+                        "value": "NOT_EQUAL"
+                      },
+                      {
+                        "label": "Greater than",
+                        "value": "GREATER_THAN"
+                      },
+                      {
+                        "label": "Greater than or equal",
+                        "value": "GREATER_THAN_OR_EQUAL"
+                      },
+                      {
+                        "label": "Less than",
+                        "value": "LESS_THAN"
+                      },
+                      {
+                        "label": "Less than or than",
+                        "value": "LESS_THAN_OR_EQUAL"
+                      },
+                      {
+                        "label": "None",
+                        "value": "NONE"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "Array",
+                    "options": [
+                      {
+                        "label": "In",
+                        "value": "IN"
+                      },
+                      {
+                        "label": "Not in",
+                        "value": "NOT_IN"
+                      }
+                    ]
+                  }
+                ],
+                "required": true
+              },
+              {
+                "name": "value",
+                "type": "any",
+                "label": "Value"
+              }
+            ],
+            "type": "array",
+            "label": "Filter"
+          },
+          {
+            "name": "sort",
+            "spec": [
+              {
+                "name": "field",
+                "type": "select",
+                "label": "Field",
+                "dynamic": true,
+                "options": [],
+                "required": true
+              },
+              {
+                "name": "direction",
+                "type": "select",
+                "label": "Direction",
+                "options": [
+                  {
+                    "label": "Ascending",
+                    "value": "ascending",
+                    "default": true
+                  },
+                  {
+                    "label": "Descending",
+                    "value": "descending"
+                  }
+                ],
+                "required": true
+              }
+            ],
+            "type": "array",
+            "label": "Sort",
+            "validate": {
+              "maxItems": 1
+            }
+          },
+          {
+            "name": "business",
+            "type": "select",
+            "label": "Business Manager",
+            "required": true
+          },
+          {
+            "name": "adAccount",
+            "type": "select",
+            "label": "Ad Account",
+            "required": true
+          },
+          {
+            "name": "date_preset",
+            "type": "select",
+            "label": "Date Preset",
+            "validate": {
+              "enum": [
+                "today",
+                "yesterday",
+                "this_week_sun_today",
+                "this_week_mon_today",
+                "last_week_sun_sat",
+                "last_week_mon_sun",
+                "this_month",
+                "last_month",
+                "this_quarter",
+                "last_3d",
+                "last_7d",
+                "last_14d",
+                "last_28d",
+                "last_30d",
+                "last_90d",
+                "this_year",
+                "last_year",
+                "lifetime"
+              ]
+            }
+          },
+          {
+            "name": "time_increment",
+            "type": "text",
+            "label": "Time Increment"
+          }
+        ],
+        "restore": {
+          "expect": {
+            "sort": {
+              "mode": "chose"
+            },
+            "type": {
+              "mode": "chose",
+              "label": "Ad Account"
+            },
+            "level": {
+              "mode": "chose",
+              "label": "Campaign"
+            },
+            "fields": {
+              "mode": "chose",
+              "label": [
+                "Account Currency",
+                "Account ID",
+                "Account Name",
+                "Action Values",
+                "Actions",
+                "Ad ID",
+                "Ad Name",
+                "Adset ID",
+                "Adset Name",
+                "Buying Type",
+                "Campaign ID",
+                "Campaign Name",
+                "Canvas Avg View Percent",
+                "Canvas Avg View Time",
+                "Clicks",
+                "Conversion Rate Ranking",
+                "Conversion Values",
+                "Conversions",
+                "Converted Product Quantity",
+                "Converted Product Value",
+                "Cost Per Action Type",
+                "Cost Per Conversion",
+                "Cost Per Estimated Ad Recallers",
+                "Cost Per Inline Link Click",
+                "Cost Per Inline Post Engagement",
+                "Cost Per Outbound Click",
+                "Cost Per Thruplay",
+                "Cost Per Unique Action Type",
+                "Cost Per Unique Click",
+                "Cost Per Unique Inline Link Click",
+                "Cost Per Unique Outbound Click",
+                "CPC",
+                "CPM",
+                "CPP",
+                "CTR",
+                "Date Start",
+                "Date Stop",
+                "DDA Results",
+                "Engagement Rate Ranking",
+                "Estimated Ad Recall Rate",
+                "Estimated Ad Recallers",
+                "Frequency",
+                "Full View Impressions",
+                "Full View Reach",
+                "Impressions",
+                "Inline Link Click CTR",
+                "Inline Link Clicks",
+                "Inline Post Engagement",
+                "Instagram Upcoming Event Reminders Set",
+                "Instant Experience Clicks to Open",
+                "Instant Experience Clicks to Start",
+                "Instant Experience Outbound Clicks",
+                "Mobile App Purchase ROAS",
+                "Objective",
+                "Optimization Goal",
+                "Outbound Clicks",
+                "Outbound Clicks CTR",
+                "Purchase ROAS",
+                "Qualifying Question Qualify Answer Rate",
+                "Quality Ranking",
+                "Reach",
+                "Social Spend",
+                "Spend",
+                "Unique Actions",
+                "Unique Clicks",
+                "Unique CTR",
+                "Unique Inline Link Click CTR",
+                "Unique Inline Link Clicks",
+                "Unique Link Clicks CTR",
+                "Unique Outbound Clicks",
+                "Unique Outbound Clicks CTR",
+                "Video 30 Sec Watched Actions",
+                "Video Avg Time Watched Actions",
+                "Video P100 Watched Actions",
+                "Video P25 Watched Actions",
+                "Video P50 Watched Actions",
+                "Video P75 Watched Actions",
+                "Video P95 Watched Actions",
+                "Video Play Actions",
+                "Video Play Curve Actions",
+                "Video Thruplay Watched Actions",
+                "Website CTR",
+                "Website Purchase ROAS"
+              ]
+            },
+            "business": {
+              "mode": "chose",
+              "label": "brand Business Account"
+            },
+            "adAccount": {
+              "mode": "chose",
+              "label": "Brand"
+            },
+            "filtering": {
+              "mode": "chose"
+            },
+            "breakdowns": {
+              "mode": "chose"
+            },
+            "date_preset": {
+              "mode": "chose",
+              "label": "Last 7 Days"
+            },
+            "specify_date": {
+              "label": "Date Preset"
+            },
+            "action_breakdowns": {
+              "mode": "chose"
+            },
+            "action_report_time": {
+              "mode": "chose",
+              "label": "Empty"
+            },
+            "action_attribution_windows": {
+              "mode": "chose"
+            },
+            "use_account_attribution_setting": {
+              "mode": "chose"
+            }
+          },
+          "parameters": {
+            "__IMTCONN__": 0
+          }
+        },
+        "designer": {
+          "x": 4800,
+          "y": 150
+        },
+        "interface": [
+          {
+            "name": "__IMTLENGTH__",
+            "type": "uinteger",
+            "label": "Total number of bundles"
+          },
+          {
+            "name": "__IMTINDEX__",
+            "type": "uinteger",
+            "label": "Bundle order position"
+          },
+          {
+            "name": "account_currency",
+            "type": "text",
+            "label": "Account Currency"
+          },
+          {
+            "name": "account_id",
+            "type": "text",
+            "label": "Account ID"
+          },
+          {
+            "name": "account_name",
+            "type": "text",
+            "label": "Account Name"
+          },
+          {
+            "name": "action_values",
+            "type": "text",
+            "label": "Action Values"
+          },
+          {
+            "name": "actions",
+            "spec": [
+              {
+                "name": "action_type",
+                "type": "text",
+                "label": "Action type"
+              },
+              {
+                "name": "value",
+                "type": "text",
+                "label": "Value"
+              }
+            ],
+            "type": "array",
+            "label": "Actions"
+          },
+          {
+            "name": "ad_id",
+            "type": "text",
+            "label": "Ad ID"
+          },
+          {
+            "name": "ad_name",
+            "type": "text",
+            "label": "Ad Name"
+          },
+          {
+            "name": "adset_id",
+            "type": "text",
+            "label": "Adset ID"
+          },
+          {
+            "name": "adset_name",
+            "type": "text",
+            "label": "Adset Name"
+          },
+          {
+            "name": "buying_type",
+            "type": "text",
+            "label": "Buying Type"
+          },
+          {
+            "name": "campaign_id",
+            "type": "text",
+            "label": "Campaign ID"
+          },
+          {
+            "name": "campaign_name",
+            "type": "text",
+            "label": "Campaign Name"
+          },
+          {
+            "name": "canvas_avg_view_percent",
+            "type": "text",
+            "label": "Canvas Avg View Percent"
+          },
+          {
+            "name": "canvas_avg_view_time",
+            "type": "text",
+            "label": "Canvas Avg View Time"
+          },
+          {
+            "name": "clicks",
+            "type": "text",
+            "label": "Clicks"
+          },
+          {
+            "name": "conversion_rate_ranking",
+            "type": "text",
+            "label": "Conversion Rate Ranking"
+          },
+          {
+            "name": "conversion_values",
+            "type": "text",
+            "label": "Conversion Values"
+          },
+          {
+            "name": "conversions",
+            "type": "array",
+            "label": "Conversions"
+          },
+          {
+            "name": "converted_product_quantity",
+            "type": "array",
+            "label": "Converted Product Quantity"
+          },
+          {
+            "name": "converted_product_value",
+            "type": "array",
+            "label": "Converted Product Value"
+          },
+          {
+            "name": "cost_per_action_type",
+            "type": "array",
+            "label": "Cost Per Action Type"
+          },
+          {
+            "name": "cost_per_conversion",
+            "type": "text",
+            "label": "Cost Per Conversion"
+          },
+          {
+            "name": "cost_per_estimated_ad_recallers",
+            "type": "text",
+            "label": "Cost Per Estimated Ad Recallers"
+          },
+          {
+            "name": "cost_per_inline_link_click",
+            "type": "text",
+            "label": "Cost Per Inline Link Click"
+          },
+          {
+            "name": "cost_per_inline_post_engagement",
+            "type": "text",
+            "label": "Cost Per Inline Post Engagement"
+          },
+          {
+            "name": "cost_per_outbound_click",
+            "type": "text",
+            "label": "Cost Per Outbound Click"
+          },
+          {
+            "name": "cost_per_thruplay",
+            "type": "text",
+            "label": "Cost Per Thruplay"
+          },
+          {
+            "name": "cost_per_unique_action_type",
+            "type": "text",
+            "label": "Cost Per Unique Action Type"
+          },
+          {
+            "name": "cost_per_unique_click",
+            "type": "text",
+            "label": "Cost Per Unique Click"
+          },
+          {
+            "name": "cost_per_unique_inline_link_click",
+            "type": "text",
+            "label": "Cost Per Unique Inline Link Click"
+          },
+          {
+            "name": "cost_per_unique_outbound_click",
+            "type": "text",
+            "label": "Cost Per Unique Outbound Click"
+          },
+          {
+            "name": "cpc",
+            "type": "text",
+            "label": "CPC"
+          },
+          {
+            "name": "cpm",
+            "type": "text",
+            "label": "CPM"
+          },
+          {
+            "name": "cpp",
+            "type": "text",
+            "label": "CPP"
+          },
+          {
+            "name": "ctr",
+            "type": "text",
+            "label": "CTR"
+          },
+          {
+            "name": "date_start",
+            "type": "text",
+            "label": "Date Start"
+          },
+          {
+            "name": "date_stop",
+            "type": "text",
+            "label": "Date Stop"
+          },
+          {
+            "name": "dda_results",
+            "type": "array",
+            "label": "DDA Results"
+          },
+          {
+            "name": "engagement_rate_ranking",
+            "type": "text",
+            "label": "Engagement Rate Ranking"
+          },
+          {
+            "name": "estimated_ad_recall_rate",
+            "type": "text",
+            "label": "Estimated Ad Recall Rate"
+          },
+          {
+            "name": "estimated_ad_recallers",
+            "type": "text",
+            "label": "Estimated Ad Recallers"
+          },
+          {
+            "name": "frequency",
+            "type": "text",
+            "label": "Frequency"
+          },
+          {
+            "name": "full_view_impressions",
+            "type": "text",
+            "label": "Full View Impressions"
+          },
+          {
+            "name": "full_view_reach",
+            "type": "text",
+            "label": "Full View Reach"
+          },
+          {
+            "name": "impressions",
+            "type": "text",
+            "label": "Impressions"
+          },
+          {
+            "name": "inline_link_click_ctr",
+            "type": "text",
+            "label": "Inline Link Click CTR"
+          },
+          {
+            "name": "inline_link_clicks",
+            "type": "text",
+            "label": "Inline Link Clicks"
+          },
+          {
+            "name": "inline_post_engagement",
+            "type": "text",
+            "label": "Inline Post Engagement"
+          },
+          {
+            "name": "instagram_upcoming_event_reminders_set",
+            "type": "text",
+            "label": "Instagram Upcoming Event Reminders Set"
+          },
+          {
+            "name": "instant_experience_clicks_to_open",
+            "type": "text",
+            "label": "Instant Experience Clicks to Open"
+          },
+          {
+            "name": "instant_experience_clicks_to_start",
+            "type": "text",
+            "label": "Instant Experience Clicks to Start"
+          },
+          {
+            "name": "instant_experience_outbound_clicks",
+            "type": "text",
+            "label": "Instant Experience Outbound Clicks"
+          },
+          {
+            "name": "mobile_app_purchase_roas",
+            "type": "text",
+            "label": "Mobile App Purchase ROAS"
+          },
+          {
+            "name": "objective",
+            "type": "text",
+            "label": "Objective"
+          },
+          {
+            "name": "optimization_goal",
+            "type": "text",
+            "label": "Optimization Goal"
+          },
+          {
+            "name": "outbound_clicks",
+            "type": "text",
+            "label": "Outbound Clicks"
+          },
+          {
+            "name": "outbound_clicks_ctr",
+            "type": "text",
+            "label": "Outbound Clicks CTR"
+          },
+          {
+            "name": "purchase_roas",
+            "type": "text",
+            "label": "Purchase ROAS"
+          },
+          {
+            "name": "qualifying_question_qualify_answer_rate",
+            "type": "text",
+            "label": "Qualifying Question Qualify Answer Rate"
+          },
+          {
+            "name": "quality_ranking",
+            "type": "text",
+            "label": "Quality Ranking"
+          },
+          {
+            "name": "reach",
+            "type": "text",
+            "label": "Reach"
+          },
+          {
+            "name": "social_spend",
+            "type": "text",
+            "label": "Social Spend"
+          },
+          {
+            "name": "spend",
+            "type": "text",
+            "label": "Spend"
+          },
+          {
+            "name": "unique_actions",
+            "spec": [
+              {
+                "name": "action_type",
+                "type": "text",
+                "label": "Action type"
+              },
+              {
+                "name": "value",
+                "type": "text",
+                "label": "Value"
+              }
+            ],
+            "type": "array",
+            "label": "Unique Actions"
+          },
+          {
+            "name": "unique_clicks",
+            "type": "text",
+            "label": "Unique Clicks"
+          },
+          {
+            "name": "unique_ctr",
+            "type": "text",
+            "label": "Unique CTR"
+          },
+          {
+            "name": "unique_inline_link_click_ctr",
+            "type": "text",
+            "label": "Unique Inline Link Click CTR"
+          },
+          {
+            "name": "unique_inline_link_clicks",
+            "type": "text",
+            "label": "Unique Inline Link Clicks"
+          },
+          {
+            "name": "unique_link_clicks_ctr",
+            "type": "text",
+            "label": "Unique Link Clicks CTR"
+          },
+          {
+            "name": "unique_outbound_clicks",
+            "type": "text",
+            "label": "Unique Outbound Clicks"
+          },
+          {
+            "name": "unique_outbound_clicks_ctr",
+            "type": "text",
+            "label": "Unique Outbound Clicks CTR"
+          },
+          {
+            "name": "video_30_sec_watched_actions",
+            "type": "text",
+            "label": "Video 30 Sec Watched Actions"
+          },
+          {
+            "name": "video_avg_time_watched_actions",
+            "type": "text",
+            "label": "Video Avg Time Watched Actions"
+          },
+          {
+            "name": "video_p100_watched_actions",
+            "type": "text",
+            "label": "Video P100 Watched Actions"
+          },
+          {
+            "name": "video_p25_watched_actions",
+            "type": "text",
+            "label": "Video P25 Watched Actions"
+          },
+          {
+            "name": "video_p50_watched_actions",
+            "type": "text",
+            "label": "Video P50 Watched Actions"
+          },
+          {
+            "name": "video_p75_watched_actions",
+            "type": "text",
+            "label": "Video P75 Watched Actions"
+          },
+          {
+            "name": "video_p95_watched_actions",
+            "type": "text",
+            "label": "Video P95 Watched Actions"
+          },
+          {
+            "name": "video_play_actions",
+            "type": "text",
+            "label": "Video Play Actions"
+          },
+          {
+            "name": "video_play_curve_actions",
+            "type": "text",
+            "label": "Video Play Curve Actions"
+          },
+          {
+            "name": "video_thruplay_watched_actions",
+            "type": "text",
+            "label": "Video Thruplay Watched Actions"
+          },
+          {
+            "name": "website_ctr",
+            "type": "text",
+            "label": "Website CTR"
+          },
+          {
+            "name": "website_purchase_roas",
+            "type": "text",
+            "label": "Website Purchase ROAS"
+          }
+        ],
+        "parameters": [
+          {
+            "name": "__IMTCONN__",
+            "type": "account:facebook",
+            "label": "Connection",
+            "required": true
+          }
+        ]
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 15,
+      "mapper": null,
+      "module": "builtin:BasicRouter",
+      "routes": [
+        {
+          "flow": [
+            {
+              "id": 16,
+              "filter": {
+                "name": "EN/US",
+                "conditions": [
+                  [
+                    {
+                      "a": "{{14.campaign_name}}",
+                      "b": "_en_",
+                      "o": "text:contain"
+                    },
+                    {
+                      "a": "{{14.campaign_name}}",
+                      "b": "_us_",
+                      "o": "text:contain"
+                    }
+                  ]
+                ]
+              },
+              "mapper": {
+                "spend": "{{14.spend}}",
+                "conversions": "{{first(map(14.conversions; \"value\"))}}",
+                "costPerConv": "{{first(map(14.cost_per_conversion; \"value\"))}}",
+                "campaignName": "{{14.campaign_name}}"
+              },
+              "module": "builtin:BasicAggregator",
+              "version": 1,
+              "metadata": {
+                "designer": {
+                  "x": 5400,
+                  "y": 0
+                }
+              },
+              "parameters": {
+                "feeder": 14,
+                "groupBy": "",
+                "arrayName": "array"
+              }
+            },
+            {
+              "id": 17,
+              "mapper": {
+                "scope": "execution",
+                "variables": [
+                  {
+                    "name": "en_gads_cost",
+                    "value": "{{round(sum(map(3.array; \"cost\")) + sum(map(7.array; \"cost\")); 2)}}"
+                  },
+                  {
+                    "name": "en_gads_conv",
+                    "value": "{{round(sum(map(3.array; \"conversions\")) + sum(map(7.array; \"conversions\")); 1)}}"
+                  },
+                  {
+                    "name": "en_gads_cpc",
+                    "value": "{{round(if(sum(map(3.array; \"conversions\")) + sum(map(7.array; \"conversions\")) > 0; (sum(map(3.array; \"cost\")) + sum(map(7.array; \"cost\"))) / (sum(map(3.array; \"conversions\")) + sum(map(7.array; \"conversions\"))); 0); 2)}}"
+                  },
+                  {
+                    "name": "en_meta_cost",
+                    "value": "{{round(sum(map(16.array; \"spend\")); 2)}}"
+                  },
+                  {
+                    "name": "en_meta_conv",
+                    "value": "{{round(sum(map(16.array; \"conversions\")); 1)}}"
+                  },
+                  {
+                    "name": "en_meta_cpc",
+                    "value": "{{round(if(sum(map(16.array; \"conversions\")) > 0; sum(map(16.array; \"spend\")) / sum(map(16.array; \"conversions\")); 0); 2)}}"
+                  },
+                  {
+                    "name": "en_li_cost",
+                    "value": "{{round(ifempty(22.costInLocalCurrency; 0); 2)}}"
+                  },
+                  {
+                    "name": "en_li_conv",
+                    "value": "{{round(ifempty(23.externalWebsiteConversions; 0); 1)}}"
+                  },
+                  {
+                    "name": "en_li_cpc",
+                    "value": "{{round(if(ifempty(23.externalWebsiteConversions; 0) > 0; ifempty(22.costInLocalCurrency; 0) / ifempty(23.externalWebsiteConversions; 0); 0); 2)}}"
+                  },
+                  {
+                    "name": "en_total_cost",
+                    "value": "{{round(sum(map(3.array; \"cost\")) + sum(map(7.array; \"cost\")) + sum(map(16.array; \"spend\")) + ifempty(22.costInLocalCurrency; 0); 2)}}"
+                  },
+                  {
+                    "name": "en_total_conv",
+                    "value": "{{round(sum(map(3.array; \"conversions\")) + sum(map(7.array; \"conversions\")) + sum(map(16.array; \"conversions\")) + ifempty(23.externalWebsiteConversions; 0); 1)}}"
+                  },
+                  {
+                    "name": "en_total_cpc",
+                    "value": "{{round(if(sum(map(3.array; \"conversions\")) + sum(map(7.array; \"conversions\")) + sum(map(16.array; \"conversions\")) + ifempty(23.externalWebsiteConversions; 0) > 0; (sum(map(3.array; \"cost\")) + sum(map(7.array; \"cost\")) + sum(map(16.array; \"spend\")) + ifempty(22.costInLocalCurrency; 0)) / (sum(map(3.array; \"conversions\")) + sum(map(7.array; \"conversions\")) + sum(map(16.array; \"conversions\")) + ifempty(23.externalWebsiteConversions; 0)); 0); 2)}}"
+                  }
+                ]
+              },
+              "module": "util:SetVariables",
+              "version": 1,
+              "metadata": {
+                "designer": {
+                  "x": 5700,
+                  "y": 0
+                }
+              },
+              "parameters": {}
+            },
+            {
+              "id": 18,
+              "mapper": {
+                "to": [
+                  "<REPORT_RECIPIENT_EMAIL>"
+                ],
+                "content": "{{\"<html><body style='font-family:Arial,sans-serif;padding:20px;max-width:700px'><h2>EN/US Ads Dashboard</h2><p style='color:#666'>Google: b2b_us + b2c · Meta: _en_/_us_ · LinkedIn EN · \" + formatDate(now; \"DD MMM YYYY\") + \"</p><table width='100%' cellpadding='10' style='border-collapse:collapse'><tr style='background:#e8f0fe'><th style='text-align:left'>Channel</th><th>Cost</th><th>Conv</th><th>CPC</th></tr><tr><td>Google Ads</td><td style='text-align:center'>\" + 17.en_gads_cost + \" EUR</td><td style='text-align:center'>\" + 17.en_gads_conv + \"</td><td style='text-align:center'>\" + 17.en_gads_cpc + \" EUR</td></tr><tr style='background:#f9f9f9'><td>Meta Ads</td><td style='text-align:center'>\" + 17.en_meta_cost + \" EUR</td><td style='text-align:center'>\" + 17.en_meta_conv + \"</td><td style='text-align:center'>\" + 17.en_meta_cpc + \" EUR</td></tr><tr><td>LinkedIn</td><td style='text-align:center'>\" + 17.en_li_cost + \" EUR</td><td style='text-align:center'>\" + 17.en_li_conv + \"</td><td style='text-align:center'>\" + 17.en_li_cpc + \" EUR</td></tr><tr style='background:#e8f0fe;font-weight:bold'><td>Total</td><td style='text-align:center'>\" + 17.en_total_cost + \" EUR</td><td style='text-align:center'>\" + 17.en_total_conv + \"</td><td style='text-align:center'>\" + 17.en_total_cpc + \" EUR</td></tr></table><br><img src='\" + 12.s_chart_url + \"' width='100%' style='border-radius:8px'></body></html>\"}}",
+                "subject": "{{\"📊 EN/US Ads Dashboard — \" + formatDate(now; \"DD MMM YYYY\")}}",
+                "bodyType": "rawHtml"
+              },
+              "module": "google-email:sendAnEmail",
+              "version": 4,
+              "metadata": {
+                "expect": [
+                  {
+                    "name": "to",
+                    "spec": {
+                      "name": "value",
+                      "type": "email",
+                      "label": "Recipient email address",
+                      "required": true,
+                      "validate": true
+                    },
+                    "type": "array",
+                    "label": "To",
+                    "required": true
+                  },
+                  {
+                    "name": "subject",
+                    "type": "text",
+                    "label": "Subject"
+                  },
+                  {
+                    "name": "bodyType",
+                    "type": "select",
+                    "label": "Body type",
+                    "required": true,
+                    "validate": {
+                      "enum": [
+                        "rawHtml",
+                        "collection"
+                      ]
+                    }
+                  },
+                  {
+                    "name": "attachments",
+                    "spec": {
+                      "name": "value",
+                      "spec": [
+                        {
+                          "name": "filename",
+                          "type": "filename",
+                          "label": "File name",
+                          "required": true,
+                          "semantic": "file:name"
+                        },
+                        {
+                          "name": "data",
+                          "type": "buffer",
+                          "label": "Data",
+                          "required": true,
+                          "semantic": "file:data"
+                        }
+                      ],
+                      "type": "collection",
+                      "label": "Attachment"
+                    },
+                    "type": "array",
+                    "label": "Attachments"
+                  },
+                  {
+                    "name": "from",
+                    "type": "select",
+                    "label": "From"
+                  },
+                  {
+                    "name": "cc",
+                    "spec": {
+                      "name": "value",
+                      "type": "email",
+                      "label": "Recipient email address"
+                    },
+                    "type": "array",
+                    "label": "CC recipients"
+                  },
+                  {
+                    "name": "bcc",
+                    "spec": {
+                      "name": "value",
+                      "type": "email",
+                      "label": "Recipient email address"
+                    },
+                    "type": "array",
+                    "label": "BCC recipients"
+                  },
+                  {
+                    "name": "emailHeaders",
+                    "spec": {
+                      "name": "value",
+                      "spec": [
+                        {
+                          "name": "key",
+                          "type": "text",
+                          "label": "Key",
+                          "required": true
+                        },
+                        {
+                          "name": "value",
+                          "type": "text",
+                          "label": "Value"
+                        }
+                      ],
+                      "type": "collection",
+                      "label": "Email header"
+                    },
+                    "type": "array",
+                    "label": "Additional email headers"
+                  },
+                  {
+                    "name": "content",
+                    "type": "text",
+                    "label": "Content"
+                  }
+                ],
+                "restore": {
+                  "expect": {
+                    "cc": {
+                      "mode": "chose"
+                    },
+                    "to": {
+                      "mode": "chose",
+                      "items": [
+                        null
+                      ]
+                    },
+                    "bcc": {
+                      "mode": "chose"
+                    },
+                    "from": {
+                      "mode": "chose"
+                    },
+                    "bodyType": {
+                      "label": "Raw HTML"
+                    },
+                    "attachments": {
+                      "mode": "chose"
+                    },
+                    "emailHeaders": {
+                      "mode": "chose"
+                    }
+                  },
+                  "parameters": {
+                    "__IMTCONN__": 0
+                  }
+                },
+                "designer": {
+                  "x": 6000,
+                  "y": 0
+                },
+                "parameters": [
+                  {
+                    "name": "__IMTCONN__",
+                    "type": "account:google-email",
+                    "label": "Connection",
+                    "required": true
+                  }
+                ]
+              },
+              "parameters": {
+                "__IMTCONN__": 0
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 19,
+              "filter": {
+                "name": "LATAM",
+                "conditions": [
+                  [
+                    {
+                      "a": "{{14.campaign_name}}",
+                      "b": "_latam_",
+                      "o": "text:contain"
+                    }
+                  ]
+                ]
+              },
+              "mapper": {
+                "spend": "{{14.spend}}",
+                "conversions": "{{first(map(14.conversions; \"value\"))}}",
+                "costPerConv": "{{first(map(14.cost_per_conversion; \"value\"))}}",
+                "campaignName": "{{14.campaign_name}}"
+              },
+              "module": "builtin:BasicAggregator",
+              "version": 1,
+              "metadata": {
+                "designer": {
+                  "x": 5400,
+                  "y": 300
+                }
+              },
+              "parameters": {
+                "feeder": 14,
+                "groupBy": "",
+                "arrayName": "array"
+              }
+            },
+            {
+              "id": 20,
+              "mapper": {
+                "scope": "execution",
+                "variables": [
+                  {
+                    "name": "la_gads_cost",
+                    "value": "{{round(sum(map(5.array; \"cost\")); 2)}}"
+                  },
+                  {
+                    "name": "la_gads_conv",
+                    "value": "{{round(sum(map(5.array; \"conversions\")); 1)}}"
+                  },
+                  {
+                    "name": "la_gads_cpc",
+                    "value": "{{round(if(sum(map(5.array; \"conversions\")) > 0; sum(map(5.array; \"cost\")) / sum(map(5.array; \"conversions\")); 0); 2)}}"
+                  },
+                  {
+                    "name": "la_meta_cost",
+                    "value": "{{round(sum(map(19.array; \"spend\")); 2)}}"
+                  },
+                  {
+                    "name": "la_meta_conv",
+                    "value": "{{round(sum(map(19.array; \"conversions\")); 1)}}"
+                  },
+                  {
+                    "name": "la_meta_cpc",
+                    "value": "{{round(if(sum(map(19.array; \"conversions\")) > 0; sum(map(19.array; \"spend\")) / sum(map(19.array; \"conversions\")); 0); 2)}}"
+                  },
+                  {
+                    "name": "la_li_cost",
+                    "value": "{{round(ifempty(24.costInLocalCurrency; 0); 2)}}"
+                  },
+                  {
+                    "name": "la_li_conv",
+                    "value": "{{round(ifempty(25.externalWebsiteConversions; 0); 1)}}"
+                  },
+                  {
+                    "name": "la_li_cpc",
+                    "value": "{{round(if(ifempty(25.externalWebsiteConversions; 0) > 0; ifempty(24.costInLocalCurrency; 0) / ifempty(25.externalWebsiteConversions; 0); 0); 2)}}"
+                  },
+                  {
+                    "name": "la_total_cost",
+                    "value": "{{round(sum(map(5.array; \"cost\")) + sum(map(19.array; \"spend\")) + ifempty(24.costInLocalCurrency; 0); 2)}}"
+                  },
+                  {
+                    "name": "la_total_conv",
+                    "value": "{{round(sum(map(5.array; \"conversions\")) + sum(map(19.array; \"conversions\")) + ifempty(25.externalWebsiteConversions; 0); 1)}}"
+                  },
+                  {
+                    "name": "la_total_cpc",
+                    "value": "{{round(if(sum(map(5.array; \"conversions\")) + sum(map(19.array; \"conversions\")) + ifempty(25.externalWebsiteConversions; 0) > 0; (sum(map(5.array; \"cost\")) + sum(map(19.array; \"spend\")) + ifempty(24.costInLocalCurrency; 0)) / (sum(map(5.array; \"conversions\")) + sum(map(19.array; \"conversions\")) + ifempty(25.externalWebsiteConversions; 0)); 0); 2)}}"
+                  }
+                ]
+              },
+              "module": "util:SetVariables",
+              "version": 1,
+              "metadata": {
+                "designer": {
+                  "x": 5700,
+                  "y": 300
+                }
+              },
+              "parameters": {}
+            },
+            {
+              "id": 21,
+              "mapper": {
+                "to": [
+                  "<REPORT_RECIPIENT_EMAIL>"
+                ],
+                "content": "{{\"<html><body style='font-family:Arial,sans-serif;padding:20px;max-width:700px'><h2>LATAM Ads Dashboard</h2><p style='color:#666'>Google: b2b_latam · Meta: _latam_ · LinkedIn LATAM · \" + formatDate(now; \"DD MMM YYYY\") + \"</p><table width='100%' cellpadding='10' style='border-collapse:collapse'><tr style='background:#fff3e0'><th style='text-align:left'>Channel</th><th>Cost</th><th>Conv</th><th>CPC</th></tr><tr><td>Google Ads</td><td style='text-align:center'>\" + 20.la_gads_cost + \" EUR</td><td style='text-align:center'>\" + 20.la_gads_conv + \"</td><td style='text-align:center'>\" + 20.la_gads_cpc + \" EUR</td></tr><tr style='background:#f9f9f9'><td>Meta Ads</td><td style='text-align:center'>\" + 20.la_meta_cost + \" EUR</td><td style='text-align:center'>\" + 20.la_meta_conv + \"</td><td style='text-align:center'>\" + 20.la_meta_cpc + \" EUR</td></tr><tr><td>LinkedIn</td><td style='text-align:center'>\" + 20.la_li_cost + \" EUR</td><td style='text-align:center'>\" + 20.la_li_conv + \"</td><td style='text-align:center'>\" + 20.la_li_cpc + \" EUR</td></tr><tr style='background:#fff3e0;font-weight:bold'><td>Total</td><td style='text-align:center'>\" + 20.la_total_cost + \" EUR</td><td style='text-align:center'>\" + 20.la_total_conv + \"</td><td style='text-align:center'>\" + 20.la_total_cpc + \" EUR</td></tr></table><br><img src='\" + 12.s_chart_url + \"' width='100%' style='border-radius:8px'><h3>b2b_latam</h3><table width='100%' cellpadding='6' style='border-collapse:collapse;font-size:12px'><tr style='background:#fff3e0'><th>Campaign</th><th>Cost</th><th>Conv</th><th>CPC</th></tr>\" + if(length(5.array) >= 1; \"<tr><td>\" + ifempty(5.array[0].campaignName; \"-\") + \"</td><td>\" + round(ifempty(5.array[0].cost; 0); 2) + \" EUR</td><td>\" + round(ifempty(5.array[0].conversions; 0); 0) + \"</td><td>\" + round(ifempty(5.array[0].costPerConv; 0); 2) + \" EUR</td></tr>\"; \"\") + \"</table></body></html>\"}}",
+                "subject": "{{\"📊 LATAM Ads Dashboard — \" + formatDate(now; \"DD MMM YYYY\")}}",
+                "bodyType": "rawHtml"
+              },
+              "module": "google-email:sendAnEmail",
+              "version": 4,
+              "metadata": {
+                "expect": [
+                  {
+                    "name": "to",
+                    "spec": {
+                      "name": "value",
+                      "type": "email",
+                      "label": "Recipient email address",
+                      "required": true,
+                      "validate": true
+                    },
+                    "type": "array",
+                    "label": "To",
+                    "required": true
+                  },
+                  {
+                    "name": "subject",
+                    "type": "text",
+                    "label": "Subject"
+                  },
+                  {
+                    "name": "bodyType",
+                    "type": "select",
+                    "label": "Body type",
+                    "required": true,
+                    "validate": {
+                      "enum": [
+                        "rawHtml",
+                        "collection"
+                      ]
+                    }
+                  },
+                  {
+                    "name": "attachments",
+                    "spec": {
+                      "name": "value",
+                      "spec": [
+                        {
+                          "name": "filename",
+                          "type": "filename",
+                          "label": "File name",
+                          "required": true,
+                          "semantic": "file:name"
+                        },
+                        {
+                          "name": "data",
+                          "type": "buffer",
+                          "label": "Data",
+                          "required": true,
+                          "semantic": "file:data"
+                        }
+                      ],
+                      "type": "collection",
+                      "label": "Attachment"
+                    },
+                    "type": "array",
+                    "label": "Attachments"
+                  },
+                  {
+                    "name": "from",
+                    "type": "select",
+                    "label": "From"
+                  },
+                  {
+                    "name": "cc",
+                    "spec": {
+                      "name": "value",
+                      "type": "email",
+                      "label": "Recipient email address"
+                    },
+                    "type": "array",
+                    "label": "CC recipients"
+                  },
+                  {
+                    "name": "bcc",
+                    "spec": {
+                      "name": "value",
+                      "type": "email",
+                      "label": "Recipient email address"
+                    },
+                    "type": "array",
+                    "label": "BCC recipients"
+                  },
+                  {
+                    "name": "emailHeaders",
+                    "spec": {
+                      "name": "value",
+                      "spec": [
+                        {
+                          "name": "key",
+                          "type": "text",
+                          "label": "Key",
+                          "required": true
+                        },
+                        {
+                          "name": "value",
+                          "type": "text",
+                          "label": "Value"
+                        }
+                      ],
+                      "type": "collection",
+                      "label": "Email header"
+                    },
+                    "type": "array",
+                    "label": "Additional email headers"
+                  },
+                  {
+                    "name": "content",
+                    "type": "text",
+                    "label": "Content"
+                  }
+                ],
+                "restore": {
+                  "expect": {
+                    "cc": {
+                      "mode": "chose"
+                    },
+                    "to": {
+                      "mode": "chose",
+                      "items": [
+                        null
+                      ]
+                    },
+                    "bcc": {
+                      "mode": "chose"
+                    },
+                    "from": {
+                      "mode": "chose"
+                    },
+                    "bodyType": {
+                      "label": "Raw HTML"
+                    },
+                    "attachments": {
+                      "mode": "chose"
+                    },
+                    "emailHeaders": {
+                      "mode": "chose"
+                    }
+                  },
+                  "parameters": {
+                    "__IMTCONN__": 0
+                  }
+                },
+                "designer": {
+                  "x": 6000,
+                  "y": 300
+                },
+                "parameters": [
+                  {
+                    "name": "__IMTCONN__",
+                    "type": "account:google-email",
+                    "label": "Connection",
+                    "required": true
+                  }
+                ]
+              },
+              "parameters": {
+                "__IMTCONN__": 0
+              }
+            }
+          ]
+        }
+      ],
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 5100,
+          "y": 150
+        }
+      },
+      "parameters": {}
+    }
+  ],
+  "name": "Ads Dashboard — Summary + EN/US + LATAM",
+  "metadata": {
+    "instant": false,
+    "version": 1,
+    "designer": {
+      "orphans": []
+    },
+    "scenario": {
+      "dlq": false,
+      "slots": null,
+      "dataloss": false,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "roundtrips": 1,
+      "sequential": false,
+      "confidential": false,
+      "freshVariables": false,
+      "autoCommitTriggerLast": true
+    }
+  },
+  "scheduling": {
+    "days": [
+      1
+    ],
+    "time": "09:28",
+    "type": "weekly"
+  },
+  "interface": {
+    "input": [],
+    "output": []
+  }
+}

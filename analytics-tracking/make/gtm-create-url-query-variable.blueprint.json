@@ -1,0 +1,82 @@
+{
+  "flow": [
+    {
+      "id": 1,
+      "mapper": {},
+      "module": "gateway:CustomWebHook",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "hook": 0,
+        "maxResults": 1
+      }
+    },
+    {
+      "id": 2,
+      "mapper": {
+        "qs": [],
+        "url": "https://tagmanager.googleapis.com/tagmanager/v2/accounts/{{1.gtm_account_id}}/containers/{{1.gtm_container_id}}/workspaces/{{1.gtm_workspace_id}}/variables",
+        "body": "{\"name\":\"form_id\",\"type\":\"u\",\"parameter\":[{\"type\":\"template\",\"key\":\"component\",\"value\":\"QUERY\"},{\"type\":\"template\",\"key\":\"queryKey\",\"value\":\"submissionGuid\"}]}",
+        "method": "post",
+        "headers": [
+          {
+            "name": "Authorization",
+            "value": "Bearer {{1.google_token}}"
+          },
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "bodyType": "raw",
+        "contentType": "json",
+        "serializeUrl": false,
+        "parseResponse": true
+      },
+      "module": "http:ActionSendData",
+      "version": 3,
+      "metadata": {
+        "designer": {
+          "x": 300,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "handleErrors": true,
+        "useNewZLibDecompression": true
+      }
+    }
+  ],
+  "name": "GTM — Create Variable (form_id)",
+  "metadata": {
+    "zone": "eu1.make.com",
+    "instant": true,
+    "version": 1,
+    "designer": {
+      "orphans": []
+    },
+    "scenario": {
+      "dlq": false,
+      "dataloss": false,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "roundtrips": 1,
+      "sequential": false,
+      "confidential": false,
+      "freshVariables": false,
+      "autoCommitTriggerLast": true
+    }
+  },
+  "scheduling": {
+    "type": "immediately"
+  },
+  "interface": {
+    "input": [],
+    "output": []
+  }
+}

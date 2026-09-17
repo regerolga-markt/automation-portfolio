@@ -1,0 +1,113 @@
+{
+  "flow": [
+    {
+      "id": 1,
+      "mapper": {
+        "sort": [
+          {
+            "key": "date",
+            "order": 1
+          }
+        ],
+        "filter": [
+          [
+            {
+              "a": "date",
+              "b": null,
+              "o": "exist"
+            }
+          ]
+        ]
+      },
+      "module": "datastore:SearchRecord",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "limit": 100,
+        "datastore": 0,
+        "continueWhenNoRes": false
+      }
+    },
+    {
+      "id": 2,
+      "filter": {
+        "name": "row is not empty",
+        "conditions": [
+          [
+            {
+              "a": "{{1.key}}",
+              "o": "exist"
+            }
+          ]
+        ]
+      },
+      "mapper": {
+        "mode": "fromAll",
+        "values": {
+          "0": "{{1.data.date}}",
+          "1": "{{1.data.platform}}",
+          "2": "{{1.data.account}}",
+          "3": "{{1.data.campaign}}",
+          "4": "{{1.data.action}}",
+          "5": "{{1.data.detail}}",
+          "6": "{{1.data.reason}}",
+          "7": "{{1.data.expected_effect}}",
+          "8": "{{1.data.source}}"
+        },
+        "sheetId": "Untitled",
+        "spreadsheetId": "<SPREADSHEET_ID>",
+        "includesHeaders": true,
+        "insertDataOption": "INSERT_ROWS",
+        "useColumnHeaders": false,
+        "valueInputOption": "USER_ENTERED",
+        "insertUnformatted": false
+      },
+      "module": "google-sheets:addRow",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 300,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 3,
+      "mapper": {
+        "key": "{{1.key}}"
+      },
+      "module": "datastore:DeleteRecord",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 600,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "datastore": 0
+      }
+    }
+  ],
+  "name": "Changelog — queue → Google Sheet (daily 09:00)",
+  "metadata": {
+    "instant": false,
+    "version": 1
+  },
+  "scheduling": {
+    "time": "09:00",
+    "type": "daily"
+  },
+  "interface": {
+    "input": [],
+    "output": []
+  }
+}

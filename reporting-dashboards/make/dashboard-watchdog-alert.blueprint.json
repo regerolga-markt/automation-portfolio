@@ -1,0 +1,81 @@
+{
+  "flow": [
+    {
+      "id": 1,
+      "mapper": {
+        "qs": [],
+        "url": "spreadsheets/<SPREADSHEET_ID>/values/run_log!A2:E2000",
+        "method": "GET",
+        "headers": []
+      },
+      "module": "google-sheets:makeAPICall",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 2,
+      "filter": {
+        "name": "status not OK or no rebuild today",
+        "conditions": [
+          [
+            {
+              "a": "{{get(last(1.body.values); 3)}}",
+              "b": "OK",
+              "o": "text:notequal"
+            }
+          ],
+          [
+            {
+              "a": "{{substring(get(last(1.body.values); 1); 0; 10)}}",
+              "b": "{{formatDate(now; \"YYYY-MM-DD\")}}",
+              "o": "text:notequal"
+            }
+          ]
+        ]
+      },
+      "mapper": {
+        "to": [
+          "<ALERT_EMAIL>"
+        ],
+        "content": "<p><b>The Dashboard data mart needs attention.</b></p><p>Latest run_log entry: <b>{{get(last(1.body.values); 1)}}</b> · status <b>{{get(last(1.body.values); 3)}}</b> · rows written: {{get(last(1.body.values); 4)}}</p><p>Today is {{formatDate(now; \"YYYY-MM-DD\")}}. You are receiving this because the status is not OK or the rebuild did not run today.</p><p>materialize message:<br>{{get(last(1.body.values); 5)}}</p><p><b>What to do.</b> Open the spreadsheet, Extensions → Apps Script, run materialize manually. If Executions shows no Time-driven rows, the scheduler dropped the trigger: delete it and create it again. If the status is PARTIAL, check which sources did not arrive, re-run the weekly ingest scenario, then run materialize again.</p><p><a href=\"https://docs.google.com/spreadsheets/d/<SPREADSHEET_ID>/edit\">Spreadsheet</a> · <a href=\"<APPS_SCRIPT_WEB_APP_URL>\">Dashboard</a></p>",
+        "subject": "Dashboard — data mart: {{get(last(1.body.values); 3)}} as of {{get(last(1.body.values); 1)}}",
+        "bodyType": "rawHtml"
+      },
+      "module": "google-email:sendAnEmail",
+      "version": 4,
+      "metadata": {
+        "designer": {
+          "x": 300,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    }
+  ],
+  "name": "Dashboard — data mart watchdog (Mon 09:30 Berlin)",
+  "metadata": {
+    "instant": false,
+    "version": 1
+  },
+  "scheduling": {
+    "days": [
+      1
+    ],
+    "time": "09:30",
+    "type": "weekly"
+  },
+  "interface": {
+    "input": [],
+    "output": []
+  }
+}

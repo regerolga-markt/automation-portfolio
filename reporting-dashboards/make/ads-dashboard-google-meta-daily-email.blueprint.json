@@ -1,0 +1,280 @@
+{
+  "flow": [
+    {
+      "id": 2,
+      "mapper": {
+        "limit": 100,
+        "endDate": "{{formatDate(addDays(now; -1); \"YYYY-MM-DD\")}}",
+        "accountId": "",
+        "startDate": "{{formatDate(addDays(now; -7); \"YYYY-MM-DD\")}}"
+      },
+      "module": "google-ads-reports:runCampaignReport",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": -300,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": null
+      }
+    },
+    {
+      "id": 3,
+      "mapper": {
+        "cost": "{{2.metrics.cost}}",
+        "conversions": "{{2.metrics.conversions}}",
+        "costPerConv": "{{if(2.metrics.conversions > 0; 2.metrics.cost / 2.metrics.conversions; 0)}}",
+        "campaignName": "{{2.dimensions.campaignName}}"
+      },
+      "module": "builtin:BasicAggregator",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "feeder": 2,
+        "groupBy": "",
+        "arrayName": "array"
+      }
+    },
+    {
+      "id": 4,
+      "mapper": {
+        "type": "adAccount",
+        "level": "campaign",
+        "limit": 100,
+        "fields": "campaign_name,spend,conversions,cost_per_conversion",
+        "business": "",
+        "adAccount": "",
+        "date_preset": "last_7d",
+        "specify_date": "date_preset",
+        "time_increment": "all_days"
+      },
+      "module": "facebook-insights:GetAdAccountInsights",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 300,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": null
+      }
+    },
+    {
+      "id": 5,
+      "mapper": {
+        "spend": "{{number(4.spend)}}",
+        "conversions": "{{number(first(map(4.conversions; \"value\")))}}",
+        "costPerConv": "{{number(first(map(4.cost_per_conversion; \"value\")))}}",
+        "campaignName": "{{4.campaign_name}}"
+      },
+      "module": "builtin:BasicAggregator",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 600,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "feeder": 4,
+        "groupBy": "",
+        "arrayName": "array"
+      }
+    },
+    {
+      "id": 6,
+      "mapper": {
+        "type": "adAccount",
+        "level": "account",
+        "limit": 10,
+        "fields": "spend,conversions",
+        "business": "",
+        "adAccount": "",
+        "date_preset": "last_28d",
+        "specify_date": "date_preset",
+        "time_increment": "7"
+      },
+      "module": "facebook-insights:GetAdAccountInsights",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 900,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": null
+      }
+    },
+    {
+      "id": 7,
+      "mapper": {
+        "spend": "{{number(6.spend)}}",
+        "dateStop": "{{6.date_stop}}",
+        "dateStart": "{{6.date_start}}",
+        "conversions": "{{number(first(map(6.conversions; \"value\")))}}"
+      },
+      "module": "builtin:BasicAggregator",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 1200,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "feeder": 6,
+        "groupBy": "",
+        "arrayName": "array"
+      }
+    },
+    {
+      "id": 8,
+      "mapper": {
+        "variables": [
+          {
+            "name": "gads_cost_7d",
+            "value": "{{round(sum(map(3.array; \"cost\")); 2)}}"
+          },
+          {
+            "name": "gads_conv_7d",
+            "value": "{{round(sum(map(3.array; \"conversions\")); 1)}}"
+          },
+          {
+            "name": "gads_cpc",
+            "value": "{{round(if(sum(map(3.array; \"conversions\")) > 0; sum(map(3.array; \"cost\")) / sum(map(3.array; \"conversions\")); 0); 2)}}"
+          },
+          {
+            "name": "meta_spend_7d",
+            "value": "{{round(sum(map(5.array; \"spend\")); 2)}}"
+          },
+          {
+            "name": "meta_conv_7d",
+            "value": "{{round(sum(map(5.array; \"conversions\")); 1)}}"
+          },
+          {
+            "name": "meta_cpc",
+            "value": "{{round(if(sum(map(5.array; \"conversions\")) > 0; sum(map(5.array; \"spend\")) / sum(map(5.array; \"conversions\")); 0); 2)}}"
+          },
+          {
+            "name": "total_cost_7d",
+            "value": "{{round(sum(map(3.array; \"cost\")) + sum(map(5.array; \"spend\")); 2)}}"
+          },
+          {
+            "name": "total_conv_7d",
+            "value": "{{round(sum(map(3.array; \"conversions\")) + sum(map(5.array; \"conversions\")); 1)}}"
+          },
+          {
+            "name": "total_cpc",
+            "value": "{{round(if(sum(map(3.array; \"conversions\")) + sum(map(5.array; \"conversions\")) > 0; (sum(map(3.array; \"cost\")) + sum(map(5.array; \"spend\"))) / (sum(map(3.array; \"conversions\")) + sum(map(5.array; \"conversions\"))); 0); 2)}}"
+          }
+        ]
+      },
+      "module": "util:SetVariables",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 1500,
+          "y": 0
+        }
+      },
+      "parameters": {}
+    },
+    {
+      "id": 9,
+      "mapper": {
+        "variables": [
+          {
+            "name": "chart_url",
+            "value": "{{\"https://quickchart.io/chart?width=600&height=300&c=\" + encodeURL(\"{type:bar,data:{labels:[\" + ifempty(7.array[0].dateStart; \"\") + \",\" + ifempty(7.array[1].dateStart; \"\") + \",\" + ifempty(7.array[2].dateStart; \"\") + \",\" + ifempty(7.array[3].dateStart; \"\") + \"],datasets:[{label:MetaConv,data:[\" + ifempty(7.array[0].conversions; 0) + \",\" + ifempty(7.array[1].conversions; 0) + \",\" + ifempty(7.array[2].conversions; 0) + \",\" + ifempty(7.array[3].conversions; 0) + \"]}]}}\")}}}"
+          }
+        ]
+      },
+      "module": "util:SetVariables",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 1800,
+          "y": 0
+        }
+      },
+      "parameters": {}
+    },
+    {
+      "id": 10,
+      "mapper": {
+        "variables": [
+          {
+            "name": "gads_rows",
+            "value": "{{if(length(3.array) >= 1; \"<tr><td>\" + ifempty(3.array[0].campaignName; \"-\") + \"</td><td>\" + round(number(ifempty(3.array[0].cost; 0)); 2) + \" EUR</td><td>\" + round(number(ifempty(3.array[0].conversions; 0)); 0) + \"</td><td>\" + round(number(ifempty(3.array[0].costPerConv; 0)); 2) + \" EUR</td></tr>\"; \"\") + if(length(3.array) >= 2; \"<tr><td>\" + ifempty(3.array[1].campaignName; \"-\") + \"</td><td>\" + round(number(ifempty(3.array[1].cost; 0)); 2) + \" EUR</td><td>\" + round(number(ifempty(3.array[1].conversions; 0)); 0) + \"</td><td>\" + round(number(ifempty(3.array[1].costPerConv; 0)); 2) + \" EUR</td></tr>\"; \"\") + if(length(3.array) >= 3; \"<tr><td>\" + ifempty(3.array[2].campaignName; \"-\") + \"</td><td>\" + round(number(ifempty(3.array[2].cost; 0)); 2) + \" EUR</td><td>\" + round(number(ifempty(3.array[2].conversions; 0)); 0) + \"</td><td>\" + round(number(ifempty(3.array[2].costPerConv; 0)); 2) + \" EUR</td></tr>\"; \"\") + if(length(3.array) >= 4; \"<tr><td>\" + ifempty(3.array[3].campaignName; \"-\") + \"</td><td>\" + round(number(ifempty(3.array[3].cost; 0)); 2) + \" EUR</td><td>\" + round(number(ifempty(3.array[3].conversions; 0)); 0) + \"</td><td>\" + round(number(ifempty(3.array[3].costPerConv; 0)); 2) + \" EUR</td></tr>\"; \"\") + if(length(3.array) >= 5; \"<tr><td>\" + ifempty(3.array[4].campaignName; \"-\") + \"</td><td>\" + round(number(ifempty(3.array[4].cost; 0)); 2) + \" EUR</td><td>\" + round(number(ifempty(3.array[4].conversions; 0)); 0) + \"</td><td>\" + round(number(ifempty(3.array[4].costPerConv; 0)); 2) + \" EUR</td></tr>\"; \"\")}}"
+          },
+          {
+            "name": "meta_rows",
+            "value": "{{if(length(5.array) >= 1; \"<tr><td>\" + ifempty(5.array[0].campaignName; \"-\") + \"</td><td>\" + round(number(ifempty(5.array[0].spend; 0)); 2) + \" EUR</td><td>\" + round(number(ifempty(5.array[0].conversions; 0)); 0) + \"</td><td>\" + round(number(ifempty(5.array[0].costPerConv; 0)); 2) + \" EUR</td></tr>\"; \"\") + if(length(5.array) >= 2; \"<tr><td>\" + ifempty(5.array[1].campaignName; \"-\") + \"</td><td>\" + round(number(ifempty(5.array[1].spend; 0)); 2) + \" EUR</td><td>\" + round(number(ifempty(5.array[1].conversions; 0)); 0) + \"</td><td>\" + round(number(ifempty(5.array[1].costPerConv; 0)); 2) + \" EUR</td></tr>\"; \"\") + if(length(5.array) >= 3; \"<tr><td>\" + ifempty(5.array[2].campaignName; \"-\") + \"</td><td>\" + round(number(ifempty(5.array[2].spend; 0)); 2) + \" EUR</td><td>\" + round(number(ifempty(5.array[2].conversions; 0)); 0) + \"</td><td>\" + round(number(ifempty(5.array[2].costPerConv; 0)); 2) + \" EUR</td></tr>\"; \"\") + if(length(5.array) >= 4; \"<tr><td>\" + ifempty(5.array[3].campaignName; \"-\") + \"</td><td>\" + round(number(ifempty(5.array[3].spend; 0)); 2) + \" EUR</td><td>\" + round(number(ifempty(5.array[3].conversions; 0)); 0) + \"</td><td>\" + round(number(ifempty(5.array[3].costPerConv; 0)); 2) + \" EUR</td></tr>\"; \"\")}}"
+          }
+        ]
+      },
+      "module": "util:SetVariables",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 2100,
+          "y": 0
+        }
+      },
+      "parameters": {}
+    },
+    {
+      "id": 11,
+      "mapper": {
+        "to": "<REPORT_RECIPIENT_EMAIL>",
+        "content": "{{\"<html><body><h1>Ads Dashboard</h1><p>Cost 7d: \" + 8.total_cost_7d + \" EUR | Conv: \" + 8.total_conv_7d + \" | CPC: \" + 8.total_cpc + \" EUR</p><p>Google: Cost \" + 8.gads_cost_7d + \" EUR, Conv \" + 8.gads_conv_7d + \", CPC \" + 8.gads_cpc + \" EUR</p><p>Meta: Cost \" + 8.meta_spend_7d + \" EUR, Conv \" + 8.meta_conv_7d + \", CPC \" + 8.meta_cpc + \" EUR</p><h2>Google Ads Campaigns</h2><table>\" + 10.gads_rows + \"</table><h2>Meta Ads Campaigns</h2><table>\" + 10.meta_rows + \"</table></body></html>\"}}",
+        "subject": "{{\"Ads Dashboard - \" + formatDate(now; \"DD MMM YYYY\")}}",
+        "contentType": "html"
+      },
+      "module": "google-email:sendAnEmail",
+      "version": 4,
+      "metadata": {
+        "designer": {
+          "x": 2400,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": null
+      }
+    }
+  ],
+  "name": "Ads Dashboard - Google Ads + Meta",
+  "metadata": {
+    "instant": false,
+    "version": 1,
+    "scenario": {
+      "dlq": false,
+      "dataloss": false,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "roundtrips": 1,
+      "sequential": false,
+      "confidential": false,
+      "freshVariables": false,
+      "autoCommitTriggerLast": true
+    }
+  },
+  "scheduling": {
+    "type": "indefinitely",
+    "interval": 1440
+  },
+  "interface": {
+    "input": [],
+    "output": []
+  }
+}

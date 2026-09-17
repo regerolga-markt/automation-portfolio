@@ -1,0 +1,492 @@
+{
+  "flow": [
+    {
+      "id": 1,
+      "mapper": {
+        "limit": "200",
+        "endDate": "{{formatDate(addDays(now; -1); \"YYYY-MM-DD\")}}",
+        "accountId": "<GOOGLE_ADS_ACCOUNT_ID_1>",
+        "startDate": "{{formatDate(addDays(now; -1); \"YYYY-MM-DD\")}}"
+      },
+      "module": "google-ads-reports:runCampaignReport",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 2,
+      "mapper": {
+        "cost": "{{1.metrics.cost}}",
+        "clicks": "{{1.metrics.clicks}}",
+        "region": "{{if(max(indexOf(lower(1.dimensions.campaignName); \"_us_\"); indexOf(lower(1.dimensions.campaignName); \"-us-\")) > -1; \"US\"; if(max(indexOf(lower(1.dimensions.campaignName); \"_emea_\"); indexOf(lower(1.dimensions.campaignName); \"-emea-\"); indexOf(lower(1.dimensions.campaignName); \"_eu_\"); indexOf(lower(1.dimensions.campaignName); \"-eu-\"); indexOf(lower(1.dimensions.campaignName); \"_uk_\")) > -1; \"EU\"; if(max(indexOf(lower(1.dimensions.campaignName); \"_latam_\"); indexOf(lower(1.dimensions.campaignName); \"-latam-\")) > -1; \"LATAM\"; \"US\")))}}",
+        "conversions": "{{1.metrics.conversions}}",
+        "impressions": "{{1.metrics.impressions}}",
+        "campaignName": "{{1.dimensions.campaignName}}"
+      },
+      "module": "builtin:BasicAggregator",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 300,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "feeder": 1,
+        "groupBy": "",
+        "arrayName": "array"
+      }
+    },
+    {
+      "id": 3,
+      "mapper": {
+        "limit": "200",
+        "endDate": "{{formatDate(addDays(now; -1); \"YYYY-MM-DD\")}}",
+        "accountId": "<GOOGLE_ADS_ACCOUNT_ID_2>",
+        "startDate": "{{formatDate(addDays(now; -1); \"YYYY-MM-DD\")}}"
+      },
+      "module": "google-ads-reports:runCampaignReport",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 600,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 4,
+      "mapper": {
+        "cost": "{{3.metrics.cost}}",
+        "clicks": "{{3.metrics.clicks}}",
+        "region": "{{if(max(indexOf(lower(3.dimensions.campaignName); \"_us_\"); indexOf(lower(3.dimensions.campaignName); \"-us-\")) > -1; \"US\"; if(max(indexOf(lower(3.dimensions.campaignName); \"_emea_\"); indexOf(lower(3.dimensions.campaignName); \"-emea-\"); indexOf(lower(3.dimensions.campaignName); \"_eu_\"); indexOf(lower(3.dimensions.campaignName); \"-eu-\"); indexOf(lower(3.dimensions.campaignName); \"_uk_\")) > -1; \"EU\"; if(max(indexOf(lower(3.dimensions.campaignName); \"_latam_\"); indexOf(lower(3.dimensions.campaignName); \"-latam-\")) > -1; \"LATAM\"; \"LATAM\")))}}",
+        "conversions": "{{3.metrics.conversions}}",
+        "impressions": "{{3.metrics.impressions}}",
+        "campaignName": "{{3.dimensions.campaignName}}"
+      },
+      "module": "builtin:BasicAggregator",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 900,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "feeder": 3,
+        "groupBy": "",
+        "arrayName": "array"
+      }
+    },
+    {
+      "id": 5,
+      "mapper": {
+        "limit": "200",
+        "endDate": "{{formatDate(addDays(now; -1); \"YYYY-MM-DD\")}}",
+        "accountId": "<GOOGLE_ADS_ACCOUNT_ID_3>",
+        "startDate": "{{formatDate(addDays(now; -1); \"YYYY-MM-DD\")}}"
+      },
+      "module": "google-ads-reports:runCampaignReport",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 1200,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 6,
+      "mapper": {
+        "cost": "{{5.metrics.cost}}",
+        "clicks": "{{5.metrics.clicks}}",
+        "region": "{{if(max(indexOf(lower(5.dimensions.campaignName); \"_us_\"); indexOf(lower(5.dimensions.campaignName); \"-us-\")) > -1; \"US\"; if(max(indexOf(lower(5.dimensions.campaignName); \"_emea_\"); indexOf(lower(5.dimensions.campaignName); \"-emea-\"); indexOf(lower(5.dimensions.campaignName); \"_eu_\"); indexOf(lower(5.dimensions.campaignName); \"-eu-\"); indexOf(lower(5.dimensions.campaignName); \"_uk_\")) > -1; \"EU\"; if(max(indexOf(lower(5.dimensions.campaignName); \"_latam_\"); indexOf(lower(5.dimensions.campaignName); \"-latam-\")) > -1; \"LATAM\"; \"Other\")))}}",
+        "conversions": "{{5.metrics.conversions}}",
+        "impressions": "{{5.metrics.impressions}}",
+        "campaignName": "{{5.dimensions.campaignName}}"
+      },
+      "module": "builtin:BasicAggregator",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 1500,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "feeder": 5,
+        "groupBy": "",
+        "arrayName": "array"
+      }
+    },
+    {
+      "id": 7,
+      "mapper": {
+        "type": "adAccount",
+        "level": "campaign",
+        "limit": "200",
+        "fields": [
+          "campaign_name",
+          "spend",
+          "clicks",
+          "impressions",
+          "ctr",
+          "conversions",
+          "date_start",
+          "date_stop"
+        ],
+        "business": "<META_BUSINESS_ID>",
+        "adAccount": "act_<META_AD_ACCOUNT_ID>",
+        "date_preset": "yesterday",
+        "specify_date": "date_preset",
+        "time_increment": "all_days"
+      },
+      "module": "facebook-insights:GetAdAccountInsights",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 1800,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 8,
+      "mapper": {
+        "spend": "{{7.spend}}",
+        "clicks": "{{7.clicks}}",
+        "region": "{{if(max(indexOf(lower(7.campaign_name); \"_us_\"); indexOf(lower(7.campaign_name); \"-us-\")) > -1; \"US\"; if(max(indexOf(lower(7.campaign_name); \"_emea_\"); indexOf(lower(7.campaign_name); \"-emea-\"); indexOf(lower(7.campaign_name); \"_eu_\"); indexOf(lower(7.campaign_name); \"-eu-\"); indexOf(lower(7.campaign_name); \"_uk_\")) > -1; \"EU\"; if(max(indexOf(lower(7.campaign_name); \"_latam_\"); indexOf(lower(7.campaign_name); \"-latam-\")) > -1; \"LATAM\"; \"Other\")))}}",
+        "conversions": "{{first(map(7.conversions; \"value\"))}}",
+        "impressions": "{{7.impressions}}",
+        "campaignName": "{{7.campaign_name}}"
+      },
+      "module": "builtin:BasicAggregator",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 2100,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "feeder": 7,
+        "groupBy": "",
+        "arrayName": "array"
+      }
+    },
+    {
+      "id": 9,
+      "mapper": {
+        "limit": "1",
+        "fields": [
+          "costInLocalCurrency",
+          "clicks",
+          "impressions",
+          "externalWebsiteConversions"
+        ],
+        "pivots": [
+          "ACCOUNT"
+        ],
+        "endDate": "{{formatDate(addDays(now; -1); \"YYYY-MM-DD\")}}",
+        "accounts": [
+          "urn:li:sponsoredAccount:<LINKEDIN_ACCOUNT_ID_1>"
+        ],
+        "startDate": "{{formatDate(addDays(now; -1); \"YYYY-MM-DD\")}}",
+        "timeGranularity": "ALL"
+      },
+      "module": "linkedin-ads-reports:generateAdStatisticsReport",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 2400,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 10,
+      "mapper": {
+        "limit": "1",
+        "fields": [
+          "costInLocalCurrency",
+          "clicks",
+          "impressions",
+          "externalWebsiteConversions"
+        ],
+        "pivots": [
+          "ACCOUNT"
+        ],
+        "endDate": "{{formatDate(addDays(now; -1); \"YYYY-MM-DD\")}}",
+        "accounts": [
+          "urn:li:sponsoredAccount:<LINKEDIN_ACCOUNT_ID_2>"
+        ],
+        "startDate": "{{formatDate(addDays(now; -1); \"YYYY-MM-DD\")}}",
+        "timeGranularity": "ALL"
+      },
+      "module": "linkedin-ads-reports:generateAdStatisticsReport",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 2700,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 11,
+      "mapper": {
+        "scope": "execution",
+        "variables": [
+          {
+            "name": "report_date",
+            "value": "{{formatDate(addDays(now; -1); \"DD MMM YYYY\")}}"
+          },
+          {
+            "name": "gads_us_spend",
+            "value": "{{round(sum(map(2.array; \"cost\"; \"region\"; \"US\")) + sum(map(4.array; \"cost\"; \"region\"; \"US\")) + sum(map(6.array; \"cost\"; \"region\"; \"US\")); 2)}}"
+          },
+          {
+            "name": "gads_us_conv",
+            "value": "{{round(sum(map(2.array; \"conversions\"; \"region\"; \"US\")) + sum(map(4.array; \"conversions\"; \"region\"; \"US\")) + sum(map(6.array; \"conversions\"; \"region\"; \"US\")); 1)}}"
+          },
+          {
+            "name": "gads_eu_spend",
+            "value": "{{round(sum(map(2.array; \"cost\"; \"region\"; \"EU\")) + sum(map(4.array; \"cost\"; \"region\"; \"EU\")) + sum(map(6.array; \"cost\"; \"region\"; \"EU\")); 2)}}"
+          },
+          {
+            "name": "gads_eu_conv",
+            "value": "{{round(sum(map(2.array; \"conversions\"; \"region\"; \"EU\")) + sum(map(4.array; \"conversions\"; \"region\"; \"EU\")) + sum(map(6.array; \"conversions\"; \"region\"; \"EU\")); 1)}}"
+          },
+          {
+            "name": "gads_latam_spend",
+            "value": "{{round(sum(map(2.array; \"cost\"; \"region\"; \"LATAM\")) + sum(map(4.array; \"cost\"; \"region\"; \"LATAM\")) + sum(map(6.array; \"cost\"; \"region\"; \"LATAM\")); 2)}}"
+          },
+          {
+            "name": "gads_latam_conv",
+            "value": "{{round(sum(map(2.array; \"conversions\"; \"region\"; \"LATAM\")) + sum(map(4.array; \"conversions\"; \"region\"; \"LATAM\")) + sum(map(6.array; \"conversions\"; \"region\"; \"LATAM\")); 1)}}"
+          },
+          {
+            "name": "gads_other_spend",
+            "value": "{{round(sum(map(6.array; \"cost\"; \"region\"; \"Other\")); 2)}}"
+          },
+          {
+            "name": "gads_other_conv",
+            "value": "{{round(sum(map(6.array; \"conversions\"; \"region\"; \"Other\")); 1)}}"
+          },
+          {
+            "name": "meta_us_spend",
+            "value": "{{round(sum(map(8.array; \"spend\"; \"region\"; \"US\")); 2)}}"
+          },
+          {
+            "name": "meta_us_conv",
+            "value": "{{round(sum(map(8.array; \"conversions\"; \"region\"; \"US\")); 1)}}"
+          },
+          {
+            "name": "meta_eu_spend",
+            "value": "{{round(sum(map(8.array; \"spend\"; \"region\"; \"EU\")); 2)}}"
+          },
+          {
+            "name": "meta_eu_conv",
+            "value": "{{round(sum(map(8.array; \"conversions\"; \"region\"; \"EU\")); 1)}}"
+          },
+          {
+            "name": "meta_latam_spend",
+            "value": "{{round(sum(map(8.array; \"spend\"; \"region\"; \"LATAM\")); 2)}}"
+          },
+          {
+            "name": "meta_latam_conv",
+            "value": "{{round(sum(map(8.array; \"conversions\"; \"region\"; \"LATAM\")); 1)}}"
+          },
+          {
+            "name": "meta_other_spend",
+            "value": "{{round(sum(map(8.array; \"spend\"; \"region\"; \"Other\")); 2)}}"
+          },
+          {
+            "name": "meta_other_conv",
+            "value": "{{round(sum(map(8.array; \"conversions\"; \"region\"; \"Other\")); 1)}}"
+          },
+          {
+            "name": "li_us_spend",
+            "value": "{{round(parseNumber(ifempty(9.costInLocalCurrency; \"0\"); \".\"); 2)}}"
+          },
+          {
+            "name": "li_us_conv",
+            "value": "{{round(ifempty(9.externalWebsiteConversions; 0); 1)}}"
+          },
+          {
+            "name": "li_latam_spend",
+            "value": "{{round(parseNumber(ifempty(10.costInLocalCurrency; \"0\"); \".\"); 2)}}"
+          },
+          {
+            "name": "li_latam_conv",
+            "value": "{{round(ifempty(10.externalWebsiteConversions; 0); 1)}}"
+          },
+          {
+            "name": "us_total_spend",
+            "value": "{{round(sum(map(2.array; \"cost\"; \"region\"; \"US\")) + sum(map(4.array; \"cost\"; \"region\"; \"US\")) + sum(map(6.array; \"cost\"; \"region\"; \"US\")) + sum(map(8.array; \"spend\"; \"region\"; \"US\")) + parseNumber(ifempty(9.costInLocalCurrency; \"0\"); \".\"); 2)}}"
+          },
+          {
+            "name": "us_total_conv",
+            "value": "{{round(sum(map(2.array; \"conversions\"; \"region\"; \"US\")) + sum(map(4.array; \"conversions\"; \"region\"; \"US\")) + sum(map(6.array; \"conversions\"; \"region\"; \"US\")) + sum(map(8.array; \"conversions\"; \"region\"; \"US\")) + ifempty(9.externalWebsiteConversions; 0); 1)}}"
+          },
+          {
+            "name": "us_total_cpa",
+            "value": "{{round(if(sum(map(2.array; \"conversions\"; \"region\"; \"US\")) + sum(map(4.array; \"conversions\"; \"region\"; \"US\")) + sum(map(6.array; \"conversions\"; \"region\"; \"US\")) + sum(map(8.array; \"conversions\"; \"region\"; \"US\")) + ifempty(9.externalWebsiteConversions; 0) > 0; (sum(map(2.array; \"cost\"; \"region\"; \"US\")) + sum(map(4.array; \"cost\"; \"region\"; \"US\")) + sum(map(6.array; \"cost\"; \"region\"; \"US\")) + sum(map(8.array; \"spend\"; \"region\"; \"US\")) + parseNumber(ifempty(9.costInLocalCurrency; \"0\"); \".\")) / (sum(map(2.array; \"conversions\"; \"region\"; \"US\")) + sum(map(4.array; \"conversions\"; \"region\"; \"US\")) + sum(map(6.array; \"conversions\"; \"region\"; \"US\")) + sum(map(8.array; \"conversions\"; \"region\"; \"US\")) + ifempty(9.externalWebsiteConversions; 0)); 0); 2)}}"
+          },
+          {
+            "name": "eu_total_spend",
+            "value": "{{round(sum(map(2.array; \"cost\"; \"region\"; \"EU\")) + sum(map(4.array; \"cost\"; \"region\"; \"EU\")) + sum(map(6.array; \"cost\"; \"region\"; \"EU\")) + sum(map(8.array; \"spend\"; \"region\"; \"EU\")); 2)}}"
+          },
+          {
+            "name": "eu_total_conv",
+            "value": "{{round(sum(map(2.array; \"conversions\"; \"region\"; \"EU\")) + sum(map(4.array; \"conversions\"; \"region\"; \"EU\")) + sum(map(6.array; \"conversions\"; \"region\"; \"EU\")) + sum(map(8.array; \"conversions\"; \"region\"; \"EU\")); 1)}}"
+          },
+          {
+            "name": "eu_total_cpa",
+            "value": "{{round(if(sum(map(2.array; \"conversions\"; \"region\"; \"EU\")) + sum(map(4.array; \"conversions\"; \"region\"; \"EU\")) + sum(map(6.array; \"conversions\"; \"region\"; \"EU\")) + sum(map(8.array; \"conversions\"; \"region\"; \"EU\")) > 0; (sum(map(2.array; \"cost\"; \"region\"; \"EU\")) + sum(map(4.array; \"cost\"; \"region\"; \"EU\")) + sum(map(6.array; \"cost\"; \"region\"; \"EU\")) + sum(map(8.array; \"spend\"; \"region\"; \"EU\"))) / (sum(map(2.array; \"conversions\"; \"region\"; \"EU\")) + sum(map(4.array; \"conversions\"; \"region\"; \"EU\")) + sum(map(6.array; \"conversions\"; \"region\"; \"EU\")) + sum(map(8.array; \"conversions\"; \"region\"; \"EU\"))); 0); 2)}}"
+          },
+          {
+            "name": "latam_total_spend",
+            "value": "{{round(sum(map(2.array; \"cost\"; \"region\"; \"LATAM\")) + sum(map(4.array; \"cost\"; \"region\"; \"LATAM\")) + sum(map(6.array; \"cost\"; \"region\"; \"LATAM\")) + sum(map(8.array; \"spend\"; \"region\"; \"LATAM\")) + parseNumber(ifempty(10.costInLocalCurrency; \"0\"); \".\"); 2)}}"
+          },
+          {
+            "name": "latam_total_conv",
+            "value": "{{round(sum(map(2.array; \"conversions\"; \"region\"; \"LATAM\")) + sum(map(4.array; \"conversions\"; \"region\"; \"LATAM\")) + sum(map(6.array; \"conversions\"; \"region\"; \"LATAM\")) + sum(map(8.array; \"conversions\"; \"region\"; \"LATAM\")) + ifempty(10.externalWebsiteConversions; 0); 1)}}"
+          },
+          {
+            "name": "latam_total_cpa",
+            "value": "{{round(if(sum(map(2.array; \"conversions\"; \"region\"; \"LATAM\")) + sum(map(4.array; \"conversions\"; \"region\"; \"LATAM\")) + sum(map(6.array; \"conversions\"; \"region\"; \"LATAM\")) + sum(map(8.array; \"conversions\"; \"region\"; \"LATAM\")) + ifempty(10.externalWebsiteConversions; 0) > 0; (sum(map(2.array; \"cost\"; \"region\"; \"LATAM\")) + sum(map(4.array; \"cost\"; \"region\"; \"LATAM\")) + sum(map(6.array; \"cost\"; \"region\"; \"LATAM\")) + sum(map(8.array; \"spend\"; \"region\"; \"LATAM\")) + parseNumber(ifempty(10.costInLocalCurrency; \"0\"); \".\")) / (sum(map(2.array; \"conversions\"; \"region\"; \"LATAM\")) + sum(map(4.array; \"conversions\"; \"region\"; \"LATAM\")) + sum(map(6.array; \"conversions\"; \"region\"; \"LATAM\")) + sum(map(8.array; \"conversions\"; \"region\"; \"LATAM\")) + ifempty(10.externalWebsiteConversions; 0)); 0); 2)}}"
+          },
+          {
+            "name": "other_total_spend",
+            "value": "{{round(sum(map(6.array; \"cost\"; \"region\"; \"Other\")) + sum(map(8.array; \"spend\"; \"region\"; \"Other\")); 2)}}"
+          },
+          {
+            "name": "grand_spend",
+            "value": "{{round(sum(map(2.array; \"cost\")) + sum(map(4.array; \"cost\")) + sum(map(6.array; \"cost\")) + sum(map(8.array; \"spend\")) + parseNumber(ifempty(9.costInLocalCurrency; \"0\"); \".\") + parseNumber(ifempty(10.costInLocalCurrency; \"0\"); \".\"); 2)}}"
+          },
+          {
+            "name": "grand_conv",
+            "value": "{{round(sum(map(2.array; \"conversions\")) + sum(map(4.array; \"conversions\")) + sum(map(6.array; \"conversions\")) + sum(map(8.array; \"conversions\")) + ifempty(9.externalWebsiteConversions; 0) + ifempty(10.externalWebsiteConversions; 0); 1)}}"
+          },
+          {
+            "name": "grand_cpa",
+            "value": "{{round(if(sum(map(2.array; \"conversions\")) + sum(map(4.array; \"conversions\")) + sum(map(6.array; \"conversions\")) + sum(map(8.array; \"conversions\")) + ifempty(9.externalWebsiteConversions; 0) + ifempty(10.externalWebsiteConversions; 0) > 0; (sum(map(2.array; \"cost\")) + sum(map(4.array; \"cost\")) + sum(map(6.array; \"cost\")) + sum(map(8.array; \"spend\")) + parseNumber(ifempty(9.costInLocalCurrency; \"0\"); \".\") + parseNumber(ifempty(10.costInLocalCurrency; \"0\"); \".\")) / (sum(map(2.array; \"conversions\")) + sum(map(4.array; \"conversions\")) + sum(map(6.array; \"conversions\")) + sum(map(8.array; \"conversions\")) + ifempty(9.externalWebsiteConversions; 0) + ifempty(10.externalWebsiteConversions; 0)); 0); 2)}}"
+          }
+        ]
+      },
+      "module": "util:SetVariables",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 3000,
+          "y": 0
+        }
+      },
+      "parameters": {}
+    },
+    {
+      "id": 12,
+      "mapper": {
+        "to": [
+          "<SLACK_CHANNEL_EMAIL>"
+        ],
+        "content": "{{\"<p><strong>📊 Daily Paid Digest — \" + 11.report_date + \"</strong></p><p><strong>By Region</strong><br>🇺🇸 US: €\" + 11.us_total_spend + \" / \" + 11.us_total_conv + \" conv / €\" + 11.us_total_cpa + \" CPA<br>🇪🇺 EU: €\" + 11.eu_total_spend + \" / \" + 11.eu_total_conv + \" conv / €\" + 11.eu_total_cpa + \" CPA<br>🌎 LATAM: €\" + 11.latam_total_spend + \" / \" + 11.latam_total_conv + \" conv / €\" + 11.latam_total_cpa + \" CPA<br>❓ Other: €\" + 11.other_total_spend + \"</p><p><strong>By Channel</strong><br>Google Ads — US €\" + 11.gads_us_spend + \" | EU €\" + 11.gads_eu_spend + \" | LATAM €\" + 11.gads_latam_spend + \" | Other €\" + 11.gads_other_spend + \"<br>Meta — US €\" + 11.meta_us_spend + \" | EU €\" + 11.meta_eu_spend + \" | LATAM €\" + 11.meta_latam_spend + \" | Other €\" + 11.meta_other_spend + \"<br>LinkedIn — US €\" + 11.li_us_spend + \" (\" + 11.li_us_conv + \" conv) | LATAM €\" + 11.li_latam_spend + \" (\" + 11.li_latam_conv + \" conv)</p><p><strong>Total: €\" + 11.grand_spend + \" / \" + 11.grand_conv + \" conv / €\" + 11.grand_cpa + \" CPA</strong></p><p><em>V1.1: region split via campaign-name pattern across all GAds accounts. \\\"Other\\\" = naming mismatch.</em></p>\"}}",
+        "subject": "{{\"📊 Daily Paid Digest — \" + 11.report_date}}",
+        "bodyType": "rawHtml"
+      },
+      "module": "google-email:sendAnEmail",
+      "version": 4,
+      "metadata": {
+        "designer": {
+          "x": 3300,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    },
+    {
+      "id": 13,
+      "mapper": {
+        "messageId": "{{12.id}}"
+      },
+      "module": "google-email:deleteAnEmail",
+      "version": 4,
+      "metadata": {
+        "designer": {
+          "x": 3600,
+          "y": 0
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 0
+      }
+    }
+  ],
+  "name": "Daily Paid Digest — US/EU/LATAM",
+  "metadata": {
+    "instant": false,
+    "version": 1,
+    "scenario": {
+      "dlq": false,
+      "slots": null,
+      "dataloss": false,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "roundtrips": 1,
+      "sequential": false,
+      "confidential": false,
+      "freshVariables": false,
+      "autoCommitTriggerLast": true
+    }
+  },
+  "scheduling": {
+    "type": "indefinitely",
+    "interval": 900,
+    "restrict": [
+      {
+        "days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          0
+        ],
+        "time": [
+          "09:00",
+          "09:01"
+        ]
+      }
+    ]
+  },
+  "interface": {
+    "input": [],
+    "output": []
+  }
+}
