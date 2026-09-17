@@ -1,8 +1,10 @@
 # Marketing Automation — Olga Reger
 
-I'm a performance marketer who builds her own automation layer. These are patterns I designed and ran in production for paid media, analytics and reporting, using Make.com, the Claude API, Google Apps Script and Windsor.ai.
+For the last two years I ran performance marketing as a one-person team. The only way to keep up was to hand the routine checks to automation: is spend on pace, what changed in the accounts, why the dashboard looks off this morning.
 
-Everything here was built for an employer or clients, so it is described as patterns only: no exports, no account data, no client names.
+This repo collects the patterns that held up in real use across paid media, analytics, reporting and SEO. They run on Make.com, the Claude API, Google Apps Script and Windsor.ai.
+
+Everything was built for an employer or clients, so I describe how each piece works instead of sharing exports or account data. The one exception is the dashboard template: written from scratch, it runs on sample data and comes with tests.
 
 | Folder | Patterns |
 |---|---|
